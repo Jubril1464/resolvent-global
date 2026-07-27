@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { NAV_CTA } from "@/components/content/nav";
+import { NAV_CTA } from "@/components/content/nav/nav-config";
 
 /**
  * Closing call-to-action band. Sits at the end of the page content, right

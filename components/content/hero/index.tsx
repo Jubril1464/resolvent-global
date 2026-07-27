@@ -4,7 +4,7 @@ import { ArrowRight, ChevronRight } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { NAV_CTA } from "@/components/content/nav";
+import { NAV_CTA } from "@/components/content/nav/nav-config";
 
 const SCHEDULE_CTA = {
   href: "/schedule-consultation",
