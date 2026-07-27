@@ -5,17 +5,30 @@ import { Services } from "@/components/content/services";
 import { WhyUs } from "@/components/content/why-us";
 import { Industries } from "@/components/content/industries";
 import { Cta } from "@/components/content/cta";
+import { Reveal } from "@/components/ui/reveal";
 
 export default function Home() {
   return (
     <main className="flex-1">
       <Hero />
-      <Approach />
-      <Services />
-      <WhyUs />
-      <Industries />
-      <Credentials />
-      <Cta />
+      <Reveal>
+        <Approach />
+      </Reveal>
+      <Reveal>
+        <Services />
+      </Reveal>
+      <Reveal>
+        <WhyUs />
+      </Reveal>
+      <Reveal>
+        <Industries />
+      </Reveal>
+      <Reveal>
+        <Credentials />
+      </Reveal>
+      <Reveal>
+        <Cta />
+      </Reveal>
     </main>
   );
 }

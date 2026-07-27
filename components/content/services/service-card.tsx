@@ -5,8 +5,8 @@ import type { Service } from "./services-config"
 
 export function ServiceCard({ icon: Icon, title, bullets, href }: Service) {
   return (
-    <article className="flex flex-col border border-border bg-[#F4F6F9] p-8">
-      <div className="flex size-10 items-center justify-center bg-[#132438] rounded-sm">
+    <article className="group flex flex-col border border-border bg-[#F4F6F9] p-8 transition-all duration-300 hover:-translate-y-1 hover:border-brand/40 hover:bg-white hover:shadow-sm">
+      <div className="flex size-10 items-center justify-center bg-[#132438] rounded-sm transition-transform duration-300 group-hover:scale-110">
         <Icon aria-hidden className="size-4 text-emerald-200" />
       </div>
 
@@ -28,7 +28,10 @@ export function ServiceCard({ icon: Icon, title, bullets, href }: Service) {
         className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:text-brand-dark"
       >
         Learn more
-        <ArrowRight aria-hidden className="size-4" />
+        <ArrowRight
+          aria-hidden
+          className="size-4 transition-transform duration-300 group-hover:translate-x-1"
+        />
       </Link>
     </article>
   )
