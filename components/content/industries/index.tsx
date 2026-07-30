@@ -1,13 +1,17 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
+import { getIndustries } from "@/lib/get-industries"
 import { IndustriesExplorer } from "./industries-explorer"
 
 /**
  * Home page industries section: a vertical tab list on the left drives the
- * photo + description panel on the right, all backed by INDUSTRIES.
+ * photo + description panel on the right, all backed by the `industries`
+ * Payload collection.
  */
-export function Industries() {
+export async function Industries() {
+  const industries = await getIndustries()
+
   return (
     <section className="bg-background py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -21,7 +25,7 @@ export function Industries() {
         </div>
 
         <div className="mt-16">
-          <IndustriesExplorer />
+          <IndustriesExplorer industries={industries} />
         </div>
 
         <div className="mt-14 flex justify-center">

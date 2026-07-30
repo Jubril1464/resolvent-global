@@ -1,13 +1,11 @@
 import Link from "next/link"
 
-import type { FooterLink } from "./footer-config"
-
 export function FooterLinkColumn({
   title,
   links,
 }: {
   title: string
-  links: FooterLink[]
+  links: { href: string; label: string }[]
 }) {
   return (
     <div>

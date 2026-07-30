@@ -1,19 +1,69 @@
-export type ScopeItem = {
-  title: string;
-  description: string;
-};
+/**
+ * One-time seed: migrates the 3 static service config files
+ * (services-config.ts, service-detail-config.ts,
+ * service-detail-page-config.ts) into the `services` Payload collection.
+ *
+ * Run with: npm run seed:services
+ *
+ * Idempotent — skips any slug that already exists, so it's safe to re-run.
+ *
+ * Note: services-config.ts's SERVICES[].href for 2 of the 3 services
+ * (/services/carbon-energy-investment, /services/capability-products)
+ * didn't match the real slugs used by service-detail-config.ts and
+ * app/services/[slug]/page.tsx — those "Learn more" links have been 404ing.
+ * This seed intentionally drops `href` entirely and uses each service's
+ * correct `slug` as the single source of truth; the frontend now computes
+ * the href from `slug` instead of storing a second, driftable value.
+ */
+import { getPayload } from "payload"
 
-export type ServiceDetailPageData = {
-  slug: string;
-  scope: ScopeItem[];
-  deliverables: string;
-  outcomes: string;
-  whoWeWorkWith: string;
-};
+import config from "../payload.config"
+import type { IconName } from "../lib/icon-map"
 
-export const SERVICE_DETAIL_PAGES: ServiceDetailPageData[] = [
+type SeedService = {
+  slug: string
+  order: number
+  icon: IconName
+  title: string
+  bullets: string[]
+  accentColor: string
+  tagline: string
+  fullTitle: string
+  intro: string
+  checklist: string[]
+  scope: { title: string; description: string }[]
+  deliverables: string
+  outcomes: string
+  whoWeWorkWith: string
+}
+
+const SERVICES_DATA: SeedService[] = [
   {
     slug: "operations",
+    order: 1,
+    icon: "Factory",
+    title: "Operations",
+    bullets: [
+      "Process optimization audits",
+      "Energy-efficiency / utility audits",
+      "Water & wastewater treatment advisory",
+      "Environmental compliance gap assessment",
+      "Project Management / PMO support",
+      "Research and development",
+    ],
+    accentColor: "#0B7A53",
+    tagline: "Operate better",
+    fullTitle: "Operations, Process & Environmental Performance",
+    intro:
+      "We help industrial and infrastructure clients improve the way their operations perform by combining process engineering, utilities and energy analysis, water and wastewater expertise, environmental thinking, project support and data-driven decision-making.",
+    checklist: [
+      "Process optimization audits",
+      "Energy-efficiency / utility audits",
+      "Water & wastewater treatment advisory",
+      "Environmental compliance gap assessment",
+      "Project Management / PMO support",
+      "Research and development",
+    ],
     scope: [
       {
         title: "Process performance and optimisation",
@@ -65,6 +115,31 @@ export const SERVICE_DETAIL_PAGES: ServiceDetailPageData[] = [
   },
   {
     slug: "carbon-energy-investment-advisory",
+    order: 2,
+    icon: "Gauge",
+    title: "Carbon, energy & investment",
+    bullets: [
+      "TEA/LCA for clean-tech projects",
+      "Carbon footprint & GHG inventory support",
+      "Carbon credit readiness & MRV design",
+      "CCUS / utilization concept scoping",
+      "Renewable energy + battery feasibility",
+    ],
+    accentColor: "#1B3A5C",
+    tagline: "Invest smarter",
+    fullTitle: "Carbon, Energy & Investment Advisory",
+    intro:
+      "We support organisations, project developers and investors in making technically credible energy, carbon and clean-technology decisions. Our work connects engineering performance with commercial, environmental and implementation considerations.",
+    checklist: [
+      "Energy efficiency assessments",
+      "Carbon opportunity screening",
+      "Emissions reduction concept development",
+      "Decarbonisation roadmap support",
+      "Carbon reporting preparation",
+      "Process energy flow review",
+      "Sustainability-oriented advisory",
+      "Resource efficiency analysis",
+    ],
     scope: [
       {
         title: "Energy efficiency and decarbonisation reviews",
@@ -126,6 +201,31 @@ export const SERVICE_DETAIL_PAGES: ServiceDetailPageData[] = [
   },
   {
     slug: "capability-digital-technical-products",
+    order: 3,
+    icon: "Dna",
+    title: "Capability products",
+    bullets: [
+      "Industrial training workshops",
+      "Technical due diligence for investors",
+      "Grant/tender/proposal writing",
+      "SOPs, risk assessments & WHS systems",
+      "Digital dashboards / data analytics for operations",
+    ],
+    accentColor: "#0C203A",
+    tagline: "Build capability",
+    fullTitle: "Capability, Digital & Technical Products",
+    intro:
+      "We help organisations build the systems, skills, documentation and analytical tools needed to sustain performance and execute technical projects with greater confidence.",
+    checklist: [
+      "Water/wastewater treatment process selection",
+      "Treatment performance review",
+      "Adsorption & remediation concepts",
+      "Pilot-study design & planning",
+      "Advanced treatment technology assessment",
+      "Environmental performance improvement",
+      "Process optimisation for treatment systems",
+      "Technical feasibility support",
+    ],
     scope: [
       {
         title: "Industrial and professional training",
@@ -180,4 +280,38 @@ export const SERVICE_DETAIL_PAGES: ServiceDetailPageData[] = [
     whoWeWorkWith:
       "Industrial teams, SMEs, startups, universities, research institutions, public agencies, NGOs, development partners and investor groups. Organisations requiring practical documentation, data tools, staff capability, proposal support or independent technical review. One-off deliverables, customised training, documentation programmes, startup support packages or ongoing capability-building retainers.",
   },
-];
+]
+
+// Top-level await, deliberately not wrapped in an async function called
+// fire-and-forget: `payload run`'s plain "run" subcommand does `await
+// import(scriptPath)`, and it only actually waits for this script's work
+// if that work is part of the module's own top-level await chain. Wrapping
+// this in `async function run() { ... } run().catch(...)` would let
+// `import()` resolve the instant `run()` is *called* (not when it
+// *finishes*), so the CLI process exits before any of this runs.
+const payload = await getPayload({ config })
+
+for (const service of SERVICES_DATA) {
+  const existing = await payload.find({
+    collection: "services",
+    where: { slug: { equals: service.slug } },
+    limit: 1,
+  })
+
+  if (existing.docs.length > 0) {
+    console.log(`Skipping "${service.slug}" — already exists.`)
+    continue
+  }
+
+  await payload.create({
+    collection: "services",
+    data: {
+      ...service,
+      bullets: service.bullets.map((value) => ({ value })),
+      checklist: service.checklist.map((value) => ({ value })),
+    },
+  })
+  console.log(`Created "${service.slug}".`)
+}
+
+process.exit(0)

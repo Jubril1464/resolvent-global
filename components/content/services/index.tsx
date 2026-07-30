@@ -2,14 +2,19 @@ import Link from "next/link"
 
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { getServices } from "@/lib/get-services"
 import { ServiceCard } from "./service-card"
-import { SERVICES, SERVICES_CTA } from "./services-config"
+
+const SERVICES_CTA = { href: "/services", label: "View All Services" }
 
 /**
- * Home page service overview: three portfolio cards driven by SERVICES,
- * plus a link through to the full services listing.
+ * Home page service overview: three portfolio cards driven by the
+ * `services` Payload collection, plus a link through to the full services
+ * listing.
  */
-export function Services() {
+export async function Services() {
+  const services = await getServices()
+
   return (
     <section className="bg-background py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -23,8 +28,8 @@ export function Services() {
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
-          {SERVICES.map((service) => (
-            <ServiceCard key={service.title} {...service} />
+          {services.map((service) => (
+            <ServiceCard key={service.slug} service={service} />
           ))}
         </div>
 

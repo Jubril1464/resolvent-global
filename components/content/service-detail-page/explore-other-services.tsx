@@ -1,13 +1,9 @@
 import Link from "next/link"
 
-import { cn } from "@/lib/utils"
-import type { ServiceDetailItem } from "@/components/content/service-detail/service-detail-config"
+import { resolveIcon } from "@/lib/icon-map"
+import type { Service } from "@/payload-types"
 
-export function ExploreOtherServices({
-  items,
-}: {
-  items: ServiceDetailItem[]
-}) {
+export function ExploreOtherServices({ items }: { items: Service[] }) {
   if (items.length === 0) return null
 
   return (
@@ -18,33 +14,33 @@ export function ExploreOtherServices({
         </h2>
 
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {items.map(({ slug, icon: Icon, title, tagline, headerClassName }) => (
-            <Link
-              key={slug}
-              href={`/services/${slug}`}
-              className="flex items-start gap-4 border border-border bg-background p-6 transition-colors hover:bg-muted"
-            >
-              <span
-                className={cn(
-                  "flex size-10 shrink-0 items-center justify-center",
-                  headerClassName
-                )}
+          {items.map((service) => {
+            const Icon = resolveIcon(service.icon)
+
+            return (
+              <Link
+                key={service.slug}
+                href={`/services/${service.slug}`}
+                className="flex items-start gap-4 border border-border bg-background p-6 transition-colors hover:bg-muted"
               >
-                <Icon aria-hidden className="size-5 text-white" strokeWidth={1.75} />
-              </span>
-              <div>
-                <p
-                  className={cn(
-                    "text-xs font-semibold tracking-wide uppercase",
-                    headerClassName.replace("bg-", "text-")
-                  )}
+                <span
+                  className="flex size-10 shrink-0 items-center justify-center"
+                  style={{ backgroundColor: service.accentColor }}
                 >
-                  {tagline}
-                </p>
-                <p className="mt-1 font-semibold text-foreground">{title}</p>
-              </div>
-            </Link>
-          ))}
+                  <Icon aria-hidden className="size-5 text-white" strokeWidth={1.75} />
+                </span>
+                <div>
+                  <p
+                    className="text-xs font-semibold tracking-wide uppercase"
+                    style={{ color: service.accentColor }}
+                  >
+                    {service.tagline}
+                  </p>
+                  <p className="mt-1 font-semibold text-foreground">{service.fullTitle}</p>
+                </div>
+              </Link>
+            )
+          })}
         </div>
       </div>
     </section>

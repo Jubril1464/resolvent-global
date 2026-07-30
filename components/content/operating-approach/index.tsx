@@ -1,11 +1,14 @@
+import { getOperatingApproachSteps } from "@/lib/get-operating-approach-steps"
 import { OperatingApproachCard } from "./operating-approach-card"
-import { OPERATING_APPROACH_STEPS } from "./operating-approach-config"
 
 /**
- * About page process band: the four-step Discover / Diagnose / Model /
- * Deliver sequence, driven by OPERATING_APPROACH_STEPS.
+ * About page process band: the Discover / Diagnose / Model / Deliver /
+ * Support sequence, driven by the `operating-approach-steps` Payload
+ * collection.
  */
-export function OperatingApproach() {
+export async function OperatingApproach() {
+  const steps = await getOperatingApproachSteps()
+
   return (
     <section className="bg-[#F4F6F9] py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -19,8 +22,8 @@ export function OperatingApproach() {
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
-          {OPERATING_APPROACH_STEPS.map((step) => (
-            <OperatingApproachCard key={step.step} {...step} />
+          {steps.map((step) => (
+            <OperatingApproachCard key={step.step} step={step} />
           ))}
         </div>
       </div>

@@ -1,12 +1,14 @@
+import { getValues } from "@/lib/get-values"
 import { ValueCard } from "./value-card"
-import { VALUES } from "./values-config"
 
 /**
- * About page values band: six principle cards driven by VALUES, in a
- * left-aligned header (unlike the centered headers used elsewhere on the
- * page) to match the source design.
+ * About page values band: six principle cards driven by the `values`
+ * Payload collection, in a left-aligned header (unlike the centered headers
+ * used elsewhere on the page) to match the source design.
  */
-export function Values() {
+export async function Values() {
+  const values = await getValues()
+
   return (
     <section className="bg-background py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -18,8 +20,8 @@ export function Values() {
         </h2>
 
         <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
-          {VALUES.map((value) => (
-            <ValueCard key={value.title} {...value} />
+          {values.map((value) => (
+            <ValueCard key={value.title} value={value} />
           ))}
         </div>
       </div>

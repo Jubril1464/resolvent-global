@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { NAV_CTA } from "@/components/content/nav/nav-config";
+import { getNavigation } from "@/lib/get-navigation";
 
 type CtaProps = {
   title?: string;
@@ -17,13 +17,15 @@ type CtaProps = {
  * before the footer. Copy is overridable per page; defaults match the home
  * page usage.
  */
-export function Cta({
+export async function Cta({
   title = "Ready to Discuss a Technical Challenge?",
   description = "Request a proposal or send us your project details. We aim to respond within 24–48 business hours.",
   primaryLabel = "Request a Proposal",
   secondaryLabel = "Send Project Details",
   secondaryHref = "/contact",
 }: CtaProps = {}) {
+  const navigation = await getNavigation();
+
   return (
     <section className="bg-brand py-20 text-center text-white">
       <div className="mx-auto max-w-3xl px-6 lg:px-8">
@@ -34,7 +36,7 @@ export function Cta({
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
           <Link
-            href={NAV_CTA.href}
+            href={navigation.ctaHref}
             className={cn(
               buttonVariants({ variant: "outline" }),
               "h-12 border-2 border-white bg-transparent px-8 text-base font-semibold text-white hover:bg-white/10 hover:text-white"

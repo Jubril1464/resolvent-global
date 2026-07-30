@@ -1,11 +1,14 @@
+import { getWhyUsPoints } from "@/lib/get-why-us-points"
 import { WhyUsCard } from "./why-us-card"
-import { WHY_US_POINTS } from "./why-us-config"
 
 /**
  * Dark-surface differentiator band: a short pitch on the left, four
- * proof-point cards on the right, driven by WHY_US_POINTS.
+ * proof-point cards on the right, driven by the `why-us-points` Payload
+ * collection.
  */
-export function WhyUs() {
+export async function WhyUs() {
+  const points = await getWhyUsPoints()
+
   return (
     <section className="bg-[#0C203A] py-24 text-white">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 lg:grid-cols-[1fr_2fr] lg:gap-16 lg:px-8">
@@ -19,8 +22,8 @@ export function WhyUs() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {WHY_US_POINTS.map((point) => (
-            <WhyUsCard key={point.title} {...point} />
+          {points.map((point) => (
+            <WhyUsCard key={point.title} point={point} />
           ))}
         </div>
       </div>

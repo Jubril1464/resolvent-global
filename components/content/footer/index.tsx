@@ -3,15 +3,16 @@ import Link from "next/link"
 
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { NAV_CTA, NAV_LINKS } from "@/components/content/nav/nav-config"
+import { getNavigation } from "@/lib/get-navigation"
+import { getFooter } from "@/lib/get-footer"
 import { FooterLinkColumn } from "./footer-link-column"
-import { FOOTER_CONTACT, FOOTER_LEGAL_LINKS, FOOTER_SERVICES_LINKS } from "./footer-config"
 
 /**
  * Site-wide footer. Rendered once from the root layout so every route gets
  * it, mirroring how SiteNav is rendered for the header.
  */
-export function SiteFooter() {
+export async function SiteFooter() {
+  const [navigation, footer] = await Promise.all([getNavigation(), getFooter()])
   const year = new Date().getFullYear()
 
   return (
@@ -45,8 +46,8 @@ export function SiteFooter() {
             </p>
           </div>
 
-          <FooterLinkColumn title="Quick Links" links={NAV_LINKS} />
-          <FooterLinkColumn title="Services" links={FOOTER_SERVICES_LINKS} />
+          <FooterLinkColumn title="Quick Links" links={navigation.navLinks} />
+          <FooterLinkColumn title="Services" links={footer.servicesLinks} />
 
           <div>
             <h3 className="text-sm font-semibold tracking-wide text-white uppercase">
@@ -57,32 +58,32 @@ export function SiteFooter() {
               <div>
                 <p className="text-white/50">Email</p>
                 <a
-                  href={`mailto:${FOOTER_CONTACT.email}`}
+                  href={`mailto:${footer.contactEmail}`}
                   className="text-white/80 hover:text-white"
                 >
-                  {FOOTER_CONTACT.email}
+                  {footer.contactEmail}
                 </a>
               </div>
 
               <div>
                 <p className="text-white/50">Phone / WhatsApp</p>
-                <p className="text-white/80">{FOOTER_CONTACT.phone}</p>
+                <p className="text-white/80">{footer.contactPhone}</p>
               </div>
 
               <div>
                 <p className="text-white/50">Location</p>
-                <p className="text-white/80">{FOOTER_CONTACT.location}</p>
+                <p className="text-white/80">{footer.contactLocation}</p>
               </div>
             </div>
 
             <Link
-              href={NAV_CTA.href}
+              href={navigation.ctaHref}
               className={cn(
                 buttonVariants({ variant: "brand" }),
                 "mt-6 h-11 px-6 text-sm font-semibold"
               )}
             >
-              {NAV_CTA.label}
+              {navigation.ctaLabel}
             </Link>
           </div>
         </div>
@@ -91,7 +92,7 @@ export function SiteFooter() {
           <p>{`© ${year} Resolvent Global Energy Process & Carbon Ltd. All rights reserved.`}</p>
 
           <div className="flex gap-6">
-            {FOOTER_LEGAL_LINKS.map(({ href, label }) => (
+            {footer.legalLinks.map(({ href, label }) => (
               <Link key={href} href={href} className="hover:text-white">
                 {label}
               </Link>

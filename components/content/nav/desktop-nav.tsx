@@ -4,9 +4,16 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 import { cn } from "@/lib/utils"
-import { NAV_LINKS, isActivePath } from "./nav-config"
+import type { Navigation } from "@/payload-types"
+import { isActivePath } from "./nav-config"
 
-export function DesktopNav({ className }: { className?: string }) {
+export function DesktopNav({
+  links,
+  className,
+}: {
+  links: Navigation["navLinks"]
+  className?: string
+}) {
   const pathname = usePathname()
 
   return (
@@ -14,7 +21,7 @@ export function DesktopNav({ className }: { className?: string }) {
       aria-label="Main"
       className={cn("hidden items-center gap-8 lg:flex", className)}
     >
-      {NAV_LINKS.map(({ href, label }) => {
+      {links.map(({ href, label }) => {
         const active = isActivePath(pathname, href)
 
         return (

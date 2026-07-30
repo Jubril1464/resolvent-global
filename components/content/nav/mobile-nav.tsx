@@ -6,9 +6,18 @@ import { usePathname } from "next/navigation"
 
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { NAV_CTA, NAV_LINKS, isActivePath } from "./nav-config"
+import type { Navigation } from "@/payload-types"
+import { isActivePath } from "./nav-config"
 
-export function MobileNav() {
+export function MobileNav({
+  links,
+  ctaHref,
+  ctaLabel,
+}: {
+  links: Navigation["navLinks"]
+  ctaHref: string
+  ctaLabel: string
+}) {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
 
@@ -77,7 +86,7 @@ export function MobileNav() {
               open ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0"
             )}
           >
-            {NAV_LINKS.map(({ href, label }) => {
+            {links.map(({ href, label }) => {
               const active = isActivePath(pathname, href)
 
               return (
@@ -99,13 +108,13 @@ export function MobileNav() {
             })}
 
             <Link
-              href={NAV_CTA.href}
+              href={ctaHref}
               className={cn(
                 buttonVariants({ variant: "brand" }),
                 "mt-3 h-12 w-full text-base font-semibold"
               )}
             >
-              {NAV_CTA.label}
+              {ctaLabel}
             </Link>
           </nav>
         </div>

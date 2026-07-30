@@ -2,9 +2,11 @@ import Link from "next/link"
 
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { NAV_CTA } from "@/components/content/nav/nav-config"
+import { getNavigation } from "@/lib/get-navigation"
 
-export function WhoWeWorkWith({ description }: { description: string }) {
+export async function WhoWeWorkWith({ description }: { description: string }) {
+  const navigation = await getNavigation()
+
   return (
     <section className="bg-[#0C203A] py-24 text-white">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 lg:grid-cols-[1.4fr_1fr] lg:px-8">
@@ -28,7 +30,7 @@ export function WhoWeWorkWith({ description }: { description: string }) {
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
-              href={NAV_CTA.href}
+              href={navigation.ctaHref}
               className={cn(
                 buttonVariants({ variant: "outline" }),
                 "h-11 border-2 border-white bg-transparent px-6 text-sm font-semibold text-white hover:bg-white/10 hover:text-white"

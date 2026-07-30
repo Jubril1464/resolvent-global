@@ -3,11 +3,11 @@ import { ArrowLeft, ArrowRight, type LucideIcon } from "lucide-react"
 
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { NAV_CTA } from "@/components/content/nav/nav-config"
+import { getNavigation } from "@/lib/get-navigation"
 
 const GRID_SIZE = 80
 
-export function ServiceDetailHero({
+export async function ServiceDetailHero({
   icon: Icon,
   title,
   intro,
@@ -18,6 +18,8 @@ export function ServiceDetailHero({
   intro: string
   accentColor: string
 }) {
+  const navigation = await getNavigation()
+
   return (
     <section
       className="relative overflow-hidden py-16 text-white"
@@ -59,7 +61,7 @@ export function ServiceDetailHero({
 
         <div className="mt-10 flex flex-wrap gap-4">
           <Link
-            href={NAV_CTA.href}
+            href={navigation.ctaHref}
             className={cn(
               buttonVariants({ variant: "outline" }),
               "h-12 gap-2 border-white bg-white px-8 text-base font-semibold text-[#0C203A] hover:bg-white/90 hover:text-[#0C203A]"
