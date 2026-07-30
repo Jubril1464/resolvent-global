@@ -18,7 +18,7 @@ export function OperatingApproach() {
           </h2>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
           {OPERATING_APPROACH_STEPS.map((step) => (
             <OperatingApproachCard key={step.step} {...step} />
           ))}

@@ -1,15 +1,15 @@
 export type ScopeItem = {
-  title: string
-  description: string
-}
+  title: string;
+  description: string;
+};
 
 export type ServiceDetailPageData = {
-  slug: string
-  scope: ScopeItem[]
-  deliverables: string[]
-  outcomes: string[]
-  whoWeWorkWith: string
-}
+  slug: string;
+  scope: ScopeItem[];
+  deliverables: string;
+  outcomes: string;
+  whoWeWorkWith: string;
+};
 
 export const SERVICE_DETAIL_PAGES: ServiceDetailPageData[] = [
   {
@@ -18,12 +18,12 @@ export const SERVICE_DETAIL_PAGES: ServiceDetailPageData[] = [
       {
         title: "Process performance and optimisation",
         description:
-          "Process audits, operating-envelope reviews, bottleneck analysis, root-cause investigation, mass and energy balance checks, parameter optimisation, process modelling support and practical improvement recommendations.",
+          "Process audits, operating-envelop reviews, bottleneck analysis, parameter optimization, process modelling support, and improvement recommendations.",
       },
       {
         title: "Utilities and resource efficiency",
         description:
-          "Assessment of energy, steam, compressed air, cooling, pumping, water and other utility systems to identify avoidable losses, improve resource productivity and reduce operating cost.",
+          "Assessment of energy systems and infrastructures to identify losses, drive resource efficiency and cost-effective operations.",
       },
       {
         title: "Water and wastewater systems",
@@ -31,51 +31,35 @@ export const SERVICE_DETAIL_PAGES: ServiceDetailPageData[] = [
           "Treatment-process selection, performance review, troubleshooting, optimisation, reuse opportunities, pilot-study planning, advanced treatment assessment and remediation concepts.",
       },
       {
-        title: "Environmental performance and compliance gaps",
+        title: "Environmental performance and compliance review",
         description:
           "Structured reviews of waste, wastewater, emissions, resource use and operating practices to support compliance-aware environmental management.",
       },
       {
-        title: "Operational reliability and readiness",
+        title: "Operational reliability and resilience",
         description:
-          "SOP development and review, commissioning-readiness support, start-up and shutdown planning inputs, operating documentation, risk-review inputs and improvement action plans.",
+          "SOP development and review, commissioning support, start-up and shutdown planning, risk-review and improvement protocols.",
       },
       {
         title: "Project and PMO support",
         description:
-          "Technical scoping, work-package definition, schedule and deliverable tracking, engineering coordination, vendor-interface support, progress reporting and practical project-governance support.",
+          "Technical scoping, work-package definition, schedule and deliverable tracking, engineering coordination, vendor-interface and project support.",
       },
       {
         title: "Applied research and technology evaluation",
         description:
-          "Pilot design, test-plan development, data interpretation, technology comparison, scale-up considerations and translation of research or emerging technologies into industrially relevant recommendations.",
+          "Pilot design, test-plan development, technology benchmarking, scale-up considerations, and translation of research/emerging technology into industrial recommendations.",
       },
       {
         title: "Digital operations support",
         description:
-          "Operational dashboards, KPI frameworks, statistical analysis, trend identification, predictive insights and management-ready reporting using tools such as Excel, Python, MATLAB or Power BI where appropriate.",
+          "Operational dashboards, KPI frameworks, statistical analysis, predictive insights and strategic-support reporting.",
       },
     ],
-    deliverables: [
-      "Operational or process performance audit report",
-      "Process-flow, mass-balance or energy-balance review",
-      "Root-cause analysis and prioritised improvement plan",
-      "Water/wastewater process assessment or pilot plan",
-      "Environmental gap assessment and action register",
-      "SOPs, operating procedures and technical work instructions",
-      "Commissioning-readiness or project-support documentation",
-      "KPI dashboard, trend analysis or decision-support report",
-    ],
-    outcomes: [
-      "Improved throughput, stability and operating reliability",
-      "Reduced energy, water, material and utility intensity",
-      "Lower waste generation and avoidable operating losses",
-      "Clearer operating discipline and stronger documentation",
-      "Better-informed capital and maintenance priorities",
-      "Improved environmental performance and compliance readiness",
-      "More structured project execution and technical governance",
-      "Actionable recommendations grounded in engineering data",
-    ],
+    deliverables:
+      "Evidence-based package combining operational assessments, performance analysis, improvement planning, technical procedures and decision-support documentation",
+    outcomes:
+      "Better performance, reliability and efficiency, with reduced waste, stronger compliance and clearer engineering-based priorities.",
     whoWeWorkWith:
       "Oil and gas, energy, mining, minerals, manufacturing, FMCG, water utilities and industrial facilities. Plant managers, operations teams, project developers, engineering teams, environmental managers and asset owners. Rapid diagnostic reviews, defined optimisation projects, pilot and technology assessments, commissioning support or ongoing technical advisory retainers.",
   },
@@ -133,28 +117,10 @@ export const SERVICE_DETAIL_PAGES: ServiceDetailPageData[] = [
           "Technical inputs for business cases, concept notes, investor materials, grant submissions, proposals, tender responses and decision-gate documentation.",
       },
     ],
-    deliverables: [
-      "Energy and carbon opportunity assessment",
-      "GHG source map, inventory workbook or reporting framework",
-      "Decarbonisation opportunity register and roadmap",
-      "MRV framework or carbon-readiness gap assessment",
-      "TEA model, assumptions register and sensitivity analysis",
-      "LCA scope, inventory plan or environmental hotspot review",
-      "CCUS or utilisation concept-screening report",
-      "Renewable energy and battery pre-feasibility study",
-      "Independent technical due-diligence memorandum",
-      "Investment, grant or tender technical documentation",
-    ],
-    outcomes: [
-      "More defensible energy and carbon decisions",
-      "Clear visibility of technical, commercial and implementation risks",
-      "Prioritised opportunities based on impact and feasibility",
-      "Stronger data foundations for reporting and MRV",
-      "Improved investor confidence and decision quality",
-      "Better comparison of technology and project alternatives",
-      "Reduced risk of premature or poorly scoped investment",
-      "Practical pathways from concept to feasibility and execution",
-    ],
+    deliverables:
+      "A tailored package of energy, carbon and decarbonisation assessments, supported by technical modelling, feasibility studies, due diligence and investment-focused documentation.",
+    outcomes:
+      "Evidence-based decisions, stronger reporting foundations, improved investor confidence and practical pathways for prioritising and advancing viable projects.",
     whoWeWorkWith:
       "Industrial companies, project developers, clean-tech ventures, asset owners, public agencies, development organisations and diaspora investors. Energy managers, sustainability teams, founders, investment committees, lenders, grant applicants and project sponsors. Opportunity screening, pre-feasibility studies, decision support, technical due diligence, carbon-readiness projects or advisory retainers.",
   },
@@ -164,76 +130,54 @@ export const SERVICE_DETAIL_PAGES: ServiceDetailPageData[] = [
       {
         title: "Industrial and professional training",
         description:
-          "Customised workshops for engineers, operators, managers, SMEs, project teams and public-sector personnel covering process engineering, optimisation, water and wastewater, energy, carbon, sustainability, technical reporting and data analysis.",
+          "Customised workshops for engineers, operators, managers, SMEs, project teams and public-sector personnel covering process engineering, optimisation, water and wastewater, energy, carbon, and sustainability.",
       },
       {
         title: "Operator and team capability development",
         description:
-          "Structured on-the-job training, competency assessment, process-understanding coaching and troubleshooting skill-building to strengthen operator and technical-team capability over time.",
+          "Development of organisational, facility and project-level emissions inventories, supported by source mapping, boundary definition, data-quality assurance, and decision-ready management reporting.",
       },
       {
         title: "SOPs and operating documentation",
         description:
-          "Development or improvement of standard operating procedures, work instructions, checklists, operating guides, handover packs and controlled technical templates.",
+          "Development and improvement of standard operating procedures, work instructions, checklists, operating guides, handover packs and technical templates.",
       },
       {
-        title: "Risk, HSE and WHS support products",
+        title: "Risk, HSE and WHS support",
         description:
           "Development of risk registers, HSE management plans, WHS compliance checklists, incident-reporting templates and safety-critical operating procedures to support a strong safety culture.",
       },
       {
         title: "Digital dashboards and operational analytics",
         description:
-          "KPI architecture, data-cleaning frameworks, visual dashboards, trend analysis, performance scorecards, management reports and simple analytical tools for operational decision-making.",
+          "KPI architecture, visual dashboards, trend analysis, performance scorecards, management and analytical tools.",
       },
       {
-        title: "Technical due diligence and investor support",
+        title: "Technical review for investor",
         description:
-          "Independent technical review of process claims, technology readiness, operating assumptions and project risks to support investment decisions, partner discussions and stakeholder confidence.",
+          "Project definition, system development, inventory planning, hotspot analysis and performance benchmark.",
       },
       {
         title: "Grant, tender and proposal development",
         description:
-          "Technical writing and evidence structuring for grants, expressions of interest, tenders, capability statements, project proposals, concept notes and partnership submissions.",
+          "Technical writing and evidence structuring for grants, tenders, capability statements, concept notes and project proposals.",
       },
       {
-        title: "Research and innovation documentation",
+        title: "Research and development",
         description:
-          "Structured documentation of research methodology, experimental protocols, pilot findings and innovation roadmaps to support internal knowledge retention and external reporting.",
+          "Feasibility assessment for energy systems including load context, technology fit, operating logic, risks and implementation considerations.",
       },
       {
         title: "Institutional and startup capability systems",
         description:
-          "Practical frameworks for technical governance, project documentation, service delivery, quality records, data management and repeatable execution as organisations grow.",
-      },
-      {
-        title: "Investment and project documentation",
-        description:
-          "Technical inputs for business cases, concept notes, funding applications, capability statements and project-governance documentation supporting institutional growth.",
+          "Frameworks for technical governance, project documentation, service delivery, quality records, and data management.",
       },
     ],
-    deliverables: [
-      "Custom workshop, training deck and participant materials",
-      "Competency-support workbook or operator guide",
-      "SOP suite, checklists and controlled templates",
-      "Risk-assessment, WHS or HSE documentation pack",
-      "Operational dashboard or KPI reporting template",
-      "Technical due-diligence or technology-readiness report",
-      "Grant, tender, proposal or capability-statement package",
-      "Pilot protocol, research report or innovation roadmap",
-      "Technical governance and documentation framework",
-    ],
-    outcomes: [
-      "Stronger internal technical competence",
-      "More consistent and repeatable operating practices",
-      "Improved knowledge transfer and reduced dependency on individuals",
-      "Higher-quality technical and investment documentation",
-      "Better visibility of operational performance",
-      "Improved readiness for audits, projects and growth",
-      "More persuasive grant, tender and partnership submissions",
-      "Scalable systems for startups, institutions and technical teams",
-    ],
+    deliverables:
+      "Tailored, practical tools, documentation and implementation support aligned with your operational and project needs.",
+    outcomes:
+      "Stronger internal capability, more consistent performance, clearer decision-making and scalable systems for sustainable growth.",
     whoWeWorkWith:
       "Industrial teams, SMEs, startups, universities, research institutions, public agencies, NGOs, development partners and investor groups. Organisations requiring practical documentation, data tools, staff capability, proposal support or independent technical review. One-off deliverables, customised training, documentation programmes, startup support packages or ongoing capability-building retainers.",
   },
-]
+];

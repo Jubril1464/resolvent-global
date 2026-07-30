@@ -10,7 +10,7 @@ export function WhoWeWorkWith({ description }: { description: string }) {
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 lg:grid-cols-[1.4fr_1fr] lg:px-8">
         <div>
           <p className="text-sm font-semibold tracking-wide text-[#D9A441] uppercase">
-            Suitable Clients &amp; Engagements
+          Clients &amp; Engagements
           </p>
           <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
             Who We Work With

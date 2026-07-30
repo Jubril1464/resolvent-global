@@ -6,13 +6,13 @@ import {
   ShieldCheck,
   Wrench,
   type LucideIcon,
-} from "lucide-react"
+} from "lucide-react";
 
 export type Value = {
-  icon: LucideIcon
-  title: string
-  description: string
-}
+  icon: LucideIcon;
+  title: string;
+  description: string;
+};
 
 export const VALUES: Value[] = [
   {
@@ -48,7 +48,6 @@ export const VALUES: Value[] = [
   {
     icon: Wrench,
     title: "Practical Execution",
-    description:
-      "We prioritise actionable, implementable recommendations over theoretical analysis that cannot be applied in practice.",
+    description: "We prioritise actionable and implementable recommendation",
   },
-]
+];

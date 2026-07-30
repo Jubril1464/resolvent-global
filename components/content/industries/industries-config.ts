@@ -7,14 +7,14 @@ import {
   Microscope,
   Mountain,
   type LucideIcon,
-} from "lucide-react"
+} from "lucide-react";
 
 export type Industry = {
-  id: string
-  label: string
-  icon: LucideIcon
-  description: string
-}
+  id: string;
+  label: string;
+  icon: LucideIcon;
+  description: string;
+};
 
 export const INDUSTRIES: Industry[] = [
   {
@@ -46,11 +46,11 @@ export const INDUSTRIES: Industry[] = [
       "Engineering and advisory support across the minerals value chain, including process-plant performance reviews, energy and water-use optimisation, tailings and waste-management advisory, environmental and regulatory compliance support, and feasibility and technology evaluation for processing and beneficiation projects.",
   },
   {
-    id: "government-ngos-development",
-    label: "Government, NGOs and Development",
+    id: "public-agencies",
+    label: "Public Agencies, NGOs and Educational Institutions",
     icon: Landmark,
     description:
-      "Technical advisory for public-sector and development programmes, including infrastructure and utility feasibility studies, policy and regulatory support for energy and environmental initiatives, capacity-building and training design, and independent technical review for donor-funded and multilateral projects.",
+      "Structured technical input for public-interest, development and institutional initiatives across water, sanitation, energy, environment and sustainability. Support includes feasibility studies, programme development, technical reviews, research, training and monitoring frameworks.",
   },
   {
     id: "research-innovation-technology",
@@ -60,10 +60,17 @@ export const INDUSTRIES: Industry[] = [
       "Applied research and technology-development support, including technology-readiness assessment, process and product scale-up support, pilot-plant design input, intellectual-property and commercialisation advisory, and technical due diligence for early-stage energy and industrial innovations.",
   },
   {
-    id: "infrastructure-construction",
-    label: "Infrastructure & Construction",
+    id: "industrial-infastructure",
+    label: "Industrial & Infrastructure Assessment",
     icon: HardHat,
     description:
-      "Technical support for infrastructure and industrial construction projects, including feasibility and concept engineering, utility and energy-system integration, constructability and HSE reviews, commissioning readiness, and technical documentation to support project delivery and handover.",
+      "Technical assessment of industrial assets and infrastructure across process, energy, carbon, water and environmental performance. Support includes identifying operational risks, performance gaps, compliance needs and opportunities for optimisation, rehabilitation and sustainable investment.",
   },
-]
+  {
+    id: "investors-startup",
+    label: "Investors and Startups",
+    icon: HardHat,
+    description:
+      "Independent technical and project-development support for investors, founders and startups pursuing opportunities in energy, industrial processing, water, environment, carbon and sustainability. Support includes opportunity screening, feasibility studies, technology benchmarking, risk assessment, pilot planning and local implementation guidance.",
+  },
+];

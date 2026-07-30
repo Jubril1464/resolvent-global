@@ -25,7 +25,7 @@ export function Approach() {
         <p className="max-w-3xl text-xl leading-relaxed text-foreground/70 sm:text-3xl">
           We combine engineering expertise, data-driven insight and practical
           project support to improve operations, reduce risk, strengthen
-          compliance, advance energy and low-carbon industrial solutions.
+          compliance, and advance energy and low-carbon industrial solutions.
         </p>
       </div>
     </section>

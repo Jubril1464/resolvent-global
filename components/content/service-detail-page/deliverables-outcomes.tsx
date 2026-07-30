@@ -1,11 +1,9 @@
-import { CircleCheck } from "lucide-react"
-
 export function DeliverablesOutcomes({
   deliverables,
   outcomes,
 }: {
-  deliverables: string[]
-  outcomes: string[]
+  deliverables: string
+  outcomes: string
 }) {
   return (
     <section className="bg-background py-24">
@@ -17,16 +15,7 @@ export function DeliverablesOutcomes({
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground">
             What You Receive
           </h2>
-          <ul className="mt-6 space-y-3">
-            {deliverables.map((item) => (
-              <li key={item} className="flex gap-2 text-foreground/70">
-                <span aria-hidden className="text-foreground/40">
-                  •
-                </span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
+          <p className="mt-6 text-foreground/70">{deliverables}</p>
         </div>
 
         <div>
@@ -36,17 +25,7 @@ export function DeliverablesOutcomes({
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground">
             What You Gain
           </h2>
-          <ul className="mt-6 space-y-3">
-            {outcomes.map((item) => (
-              <li key={item} className="flex items-start gap-2">
-                <CircleCheck
-                  aria-hidden
-                  className="mt-0.5 size-5 shrink-0 text-brand"
-                />
-                <span className="text-foreground/70">{item}</span>
-              </li>
-            ))}
-          </ul>
+          <p className="mt-6 text-foreground/70">{outcomes}</p>
         </div>
       </div>
     </section>

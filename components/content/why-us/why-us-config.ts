@@ -11,7 +11,7 @@ export const WHY_US_POINTS: WhyUsPoint[] = [
     icon: FlaskConical,
     title: "Technical depth and quality",
     description:
-      "PhD-level review across process engineering, renewables, materials, catalysis, TEA/LCA and energy transition. Over 30 years of combined technical experience.",
+      "Comprehensive review across process engineering, renewables, materials, catalysis, TEA/LCA and energy transition. Over 40 years of combined technical experience.",
   },
   {
     icon: ClipboardCheck,

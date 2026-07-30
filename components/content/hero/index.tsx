@@ -47,8 +47,7 @@ export function Hero() {
       <div className="relative mx-auto w-full max-w-7xl px-6 py-24 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-            Engineering Solutions for Energy, Process Performance and
-            Carbon-Conscious Industry.
+            Engineering Solutions for Energy, Process Performance and Carbon Management.
           </h1>
           <p className="mx-auto mt-6 max-w-3xl font-sans">
             Resolvent Global helps industrial and energy-sector clients solve

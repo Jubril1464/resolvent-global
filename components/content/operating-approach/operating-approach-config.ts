@@ -1,8 +1,8 @@
 export type OperatingApproachStep = {
-  step: number
-  title: string
-  description: string
-}
+  step: number;
+  title: string;
+  description: string;
+};
 
 export const OPERATING_APPROACH_STEPS: OperatingApproachStep[] = [
   {
@@ -29,4 +29,10 @@ export const OPERATING_APPROACH_STEPS: OperatingApproachStep[] = [
     description:
       "Report, roadmap, SOPs, dashboards, business case and implementation plan",
   },
-]
+  {
+    step: 5,
+    title: "Support",
+    description:
+      "Retainer, training, vendor engagement, PMO support and continuous improvement.",
+  },
+];

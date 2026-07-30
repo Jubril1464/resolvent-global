@@ -7,10 +7,10 @@ export function ServiceScopeGrid({ scope }: { scope: ScopeItem[] }) {
     <section className="bg-[#F4F6F9] py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <p className="text-sm font-semibold tracking-wide text-brand uppercase">
-          Comprehensive Service Scope
+          Service Scope
         </p>
         <h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          What This Service Covers
+        This Service Covers
         </h2>
 
         <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2">
