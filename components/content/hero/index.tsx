@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronRight } from "lucide-react";
 
@@ -18,15 +17,16 @@ export async function Hero() {
 
   return (
     <section className="relative flex min-h-[calc(100vh-4.5rem)] w-full items-center overflow-hidden bg-[#0C203A] text-white">
-      <Image
-        src="/images/hero-image.png"
-        alt=""
-        fill
-        sizes="100vw"
-        loading="eager"
-        fetchPriority="high"
-        className="object-cover"
-      />
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        poster="/images/hero-image.png"
+        className="absolute inset-0 size-full object-cover"
+      >
+        <source src="/hero-bg-vid.mp4" type="video/mp4" />
+      </video>
 
       <div
         aria-hidden
@@ -41,7 +41,7 @@ export async function Hero() {
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            "linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px)",
+            "linear-gradient(to right, rgba(255,255,255,0.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.07) 1px, transparent 1px)",
           backgroundSize: `${GRID_SIZE}px ${GRID_SIZE}px`,
         }}
       />
