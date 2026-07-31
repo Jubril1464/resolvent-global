@@ -68,6 +68,7 @@ export interface Config {
   blocks: {};
   collections: {
     users: User;
+    media: Media;
     services: Service;
     industries: Industry;
     'industry-sectors': IndustrySector;
@@ -83,6 +84,7 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     industries: IndustriesSelect<false> | IndustriesSelect<true>;
     'industry-sectors': IndustrySectorsSelect<false> | IndustrySectorsSelect<true>;
@@ -161,6 +163,28 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  /**
+   * Alt text for accessibility.
+   */
+  alt: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -286,6 +310,10 @@ export interface Industry {
     | 'Zap';
   label: string;
   description: string;
+  /**
+   * Path under /public, e.g. /images/mining.jpg
+   */
+  image: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -334,6 +362,7 @@ export interface IndustrySector {
     value: string;
     id?: string | null;
   }[];
+  image: number | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -513,6 +542,10 @@ export interface PayloadLockedDocument {
         value: number | User;
       } | null)
     | ({
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
         relationTo: 'services';
         value: number | Service;
       } | null)
@@ -606,6 +639,24 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "services_select".
  */
 export interface ServicesSelect<T extends boolean = true> {
@@ -652,6 +703,7 @@ export interface IndustriesSelect<T extends boolean = true> {
   icon?: T;
   label?: T;
   description?: T;
+  image?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -670,6 +722,7 @@ export interface IndustrySectorsSelect<T extends boolean = true> {
         value?: T;
         id?: T;
       };
+  image?: T;
   updatedAt?: T;
   createdAt?: T;
 }

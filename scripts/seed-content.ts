@@ -24,6 +24,7 @@ const INDUSTRIES_DATA: {
   icon: IconName
   label: string
   description: string
+  image: string
 }[] = [
   {
     tabId: "energy-oil-gas",
@@ -32,6 +33,7 @@ const INDUSTRIES_DATA: {
     label: "Energy, Oil & Gas",
     description:
       "Process engineering and optimisation support for energy, oil and gas operations, including process and utility performance reviews, energy-efficiency studies, carbon and emissions-reduction opportunity screening, water and wastewater solutions, technical documentation, feasibility inputs, technology evaluation, commissioning readiness and HSE-conscious project support.",
+    image: "/images/energy-oil-and-gas-2.jpg",
   },
   {
     tabId: "water-wastewater",
@@ -40,6 +42,7 @@ const INDUSTRIES_DATA: {
     label: "Water and Wastewater",
     description:
       "Technical support for water and wastewater utilities and industrial users, including treatment-process audits, effluent and discharge-compliance reviews, water-reuse and recovery feasibility, energy-efficiency assessments for pumping and aeration systems, technology selection, and commissioning and operational-readiness support.",
+    image: "/images/water-and-waste-water.jpg",
   },
   {
     tabId: "manufacturing-fmcg",
@@ -48,6 +51,7 @@ const INDUSTRIES_DATA: {
     label: "Manufacturing and FMCG",
     description:
       "Process and utility optimisation for manufacturing and fast-moving consumer goods operations, including production-line efficiency reviews, energy and utility audits, waste-reduction and resource-recovery opportunities, quality and compliance gap assessments, and technical support for plant upgrades and capacity expansion.",
+    image: "/images/manufacturing-and-fmcg.jpg",
   },
   {
     tabId: "mining-minerals-resources",
@@ -56,6 +60,7 @@ const INDUSTRIES_DATA: {
     label: "Mining, Minerals and Resources",
     description:
       "Engineering and advisory support across the minerals value chain, including process-plant performance reviews, energy and water-use optimisation, tailings and waste-management advisory, environmental and regulatory compliance support, and feasibility and technology evaluation for processing and beneficiation projects.",
+    image: "/images/mining.jpg",
   },
   {
     tabId: "public-agencies",
@@ -64,6 +69,7 @@ const INDUSTRIES_DATA: {
     label: "Public Agencies, NGOs and Educational Institutions",
     description:
       "Structured technical input for public-interest, development and institutional initiatives across water, sanitation, energy, environment and sustainability. Support includes feasibility studies, programme development, technical reviews, research, training and monitoring frameworks.",
+    image: "/images/ngo.jpg",
   },
   {
     tabId: "research-innovation-technology",
@@ -72,6 +78,7 @@ const INDUSTRIES_DATA: {
     label: "Research, Innovation and Technology",
     description:
       "Applied research and technology-development support, including technology-readiness assessment, process and product scale-up support, pilot-plant design input, intellectual-property and commercialisation advisory, and technical due diligence for early-stage energy and industrial innovations.",
+    image: "/images/research-innovation.jpg",
   },
   {
     tabId: "industrial-infastructure",
@@ -80,6 +87,7 @@ const INDUSTRIES_DATA: {
     label: "Industrial & Infrastructure Assessment",
     description:
       "Technical assessment of industrial assets and infrastructure across process, energy, carbon, water and environmental performance. Support includes identifying operational risks, performance gaps, compliance needs and opportunities for optimisation, rehabilitation and sustainable investment.",
+    image: "/images/industrial-infrastructure-assessment.jpg",
   },
   {
     tabId: "investors-startup",
@@ -88,6 +96,7 @@ const INDUSTRIES_DATA: {
     label: "Investors and Startups",
     description:
       "Independent technical and project-development support for investors, founders and startups pursuing opportunities in energy, industrial processing, water, environment, carbon and sustainability. Support includes opportunity screening, feasibility studies, technology benchmarking, risk assessment, pilot planning and local implementation guidance.",
+    image: "/images/investment-and-startups.jpg",
   },
 ]
 

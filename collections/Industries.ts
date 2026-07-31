@@ -41,5 +41,13 @@ export const Industries: CollectionConfig = {
     { name: "icon", type: "select", required: true, options: ICON_SELECT_OPTIONS },
     { name: "label", type: "text", required: true },
     { name: "description", type: "textarea", required: true },
+    {
+      name: "image",
+      type: "text",
+      required: true,
+      admin: {
+        description: "Path under /public, e.g. /images/mining.jpg",
+      },
+    },
   ],
 }

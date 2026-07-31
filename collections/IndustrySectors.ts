@@ -37,5 +37,11 @@ export const IndustrySectors: CollectionConfig = {
       required: true,
       fields: [{ name: "value", type: "text", required: true }],
     },
+    {
+      name: "image",
+      type: "upload",
+      relationTo: "media",
+      required: true,
+    },
   ],
 }
