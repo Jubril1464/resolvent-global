@@ -1,9 +1,19 @@
 import Image from "next/image"
 
-export function IndustryVisual({ image, alt }: { image: string; alt: string }) {
+import type { Media } from "@/payload-types"
+
+export function IndustryVisual({ image }: { image: Media }) {
   return (
     <div className="relative aspect-video w-full overflow-hidden bg-[#0C203A]">
-      <Image src={image} alt={alt} fill sizes="(min-width: 1024px) 66vw, 100vw" className="object-cover" />
+      {image.url ? (
+        <Image
+          src={image.url}
+          alt={image.alt}
+          fill
+          sizes="(min-width: 1024px) 66vw, 100vw"
+          className="object-cover"
+        />
+      ) : null}
     </div>
   )
 }

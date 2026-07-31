@@ -43,11 +43,9 @@ export const Industries: CollectionConfig = {
     { name: "description", type: "textarea", required: true },
     {
       name: "image",
-      type: "text",
+      type: "upload",
+      relationTo: "media",
       required: true,
-      admin: {
-        description: "Path under /public, e.g. /images/mining.jpg",
-      },
     },
   ],
 }
