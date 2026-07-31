@@ -7,10 +7,6 @@ import { getNavigation } from "@/lib/get-navigation"
 import { getFooter } from "@/lib/get-footer"
 import { FooterLinkColumn } from "./footer-link-column"
 
-/**
- * Site-wide footer. Rendered once from the root layout so every route gets
- * it, mirroring how SiteNav is rendered for the header.
- */
 export async function SiteFooter() {
   const [navigation, footer] = await Promise.all([getNavigation(), getFooter()])
   const year = new Date().getFullYear()
@@ -39,11 +35,7 @@ export async function SiteFooter() {
               energy, carbon, water and environmental challenges.
             </p>
 
-            <p className="mt-6 text-sm text-white/60">
-              CAC-Registered · Nigeria
-              <br />
-              <span className="italic">[Registration number pending]</span>
-            </p>
+    
           </div>
 
           <FooterLinkColumn title="Quick Links" links={navigation.navLinks} />
