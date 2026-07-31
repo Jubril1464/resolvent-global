@@ -78,7 +78,7 @@ export function IndustriesExplorer({ industries }: { industries: Industry[] }) {
         tabIndex={0}
         className="animate-in fade-in flex flex-col border border-border duration-300"
       >
-        <IndustryVisual icon={resolveIcon(active.icon)} />
+        <IndustryVisual image={active.image} alt={active.label} />
         <p className="bg-[#F4F6F9] p-6 text-foreground/70">{active.description}</p>
       </div>
     </div>

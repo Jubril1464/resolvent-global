@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
@@ -6,14 +7,25 @@ import type { IndustrySector } from "@/payload-types"
 
 export function IndustrySectorCard({ sector }: { sector: IndustrySector }) {
   const Icon = resolveIcon(sector.icon)
+  const image = typeof sector.image === "object" ? sector.image : null
 
   return (
     <article className="grid grid-cols-1 border border-border bg-background transition-all duration-300 hover:-translate-y-1 hover:border-brand/40 hover:shadow-sm sm:grid-cols-[240px_1fr]">
-      <div className="flex flex-col items-center justify-center gap-4 bg-[#E2E6F2] p-8 text-center">
-        <div className="flex size-14 items-center justify-center rounded-md bg-[#0C203A]">
+      <div className="relative flex flex-col items-center justify-center gap-4 overflow-hidden bg-[#E2E6F2] p-8 text-center">
+        {image?.url ? (
+          <Image
+            src={image.url}
+            alt={image.alt}
+            fill
+            sizes="240px"
+            className="object-cover"
+          />
+        ) : null}
+        <div aria-hidden className="absolute inset-0 bg-[#0C203A]/70" />
+        <div className="relative flex size-14 items-center justify-center rounded-md bg-[#0C203A]">
           <Icon aria-hidden className="size-6 text-emerald-200" strokeWidth={1.5} />
         </div>
-        <h3 className="font-bold text-foreground">{sector.title}</h3>
+        <h3 className="relative font-bold text-white">{sector.title}</h3>
       </div>
 
       <div className="p-8">

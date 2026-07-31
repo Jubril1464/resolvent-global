@@ -1,11 +1,13 @@
 import { postgresAdapter } from "@payloadcms/db-postgres"
 import { lexicalEditor } from "@payloadcms/richtext-lexical"
+import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob"
 import path from "path"
 import { buildConfig } from "payload"
 import { fileURLToPath } from "url"
 import sharp from "sharp"
 
 import { Users } from "./collections/Users"
+import { Media } from "./collections/Media"
 import { Services } from "./collections/Services"
 import { Industries } from "./collections/Industries"
 import { IndustrySectors } from "./collections/IndustrySectors"
@@ -29,6 +31,7 @@ export default buildConfig({
   },
   collections: [
     Users,
+    Media,
     Services,
     Industries,
     IndustrySectors,
@@ -48,5 +51,15 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI,
     },
   }),
+  plugins: [
+    vercelBlobStorage({
+      // Media is fully public (access.read: () => true) — serve directly
+      // from Blob's CDN instead of proxying every request through our own
+      // /api/media/file/* route, which is Payload's default and is meant
+      // for access-controlled files.
+      collections: { media: { disablePayloadAccessControl: true } },
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    }),
+  ],
   sharp,
 })
