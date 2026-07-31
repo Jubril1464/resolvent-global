@@ -44,4 +44,3 @@ next-env.d.ts
 # payload cms
 *.db
 *.sqlite
-payload-types.ts
