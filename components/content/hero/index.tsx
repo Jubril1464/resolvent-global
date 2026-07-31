@@ -48,16 +48,16 @@ export async function Hero() {
 
       <div className="relative mx-auto w-full max-w-7xl px-6 py-24 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
-          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+          <h1 className="animate-in fade-in slide-in-from-bottom-6 fill-mode-both motion-reduce:animate-none duration-700 ease-out text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
             Engineering Solutions for Energy, Process Performance and Carbon Management.
           </h1>
-          <p className="mx-auto mt-6 max-w-3xl font-sans">
+          <p className="animate-in fade-in slide-in-from-bottom-6 fill-mode-both motion-reduce:animate-none duration-700 delay-150 ease-out mx-auto mt-6 max-w-3xl font-sans">
             Resolvent Global helps industrial and energy-sector clients solve
             process, water, environmental and sustainability challenges
             through practical engineering, technical advisory and project
             support.
           </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <div className="animate-in fade-in slide-in-from-bottom-6 fill-mode-both motion-reduce:animate-none duration-700 delay-300 ease-out mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
               href={navigation.ctaHref}
               className={cn(

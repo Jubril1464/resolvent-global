@@ -310,10 +310,7 @@ export interface Industry {
     | 'Zap';
   label: string;
   description: string;
-  /**
-   * Path under /public, e.g. /images/mining.jpg
-   */
-  image: string;
+  image: number | Media;
   updatedAt: string;
   createdAt: string;
 }

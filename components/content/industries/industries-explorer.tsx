@@ -78,7 +78,9 @@ export function IndustriesExplorer({ industries }: { industries: Industry[] }) {
         tabIndex={0}
         className="animate-in fade-in flex flex-col border border-border duration-300"
       >
-        <IndustryVisual image={active.image} alt={active.label} />
+        {typeof active.image === "object" && active.image ? (
+          <IndustryVisual image={active.image} />
+        ) : null}
         <p className="bg-[#F4F6F9] p-6 text-foreground/70">{active.description}</p>
       </div>
     </div>
