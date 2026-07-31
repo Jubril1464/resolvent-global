@@ -5,8 +5,8 @@ import { Send, Shield } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
+import type { ContactPage } from "@/payload-types"
 import { InquiryTypeSelector, type InquiryType } from "./inquiry-type-selector"
-import { EXPECT_STEPS, INDUSTRY_OPTIONS, SERVICE_OPTIONS } from "./contact-config"
 
 const inputClass =
   "w-full border border-border bg-background px-4 py-2.5 text-foreground outline-none transition-colors focus:border-brand placeholder:text-foreground/40"
@@ -50,7 +50,15 @@ function Field({
 }
 
 
-export function ContactForm() {
+export function ContactForm({
+  expectSteps,
+  serviceOptions,
+  industryOptions,
+}: {
+  expectSteps: ContactPage["expectSteps"]
+  serviceOptions: string[]
+  industryOptions: string[]
+}) {
   const [inquiryType, setInquiryType] = useState<InquiryType>("general")
   const [submitted, setSubmitted] = useState(false)
 
@@ -89,7 +97,7 @@ export function ContactForm() {
             <div className="mt-4 border-t border-border" />
 
             <ol className="mt-6 space-y-6">
-              {EXPECT_STEPS.map(({ step, title, description }) => (
+              {expectSteps.map(({ step, title, description }) => (
                 <li key={step} className="flex gap-4">
                   <span
                     aria-hidden
@@ -175,7 +183,7 @@ export function ContactForm() {
                 <option value="" disabled>
                   Select a service
                 </option>
-                {SERVICE_OPTIONS.map((option) => (
+                {serviceOptions.map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>
@@ -188,7 +196,7 @@ export function ContactForm() {
                 <option value="" disabled>
                   Select a sector
                 </option>
-                {INDUSTRY_OPTIONS.map((option) => (
+                {industryOptions.map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>

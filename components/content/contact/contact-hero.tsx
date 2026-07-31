@@ -1,13 +1,16 @@
-import { CONTACT_INFO } from "./contact-config";
+import { getContactPage } from "@/lib/get-contact-page";
+import { resolveIcon } from "@/lib/icon-map";
 
 const GRID_SIZE = 80;
 
 /**
- * Contact page hero: pitch on the left, a static contact-details card on
- * the right. No client interactivity needed here — that all lives in
- * ContactForm below.
+ * Contact page hero: pitch on the left, a contact-details card driven by
+ * the `contact-page` Payload global on the right. No client interactivity
+ * needed here — that all lives in ContactForm below.
  */
-export function ContactHero() {
+export async function ContactHero() {
+  const contactPage = await getContactPage();
+
   return (
     <section className="relative overflow-hidden bg-[#0C203A] py-16 text-white">
       <div
@@ -36,23 +39,27 @@ export function ContactHero() {
 
         <div className="border border-white/10 bg-white/5 p-6">
           <div className="space-y-5">
-            {CONTACT_INFO.map(({ icon: Icon, label, value }) => (
-              <div key={label} className="flex items-start gap-3">
-                <span className="flex size-9 shrink-0 items-center justify-center bg-brand/30">
-                  <Icon
-                    aria-hidden
-                    className="size-4 text-brand"
-                    strokeWidth={1.75}
-                  />
-                </span>
-                <div>
-                  <p className="text-xs font-semibold tracking-wide text-white/50 uppercase">
-                    {label}
-                  </p>
-                  <p className="text-white">{value}</p>
+            {contactPage.contactInfoItems.map((item) => {
+              const Icon = resolveIcon(item.icon)
+
+              return (
+                <div key={item.label} className="flex items-start gap-3">
+                  <span className="flex size-9 shrink-0 items-center justify-center bg-brand/30">
+                    <Icon
+                      aria-hidden
+                      className="size-4 text-brand"
+                      strokeWidth={1.75}
+                    />
+                  </span>
+                  <div>
+                    <p className="text-xs font-semibold tracking-wide text-white/50 uppercase">
+                      {item.label}
+                    </p>
+                    <p className="text-white">{item.value}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
 
           <div className="mt-6 inline-flex items-center gap-2 border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80">

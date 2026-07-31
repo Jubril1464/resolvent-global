@@ -1,8 +1,8 @@
 import { Check, CheckCircle } from "lucide-react"
 
-import type { ScopeItem } from "./service-detail-page-config"
+import type { Service } from "@/payload-types"
 
-export function ServiceScopeGrid({ scope }: { scope: ScopeItem[] }) {
+export function ServiceScopeGrid({ scope }: { scope: Service["scope"] }) {
   return (
     <section className="bg-[#F4F6F9] py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">

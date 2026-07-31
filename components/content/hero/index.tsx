@@ -4,7 +4,7 @@ import { ArrowRight, ChevronRight } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { NAV_CTA } from "@/components/content/nav/nav-config";
+import { getNavigation } from "@/lib/get-navigation";
 
 const SCHEDULE_CTA = {
   href: "/schedule-consultation",
@@ -13,7 +13,9 @@ const SCHEDULE_CTA = {
 
 const GRID_SIZE = 80;
 
-export function Hero() {
+export async function Hero() {
+  const navigation = await getNavigation();
+
   return (
     <section className="relative flex min-h-[calc(100vh-4.5rem)] w-full items-center overflow-hidden bg-[#0C203A] text-white">
       <Image
@@ -57,13 +59,13 @@ export function Hero() {
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
-              href={NAV_CTA.href}
+              href={navigation.ctaHref}
               className={cn(
                 buttonVariants({ variant: "brand" }),
                 "h-12 gap-2 px-8 text-base font-semibold",
               )}
             >
-              {NAV_CTA.label}
+              {navigation.ctaLabel}
               <ArrowRight className="size-4" />
             </Link>
             <Link

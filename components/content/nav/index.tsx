@@ -6,9 +6,9 @@ import Link from "next/link"
 
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import type { Navigation } from "@/payload-types"
 import { DesktopNav } from "./desktop-nav"
 import { MobileNav } from "./mobile-nav"
-import { NAV_CTA } from "./nav-config"
 
 const SCROLL_THRESHOLD_PX = 8
 
@@ -17,7 +17,13 @@ const SCROLL_THRESHOLD_PX = 8
  * Hides on scroll-down and reappears on scroll-up; always shown at the top
  * of the page.
  */
-export function SiteNav({ className }: { className?: string }) {
+export function SiteNav({
+  navigation,
+  className,
+}: {
+  navigation: Navigation
+  className?: string
+}) {
   const [visible, setVisible] = useState(true)
   const lastScrollY = useRef(0)
   const ticking = useRef(false)
@@ -74,20 +80,24 @@ export function SiteNav({ className }: { className?: string }) {
           />
         </Link>
 
-        <DesktopNav />
+        <DesktopNav links={navigation.navLinks} />
 
         <div className="flex items-center gap-2">
           <Link
-            href={NAV_CTA.href}
+            href={navigation.ctaHref}
             className={cn(
               buttonVariants({ variant: "brand" }),
               "hidden h-11 px-7 text-[15px] font-semibold lg:inline-flex"
             )}
           >
-            {NAV_CTA.label}
+            {navigation.ctaLabel}
           </Link>
 
-          <MobileNav />
+          <MobileNav
+            links={navigation.navLinks}
+            ctaHref={navigation.ctaHref}
+            ctaLabel={navigation.ctaLabel}
+          />
         </div>
       </div>
     </header>
