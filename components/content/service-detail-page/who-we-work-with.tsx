@@ -51,5 +51,5 @@ export async function WhoWeWorkWith({ description }: { description: string }) {
         </div>
       </div>
     </section>
-  )
+  ) 
 }
