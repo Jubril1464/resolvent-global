@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { getNavigation } from "@/lib/get-navigation";
 
 const SCHEDULE_CTA = {
-  href: "/schedule-consultation",
+  href: "/contact?type=general",
   label: "Schedule Technical Consultation",
 };
 
