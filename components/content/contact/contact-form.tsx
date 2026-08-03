@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, type ReactNode } from "react"
+import { useSearchParams } from "next/navigation"
 import { Send, Shield } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -8,10 +9,27 @@ import { buttonVariants } from "@/components/ui/button"
 import type { ContactPage } from "@/payload-types"
 import { InquiryTypeSelector, type InquiryType } from "./inquiry-type-selector"
 
+/**
+ * Lets CTAs sitewide deep-link into a preselected inquiry type, e.g.
+ * /contact?type=proposal for "Request Proposal" buttons and
+ * /contact?type=general for "Schedule Technical Consultation".
+ */
+function getInitialInquiryType(searchParams: URLSearchParams): InquiryType {
+  return searchParams.get("type") === "proposal" ? "proposal" : "general"
+}
+
 const inputClass =
   "w-full border border-border bg-background px-4 py-2.5 text-foreground outline-none transition-colors focus:border-brand placeholder:text-foreground/40"
 
-function FormSectionHeader({ letter, title }: { letter: string; title: string }) {
+function FormSectionHeader({
+  letter,
+  title,
+  suffix,
+}: {
+  letter: string
+  title: string
+  suffix?: string
+}) {
   return (
     <div>
       <div className="flex items-center gap-2">
@@ -21,6 +39,11 @@ function FormSectionHeader({ letter, title }: { letter: string; title: string })
         <h2 className="text-xs font-bold tracking-wide text-foreground uppercase">
           {title}
         </h2>
+        {suffix ? (
+          <span className="text-xs font-normal normal-case text-foreground/50">
+            {suffix}
+          </span>
+        ) : null}
       </div>
       <div className="mt-4 border-t border-border" />
     </div>
@@ -49,6 +72,237 @@ function Field({
   )
 }
 
+function YourDetailsFields({
+  preferredContactMethod,
+}: {
+  preferredContactMethod: ReactNode
+}) {
+  return (
+    <>
+      <FormSectionHeader letter="A" title="Your Details" />
+      <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <Field label="Full Name" required>
+          <input
+            required
+            type="text"
+            name="fullName"
+            placeholder="Your full name"
+            className={inputClass}
+          />
+        </Field>
+        <Field label="Organisation">
+          <input
+            type="text"
+            name="organisation"
+            placeholder="Company or organisation"
+            className={inputClass}
+          />
+        </Field>
+        <Field label="Email Address" required>
+          <input
+            required
+            type="email"
+            name="email"
+            placeholder="your@email.com"
+            className={inputClass}
+          />
+        </Field>
+        <Field label="Phone / WhatsApp">
+          <input
+            type="tel"
+            name="phone"
+            placeholder="+234 ..."
+            className={inputClass}
+          />
+        </Field>
+        <Field label="Country / City">
+          <input
+            type="text"
+            name="location"
+            placeholder="e.g. Lagos, Nigeria"
+            className={inputClass}
+          />
+        </Field>
+        <Field label="Preferred Contact Method">{preferredContactMethod}</Field>
+      </div>
+    </>
+  )
+}
+
+function GeneralInquiryFields({
+  serviceOptions,
+  industryOptions,
+}: {
+  serviceOptions: string[]
+  industryOptions: string[]
+}) {
+  return (
+    <>
+      <YourDetailsFields
+        preferredContactMethod={
+          <input type="text" name="preferredContact" className={inputClass} />
+        }
+      />
+
+      <div className="mt-10">
+        <FormSectionHeader letter="B" title="Project Context" />
+      </div>
+      <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <Field label="Service of Interest">
+          <select name="service" defaultValue="" className={inputClass}>
+            <option value="" disabled>
+              Select a service
+            </option>
+            {serviceOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+            <option value="other">Other</option>
+          </select>
+        </Field>
+        <Field label="Industry / Sector">
+          <select name="industry" defaultValue="" className={inputClass}>
+            <option value="" disabled>
+              Select a sector
+            </option>
+            {industryOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+            <option value="other">Other</option>
+          </select>
+        </Field>
+        <Field label="Project Description" required className="sm:col-span-2">
+          <textarea
+            required
+            name="description"
+            rows={4}
+            placeholder="Briefly describe your project, challenge or inquiry..."
+            className={cn(inputClass, "resize-y")}
+          />
+        </Field>
+      </div>
+    </>
+  )
+}
+
+function ProposalFields({
+  serviceOptions,
+  industryOptions,
+}: {
+  serviceOptions: string[]
+  industryOptions: string[]
+}) {
+  return (
+    <>
+      <YourDetailsFields
+        preferredContactMethod={
+          <select name="preferredContact" defaultValue="" className={inputClass}>
+            <option value="" disabled>
+              Select method...
+            </option>
+            <option value="email">Email</option>
+            <option value="phone">Phone Call</option>
+            <option value="whatsapp">WhatsApp</option>
+          </select>
+        }
+      />
+
+      <div className="mt-10">
+        <FormSectionHeader letter="B" title="Project Context" />
+      </div>
+      <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <Field label="Service of Interest">
+          <select name="service" defaultValue="" className={inputClass}>
+            <option value="" disabled>
+              Select a service platform...
+            </option>
+            {serviceOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+            <option value="other">Other</option>
+          </select>
+        </Field>
+        <Field label="Industry / Sector">
+          <select name="industry" defaultValue="" className={inputClass}>
+            <option value="" disabled>
+              Select sector...
+            </option>
+            {industryOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+            <option value="other">Other</option>
+          </select>
+        </Field>
+        <Field label="Project Type" className="sm:col-span-2">
+          <input
+            type="text"
+            name="projectType"
+            placeholder="e.g. Feasibility study, audit"
+            className={inputClass}
+          />
+        </Field>
+        <Field label="Problem / Challenge" required className="sm:col-span-2">
+          <textarea
+            required
+            name="problem"
+            rows={4}
+            placeholder="Describe the technical challenge or problem you need support with..."
+            className={cn(inputClass, "resize-y")}
+          />
+        </Field>
+        <Field label="Desired Outcome" className="sm:col-span-2">
+          <textarea
+            name="desiredOutcome"
+            rows={3}
+            placeholder="What would a successful outcome look like?"
+            className={cn(inputClass, "resize-y")}
+          />
+        </Field>
+      </div>
+
+      <div className="mt-10">
+        <FormSectionHeader
+          letter="C"
+          title="Scope & Timeline"
+          suffix="(optional but helpful)"
+        />
+      </div>
+      <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <Field label="Preferred Timeline">
+          <input
+            type="text"
+            name="timeline"
+            placeholder="e.g. 3 months, Q3 2025"
+            className={inputClass}
+          />
+        </Field>
+        <Field label="Budget Range">
+          <input
+            type="text"
+            name="budget"
+            placeholder="e.g. Under ₦5M, $5k–$20k"
+            className={inputClass}
+          />
+        </Field>
+        <Field label="Additional Notes" className="sm:col-span-2">
+          <textarea
+            name="notes"
+            rows={3}
+            placeholder="Any additional context, constraints or questions..."
+            className={cn(inputClass, "resize-y")}
+          />
+        </Field>
+      </div>
+    </>
+  )
+}
 
 export function ContactForm({
   expectSteps,
@@ -59,7 +313,10 @@ export function ContactForm({
   serviceOptions: string[]
   industryOptions: string[]
 }) {
-  const [inquiryType, setInquiryType] = useState<InquiryType>("general")
+  const searchParams = useSearchParams()
+  const [inquiryType, setInquiryType] = useState<InquiryType>(() =>
+    getInitialInquiryType(searchParams)
+  )
   const [submitted, setSubmitted] = useState(false)
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -125,95 +382,17 @@ export function ContactForm({
         </div>
 
         <div>
-          <FormSectionHeader letter="A" title="Your Details" />
-          <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <Field label="Full Name" required>
-              <input
-                required
-                type="text"
-                name="fullName"
-                placeholder="Your full name"
-                className={inputClass}
-              />
-            </Field>
-            <Field label="Organisation">
-              <input
-                type="text"
-                name="organisation"
-                placeholder="Company or organisation"
-                className={inputClass}
-              />
-            </Field>
-            <Field label="Email Address" required>
-              <input
-                required
-                type="email"
-                name="email"
-                placeholder="your@email.com"
-                className={inputClass}
-              />
-            </Field>
-            <Field label="Phone / WhatsApp">
-              <input
-                type="tel"
-                name="phone"
-                placeholder="+234 ..."
-                className={inputClass}
-              />
-            </Field>
-            <Field label="Country / City">
-              <input
-                type="text"
-                name="location"
-                placeholder="e.g. Lagos, Nigeria"
-                className={inputClass}
-              />
-            </Field>
-            <Field label="Preferred Contact Method">
-              <input type="text" name="preferredContact" className={inputClass} />
-            </Field>
-          </div>
-
-          <div className="mt-10">
-            <FormSectionHeader letter="B" title="Project Context" />
-          </div>
-          <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <Field label="Service of Interest">
-              <select name="service" defaultValue="" className={inputClass}>
-                <option value="" disabled>
-                  Select a service
-                </option>
-                {serviceOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-                <option value="other">Other</option>
-              </select>
-            </Field>
-            <Field label="Industry / Sector">
-              <select name="industry" defaultValue="" className={inputClass}>
-                <option value="" disabled>
-                  Select a sector
-                </option>
-                {industryOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-                <option value="other">Other</option>
-              </select>
-            </Field>
-            <Field label="Project Description" required className="sm:col-span-2">
-              <textarea
-                required
-                name="description"
-                rows={4}
-                placeholder="Briefly describe your project, challenge or inquiry..."
-                className={cn(inputClass, "resize-y")}
-              />
-            </Field>
-          </div>
+          {inquiryType === "proposal" ? (
+            <ProposalFields
+              serviceOptions={serviceOptions}
+              industryOptions={industryOptions}
+            />
+          ) : (
+            <GeneralInquiryFields
+              serviceOptions={serviceOptions}
+              industryOptions={industryOptions}
+            />
+          )}
 
           <div className="mt-8 flex flex-col-reverse items-start justify-between gap-4 border-t border-border pt-6 sm:flex-row sm:items-center">
             <p className="max-w-sm text-xs text-foreground/50">
@@ -228,7 +407,7 @@ export function ContactForm({
               )}
             >
               <Send aria-hidden className="size-4" />
-              Send Inquiry
+              {inquiryType === "proposal" ? "Submit Proposal Request" : "Send Inquiry"}
             </button>
           </div>
 

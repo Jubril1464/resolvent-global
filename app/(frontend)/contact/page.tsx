@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import { getContactPage } from "@/lib/get-contact-page";
 import { getServices } from "@/lib/get-services";
@@ -22,11 +23,13 @@ export default async function ContactPage() {
     <main className="flex-1">
       <ContactHero />
       <Reveal>
-        <ContactForm
-          expectSteps={contactPage.expectSteps}
-          serviceOptions={services.map((service) => service.fullTitle)}
-          industryOptions={industrySectors.map((sector) => sector.title)}
-        />
+        <Suspense fallback={null}>
+          <ContactForm
+            expectSteps={contactPage.expectSteps}
+            serviceOptions={services.map((service) => service.fullTitle)}
+            industryOptions={industrySectors.map((sector) => sector.title)}
+          />
+        </Suspense>
       </Reveal>
     </main>
   );
