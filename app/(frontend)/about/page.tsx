@@ -10,6 +10,9 @@ import { Reveal } from "@/components/ui/reveal";
 
 export const metadata: Metadata = {
   title: "About",
+  description:
+    "A technical advisory and engineering services company focused on process engineering, energy, carbon, water and environmental solutions.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {

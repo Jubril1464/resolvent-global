@@ -7,6 +7,9 @@ import { Reveal } from "@/components/ui/reveal";
 
 export const metadata: Metadata = {
   title: "Industries",
+  description:
+    "Resolvent Global serves clients across energy, manufacturing, water, mining, public-sector, research and investor sectors — addressing technical and sustainability challenges.",
+  alternates: { canonical: "/industries" },
 };
 
 export default function IndustriesPage() {

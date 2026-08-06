@@ -12,7 +12,19 @@ export async function generateMetadata({
   const { slug } = await params;
   const service = await getServiceBySlug(slug);
 
-  return { title: service?.fullTitle ?? "Service" };
+  if (!service) {
+    return { title: "Service" };
+  }
+
+  return {
+    title: service.fullTitle,
+    description: service.intro,
+    alternates: { canonical: `/services/${service.slug}` },
+    openGraph: {
+      title: service.fullTitle,
+      description: service.intro,
+    },
+  };
 }
 
 export default async function Page({ params }: RouteParams) {

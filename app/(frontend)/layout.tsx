@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { getNavigation } from "@/lib/get-navigation";
+import { getFooter } from "@/lib/get-footer";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site-config";
 import { SiteNav } from "@/components/content/nav";
 import { SiteFooter } from "@/components/content/footer";
 
@@ -19,11 +21,36 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Resolvent Global",
-    template: "%s | Resolvent Global",
+    default: `${SITE_NAME} — Energy, Process & Carbon Engineering Advisory`,
+    template: `%s | ${SITE_NAME}`,
   },
-  description: "Energy · Process · Carbon",
+  description: SITE_DESCRIPTION,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — Energy, Process & Carbon Engineering Advisory`,
+    description: SITE_DESCRIPTION,
+    // Using the existing hero photo as a placeholder social-share image —
+    // a proper 1200x630 branded banner (logo + tagline) would be a good
+    // design follow-up; see the SEO summary for why it isn't auto-generated.
+    images: [{ url: "/images/hero-image.png", width: 2816, height: 1536 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} — Energy, Process & Carbon Engineering Advisory`,
+    description: SITE_DESCRIPTION,
+    images: ["/images/hero-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -35,12 +62,37 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
 };
 
+// Placeholder values like "[To be confirmed]" live in the footer global
+// until real business details are filled in via /admin — never surface
+// those to search engines as if they were real.
+function isPlaceholder(value: string) {
+  return value.trim().startsWith("[");
+}
+
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const navigation = await getNavigation();
+  const [navigation, footer] = await Promise.all([getNavigation(), getFooter()]);
+
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: `${SITE_URL}/images/resolvent-logo.png`,
+    description: SITE_DESCRIPTION,
+    ...(isPlaceholder(footer.contactEmail) ? {} : { email: footer.contactEmail }),
+    // schema.org's `telephone` expects a single number, but contactPhone
+    // stores a comma-separated list — use just the first as the primary.
+    ...(isPlaceholder(footer.contactPhone)
+      ? {}
+      : { telephone: footer.contactPhone.split(",")[0].trim() }),
+    ...(isPlaceholder(footer.contactLocation)
+      ? {}
+      : { address: { "@type": "PostalAddress", addressCountry: footer.contactLocation } }),
+  };
 
   return (
     <html
@@ -48,6 +100,12 @@ export default async function RootLayout({
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
     >
       <body className="min-h-full flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
         <SiteNav navigation={navigation} />
         {children}
         <SiteFooter />
