@@ -7,6 +7,7 @@ import { Send, Shield } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import type { ContactPage } from "@/payload-types"
+import { sendContactEmail } from "@/lib/actions/send-contact-email"
 import { InquiryTypeSelector, type InquiryType } from "./inquiry-type-selector"
 
 /**
@@ -318,10 +319,22 @@ export function ContactForm({
     getInitialInquiryType(searchParams)
   )
   const [submitted, setSubmitted] = useState(false)
+  const [pending, setPending] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setSubmitted(true)
+    setError(null)
+    setPending(true)
+
+    const result = await sendContactEmail(new FormData(event.currentTarget))
+
+    setPending(false)
+    if (result.success) {
+      setSubmitted(true)
+    } else {
+      setError(result.error)
+    }
   }
 
   return (
@@ -382,6 +395,7 @@ export function ContactForm({
         </div>
 
         <div>
+          <input type="hidden" name="inquiryType" value={inquiryType} />
           {inquiryType === "proposal" ? (
             <ProposalFields
               serviceOptions={serviceOptions}
@@ -401,13 +415,18 @@ export function ContactForm({
             </p>
             <button
               type="submit"
+              disabled={pending}
               className={cn(
                 buttonVariants({ variant: "brand" }),
-                "h-12 gap-2 px-6 text-base font-semibold"
+                "h-12 gap-2 px-6 text-base font-semibold disabled:cursor-not-allowed disabled:opacity-70"
               )}
             >
               <Send aria-hidden className="size-4" />
-              {inquiryType === "proposal" ? "Submit Proposal Request" : "Send Inquiry"}
+              {pending
+                ? "Sending..."
+                : inquiryType === "proposal"
+                  ? "Submit Proposal Request"
+                  : "Send Inquiry"}
             </button>
           </div>
 
@@ -415,6 +434,12 @@ export function ContactForm({
             <p role="status" className="mt-4 text-sm font-medium text-brand">
               Thanks &mdash; your inquiry has been captured. We&apos;ll be in
               touch within 24&ndash;48 business hours.
+            </p>
+          ) : null}
+
+          {error ? (
+            <p role="alert" className="mt-4 text-sm font-medium text-destructive">
+              {error}
             </p>
           ) : null}
         </div>
