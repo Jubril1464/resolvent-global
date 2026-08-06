@@ -10,6 +10,9 @@ import { Reveal } from "@/components/ui/reveal";
 
 export const metadata: Metadata = {
   title: "Contact",
+  description:
+    "Send a project inquiry or request a formal proposal. We respond in less than 48 hours — all information is treated as confidential.",
+  alternates: { canonical: "/contact" },
 };
 
 export default async function ContactPage() {

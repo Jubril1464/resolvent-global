@@ -5,6 +5,9 @@ import { Reveal } from "@/components/ui/reveal";
 
 export const metadata: Metadata = {
   title: "Services",
+  description:
+    "Three integrated service platforms designed to help industrial, public-sector, investment and innovation clients operate better, invest smarter and build lasting technical capability.",
+  alternates: { canonical: "/services" },
 };
 
 export default function ServicesPage() {
