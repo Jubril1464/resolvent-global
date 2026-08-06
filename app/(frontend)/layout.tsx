@@ -36,16 +36,13 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: `${SITE_NAME} — Energy, Process & Carbon Engineering Advisory`,
     description: SITE_DESCRIPTION,
-    // Using the existing hero photo as a placeholder social-share image —
-    // a proper 1200x630 branded banner (logo + tagline) would be a good
-    // design follow-up; see the SEO summary for why it isn't auto-generated.
-    images: [{ url: "/images/hero-image.png", width: 2816, height: 1536 }],
+    images: [{ url: "/images/og-image.png", width: 1424, height: 752 }],
   },
   twitter: {
     card: "summary_large_image",
     title: `${SITE_NAME} — Energy, Process & Carbon Engineering Advisory`,
     description: SITE_DESCRIPTION,
-    images: ["/images/hero-image.png"],
+    images: ["/images/og-image.png"],
   },
   robots: {
     index: true,
