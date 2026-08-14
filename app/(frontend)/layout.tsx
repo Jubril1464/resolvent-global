@@ -89,9 +89,17 @@ export default async function RootLayout({
     ...(isPlaceholder(footer.contactPhone)
       ? {}
       : { telephone: footer.contactPhone.split(",")[0].trim() }),
-    ...(isPlaceholder(footer.contactLocation)
-      ? {}
-      : { address: { "@type": "PostalAddress", addressCountry: footer.contactLocation } }),
+    // The headquarters address is the canonical one for structured data;
+    // other office locations still show in the footer itself.
+    ...(footer.addresses[0] && !isPlaceholder(footer.addresses[0].value)
+      ? {
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: footer.addresses[0].value,
+            addressCountry: "Nigeria",
+          },
+        }
+      : {}),
   };
 
   return (

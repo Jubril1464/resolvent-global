@@ -54,7 +54,7 @@ if (footer.servicesLinks && footer.servicesLinks.length > 0) {
       servicesLinks: [
         { href: "/services/operations", label: "Operations" },
         {
-          href: "/services/carbon-energy-investment-advisory",
+          href: "/services/carbon-management-and-energy-investment-advisory",
           label: "Carbon, energy & investment",
         },
         {
@@ -68,7 +68,16 @@ if (footer.servicesLinks && footer.servicesLinks.length > 0) {
       ],
       contactEmail: "info@resolventglobal.com",
       contactPhone: "[To be confirmed]",
-      contactLocation: "Nigeria",
+      addresses: [
+        {
+          label: "Lagos (Headquarters)",
+          value: "5 Baptist Close, Foreshore Zone, Magodo Phase 2, Shangisha, Lagos",
+        },
+        {
+          label: "Delta",
+          value: "82 Hospital-Jakpa Road, Effurun, Warri",
+        },
+      ],
     },
   })
   console.log("Seeded footer.")
@@ -89,6 +98,16 @@ if (contactPage.contactInfoItems && contactPage.contactInfoItems.length > 0) {
           value: "+2348063239162, +61480171213, +1(785) 393-0542, +1(803)463-7821",
         },
         { icon: "Link2", label: "Connect on LinkedIn", value: "Resolvent Global" },
+        {
+          icon: "MapPin",
+          label: "Lagos (Headquarters)",
+          value: "5 Baptist Close, Foreshore Zone, Magodo Phase 2, Shangisha, Lagos",
+        },
+        {
+          icon: "MapPin",
+          label: "Delta",
+          value: "82 Hospital-Jakpa Road, Effurun, Warri",
+        },
       ],
       expectSteps: [
         {
