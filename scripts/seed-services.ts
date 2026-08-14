@@ -114,7 +114,7 @@ const SERVICES_DATA: SeedService[] = [
       "Oil and gas, energy, mining, minerals, manufacturing, FMCG, water utilities and industrial facilities. Plant managers, operations teams, project developers, engineering teams, environmental managers and asset owners. Rapid diagnostic reviews, defined optimisation projects, pilot and technology assessments, commissioning support or ongoing technical advisory retainers.",
   },
   {
-    slug: "carbon-energy-investment-advisory",
+    slug: "carbon-management-and-energy-investment-advisory",
     order: 2,
     icon: "Gauge",
     title: "Carbon, energy & investment",
@@ -127,7 +127,7 @@ const SERVICES_DATA: SeedService[] = [
     ],
     accentColor: "#1B3A5C",
     tagline: "Invest smarter",
-    fullTitle: "Carbon, Energy & Investment Advisory",
+    fullTitle: "Carbon Management and Energy Investment Advisory",
     intro:
       "We support organisations, project developers and investors in making technically credible energy, carbon and clean-technology decisions. Our work connects engineering performance with commercial, environmental and implementation considerations.",
     checklist: [

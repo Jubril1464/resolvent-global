@@ -29,6 +29,15 @@ export const Footer: GlobalConfig = {
     },
     { name: "contactEmail", type: "email", required: true },
     { name: "contactPhone", type: "text", required: true },
-    { name: "contactLocation", type: "text", required: true },
+    {
+      name: "addresses",
+      type: "array",
+      required: true,
+      labels: { singular: "Address", plural: "Addresses" },
+      fields: [
+        { name: "label", type: "text", required: true },
+        { name: "value", type: "text", required: true },
+      ],
+    },
   ],
 }

@@ -10,7 +10,7 @@ export function DeliverablesOutcomes({
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-16 px-6 lg:grid-cols-2 lg:px-8">
         <div>
           <p className="text-sm font-semibold tracking-wide text-brand uppercase">
-            Typical Deliverables
+            Deliverables
           </p>
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground">
             What You Receive

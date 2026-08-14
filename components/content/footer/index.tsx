@@ -62,10 +62,12 @@ export async function SiteFooter() {
                 <p className="text-white/80">{footer.contactPhone}</p>
               </div>
 
-              <div>
-                <p className="text-white/50">Location</p>
-                <p className="text-white/80">{footer.contactLocation}</p>
-              </div>
+              {footer.addresses.map((address) => (
+                <div key={address.id ?? address.label}>
+                  <p className="text-white/50">{address.label}</p>
+                  <p className="text-white/80">{address.value}</p>
+                </div>
+              ))}
             </div>
 
             <Link

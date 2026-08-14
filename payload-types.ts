@@ -844,7 +844,11 @@ export interface Footer {
   }[];
   contactEmail: string;
   contactPhone: string;
-  contactLocation: string;
+  addresses: {
+    label: string;
+    value: string;
+    id?: string | null;
+  }[];
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -939,7 +943,13 @@ export interface FooterSelect<T extends boolean = true> {
       };
   contactEmail?: T;
   contactPhone?: T;
-  contactLocation?: T;
+  addresses?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
