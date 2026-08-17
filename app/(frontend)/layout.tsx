@@ -105,6 +105,10 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
+      // Required alongside `scroll-behavior: smooth` in globals.css — lets
+      // Next disable smooth scrolling during route transitions while
+      // keeping it for in-page anchor links.
+      data-scroll-behavior="smooth"
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
     >
       <body className="min-h-full flex flex-col">

@@ -136,5 +136,58 @@
   }
   html {
     @apply font-sans;
+    /**
+     * Smooth scrolling for in-page anchor CTAs (e.g. "View Course
+     * Curriculum" → #curriculum, "Explore Training" → #portfolio).
+     *
+     * The matching `data-scroll-behavior="smooth"` on <html> in the root
+     * layout is required: it tells Next's router to temporarily force
+     * `auto` while navigating between routes, so page changes stay instant
+     * instead of animating a long scroll to the top. Hash-only changes
+     * keep the smooth behaviour.
+     */
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/**
+ * Smooth expand/collapse for native <details> accordions (training course
+ * curriculum). A plain <details> snaps open with no transition; animating
+ * `::details-content` gives it a real height animation while keeping the
+ * element native — so keyboard support, screen-reader semantics and
+ * no-JS rendering all still come for free.
+ *
+ * `interpolate-size` is what allows height to interpolate to/from `auto`.
+ * It's set here rather than on :root so it stays scoped to the accordion,
+ * and it inherits to the content. Browsers without ::details-content
+ * support simply open instantly — the content's own fade still plays, so
+ * the interaction never looks broken.
+ */
+.accordion-item {
+  interpolate-size: allow-keywords;
+}
+
+.accordion-item::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition:
+    block-size 320ms cubic-bezier(0.4, 0, 0.2, 1),
+    content-visibility 320ms;
+  transition-behavior: allow-discrete;
+}
+
+.accordion-item[open]::details-content {
+  block-size: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accordion-item::details-content {
+    transition: none;
   }
 }

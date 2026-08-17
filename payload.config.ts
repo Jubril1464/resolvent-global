@@ -15,9 +15,11 @@ import { WhyUsPoints } from "./collections/WhyUsPoints"
 import { Values } from "./collections/Values"
 import { OperatingApproachSteps } from "./collections/OperatingApproachSteps"
 import { Credentials } from "./collections/Credentials"
+import { TrainingCourses } from "./collections/TrainingCourses"
 import { Navigation } from "./globals/Navigation"
 import { Footer } from "./globals/Footer"
 import { ContactPage } from "./globals/ContactPage"
+import { TrainingPage } from "./globals/TrainingPage"
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -39,8 +41,9 @@ export default buildConfig({
     Values,
     OperatingApproachSteps,
     Credentials,
+    TrainingCourses,
   ],
-  globals: [Navigation, Footer, ContactPage],
+  globals: [Navigation, Footer, ContactPage, TrainingPage],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {

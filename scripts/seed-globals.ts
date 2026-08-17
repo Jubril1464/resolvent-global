@@ -29,6 +29,7 @@ if (navigation.navLinks && navigation.navLinks.length > 0) {
         { href: "/", label: "Home" },
         { href: "/about", label: "About" },
         { href: "/services", label: "Services" },
+        { href: "/training", label: "Training" },
         { href: "/industries", label: "Industries" },
         { href: "/projects", label: "Projects" },
         { href: "/certifications", label: "Certifications" },
