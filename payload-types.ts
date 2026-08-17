@@ -76,6 +76,7 @@ export interface Config {
     values: Value;
     'operating-approach-steps': OperatingApproachStep;
     credentials: Credential;
+    'training-courses': TrainingCourse;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -92,6 +93,7 @@ export interface Config {
     values: ValuesSelect<false> | ValuesSelect<true>;
     'operating-approach-steps': OperatingApproachStepsSelect<false> | OperatingApproachStepsSelect<true>;
     credentials: CredentialsSelect<false> | CredentialsSelect<true>;
+    'training-courses': TrainingCoursesSelect<false> | TrainingCoursesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -105,11 +107,13 @@ export interface Config {
     navigation: Navigation;
     footer: Footer;
     'contact-page': ContactPage;
+    'training-page': TrainingPage;
   };
   globalsSelect: {
     navigation: NavigationSelect<false> | NavigationSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
+    'training-page': TrainingPageSelect<false> | TrainingPageSelect<true>;
   };
   locale: null;
   widgets: {
@@ -512,6 +516,138 @@ export interface Credential {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "training-courses".
+ */
+export interface TrainingCourse {
+  id: number;
+  /**
+   * Used to build the URL (/training/{slug}).
+   */
+  slug: string;
+  /**
+   * Position in the portfolio — drives ordering and the "Course N of 8" hero label.
+   */
+  courseNumber: number;
+  title: string;
+  /**
+   * Integrated Program offerings use "Program" wording and heavier visual weight throughout.
+   */
+  category: 'Short Course' | 'Applied Course' | 'Integrated Program';
+  /**
+   * Indicative total hours, e.g. "~15 h".
+   */
+  duration: string;
+  moduleCount: number;
+  /**
+   * One concise value statement for the landing-page card.
+   */
+  summary: string;
+  /**
+   * Only the first five are shown on the landing-page card.
+   */
+  keyAreas: {
+    value: string;
+    id?: string | null;
+  }[];
+  /**
+   * One entry per paragraph.
+   */
+  about: {
+    value: string;
+    id?: string | null;
+  }[];
+  /**
+   * The "What You Will Learn" outcomes.
+   */
+  learn: {
+    value: string;
+    id?: string | null;
+  }[];
+  curriculum: {
+    number: number;
+    title: string;
+    /**
+     * Indicative module time, e.g. "~2.5 h".
+     */
+    duration: string;
+    topics: {
+      value: string;
+      id?: string | null;
+    }[];
+    id?: string | null;
+  }[];
+  /**
+   * The "Who Should Attend" roles.
+   */
+  audience: {
+    value: string;
+    id?: string | null;
+  }[];
+  prerequisites: {
+    value: string;
+    id?: string | null;
+  }[];
+  /**
+   * e.g. "No prior formal training ... is required."
+   */
+  prereqNote: string;
+  practicalIntro: string;
+  practicalItems: {
+    title: string;
+    description: string;
+    id?: string | null;
+  }[];
+  /**
+   * Integrated Programs only — the named capstone deliverable. Leave blank for Courses.
+   */
+  capstoneTitle?: string | null;
+  /**
+   * The applied case study / capstone scenario.
+   */
+  caseParagraphs: {
+    value: string;
+    id?: string | null;
+  }[];
+  /**
+   * Ordered steps of the applied workflow.
+   */
+  workflow: {
+    value: string;
+    id?: string | null;
+  }[];
+  /**
+   * Contents of the final deliverable. Leave empty where not applicable.
+   */
+  finalDeliverables?:
+    | {
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  resourcesNote: string;
+  resources: {
+    value: string;
+    id?: string | null;
+  }[];
+  gainIntro: string;
+  gains: {
+    value: string;
+    id?: string | null;
+  }[];
+  /**
+   * Areas of application — not specialisation claims.
+   */
+  industries: {
+    value: string;
+    id?: string | null;
+  }[];
+  finalCtaTitle: string;
+  finalCtaDescription: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -569,6 +705,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'credentials';
         value: number | Credential;
+      } | null)
+    | ({
+        relationTo: 'training-courses';
+        value: number | TrainingCourse;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -772,6 +912,115 @@ export interface CredentialsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "training-courses_select".
+ */
+export interface TrainingCoursesSelect<T extends boolean = true> {
+  slug?: T;
+  courseNumber?: T;
+  title?: T;
+  category?: T;
+  duration?: T;
+  moduleCount?: T;
+  summary?: T;
+  keyAreas?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  about?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  learn?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  curriculum?:
+    | T
+    | {
+        number?: T;
+        title?: T;
+        duration?: T;
+        topics?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  audience?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  prerequisites?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  prereqNote?: T;
+  practicalIntro?: T;
+  practicalItems?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  capstoneTitle?: T;
+  caseParagraphs?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  workflow?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  finalDeliverables?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  resourcesNote?: T;
+  resources?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  gainIntro?: T;
+  gains?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  industries?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  finalCtaTitle?: T;
+  finalCtaDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -906,6 +1155,42 @@ export interface ContactPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "training-page".
+ */
+export interface TrainingPage {
+  id: number;
+  heroTitle: string;
+  heroDescription: string;
+  positioning: {
+    value: string;
+    id?: string | null;
+  }[];
+  /**
+   * Groups the portfolio on the landing page, in this order. `category` must match the value used on each course.
+   */
+  categories: {
+    category: 'Short Course' | 'Applied Course' | 'Integrated Program';
+    /**
+     * Plural heading, e.g. "Short Courses".
+     */
+    label: string;
+    caption: string;
+    id?: string | null;
+  }[];
+  deliveryOptions: {
+    title: string;
+    description: string;
+    id?: string | null;
+  }[];
+  corporateTitle: string;
+  corporateDescription: string;
+  finalCtaTitle: string;
+  finalCtaDescription: string;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "navigation_select".
  */
 export interface NavigationSelect<T extends boolean = true> {
@@ -975,6 +1260,42 @@ export interface ContactPageSelect<T extends boolean = true> {
         description?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "training-page_select".
+ */
+export interface TrainingPageSelect<T extends boolean = true> {
+  heroTitle?: T;
+  heroDescription?: T;
+  positioning?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  categories?:
+    | T
+    | {
+        category?: T;
+        label?: T;
+        caption?: T;
+        id?: T;
+      };
+  deliveryOptions?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  corporateTitle?: T;
+  corporateDescription?: T;
+  finalCtaTitle?: T;
+  finalCtaDescription?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
