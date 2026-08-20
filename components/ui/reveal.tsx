@@ -49,6 +49,13 @@ export function Reveal({
   return (
     <div
       ref={ref}
+      /**
+       * Exposed so descendants can run their own staggered entrance once
+       * the block scrolls into view. Plain CSS animations would otherwise
+       * fire on page load and be finished before a below-the-fold section
+       * is ever seen.
+       */
+      data-revealed={visible || skipAnimation ? "true" : undefined}
       style={visible && !skipAnimation && delay ? { animationDelay: `${delay}ms` } : undefined}
       className={cn(
         skipAnimation

@@ -21,15 +21,38 @@ export async function ServiceDetailHero({
   const navigation = await getNavigation()
 
   return (
-    <section
-      className="relative overflow-hidden py-16 text-white"
-      style={{
-        background: `linear-gradient(135deg, ${accentColor} 0%, #0C203A 65%)`,
-      }}
-    >
+    <section className="vhero-shape relative isolate overflow-hidden py-20 text-white">
+      {/* Video sits behind the accent wash. `poster` gives an instant first
+          paint so the hero is never an empty box while it loads. */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster="/images/hero-image.png"
+        aria-hidden
+        className="vhero-media absolute inset-0 -z-20 size-full object-cover"
+      >
+        <source src="/engineering-operations.mp4" type="video/mp4" />
+      </video>
+
+      {/* Per-service accent wash, so each service keeps its own identity
+          while sharing one video. The gradient stays near-opaque on the left,
+          where the copy sits, and thins out to the right so the footage is
+          actually visible — one flat 95% wash hid it entirely on the service
+          whose accent is the same navy as the base colour. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0"
+        className="absolute inset-0 -z-10"
+        style={{
+          background: `linear-gradient(115deg, ${accentColor}F0 0%, ${accentColor}D9 38%, rgba(12,32,58,0.60) 100%)`,
+        }}
+      />
+
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10"
         style={{
           backgroundImage:
             "linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px)",
@@ -54,12 +77,12 @@ export async function ServiceDetailHero({
           />
         </div>
 
-        <h1 className="mt-6 max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">
+        <h1 className="vhero-item mt-6 max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl" style={{ ["--vhero-i" as string]: 0 }}>
           {title}
         </h1>
-        <p className="mt-6 max-w-3xl text-white/80">{intro}</p>
+        <p className="vhero-item mt-6 max-w-3xl text-white/80" style={{ ["--vhero-i" as string]: 1 }}>{intro}</p>
 
-        <div className="mt-10 flex flex-wrap gap-4">
+        <div className="vhero-item mt-10 flex flex-wrap gap-4" style={{ ["--vhero-i" as string]: 2 }}>
           <Link
             href={navigation.ctaHref}
             className={cn(

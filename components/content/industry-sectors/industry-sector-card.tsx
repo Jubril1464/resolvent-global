@@ -5,12 +5,21 @@ import { ArrowRight } from "lucide-react"
 import { resolveIcon } from "@/lib/icon-map"
 import type { IndustrySector } from "@/payload-types"
 
-export function IndustrySectorCard({ sector }: { sector: IndustrySector }) {
+export function IndustrySectorCard({
+  sector,
+  index = 0,
+}: {
+  sector: IndustrySector
+  index?: number
+}) {
   const Icon = resolveIcon(sector.icon)
   const image = typeof sector.image === "object" ? sector.image : null
 
   return (
-    <article className="grid grid-cols-1 border border-border bg-background transition-all duration-300 hover:-translate-y-1 hover:border-brand/40 hover:shadow-sm sm:grid-cols-[240px_1fr]">
+    <article
+      className="sec-card group/sec grid grid-cols-1 border border-border bg-background transition-all duration-300 hover:-translate-y-1 hover:border-brand/40 hover:shadow-sm sm:grid-cols-[240px_1fr]"
+      style={{ ["--sec-i" as string]: index }}
+    >
       <div className="relative flex flex-col items-center justify-center gap-4 overflow-hidden bg-[#E2E6F2] p-8 text-center">
         {image?.url ? (
           <Image
@@ -18,7 +27,7 @@ export function IndustrySectorCard({ sector }: { sector: IndustrySector }) {
             alt={image.alt}
             fill
             sizes="240px"
-            className="object-cover"
+            className="object-cover transition-transform duration-700 group-hover/sec:scale-110"
           />
         ) : null}
         <div aria-hidden className="absolute inset-0 bg-[#0C203A]/70" />
@@ -35,10 +44,11 @@ export function IndustrySectorCard({ sector }: { sector: IndustrySector }) {
           How we can help:
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
-          {sector.capabilities.map((capability) => (
+          {sector.capabilities.map((capability, j) => (
             <span
               key={capability.id ?? capability.value}
-              className="rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground/70"
+              className="sec-chip rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground/70 transition-colors duration-300 group-hover/sec:border-brand/30"
+              style={{ ["--sec-i" as string]: index, ["--sec-j" as string]: j }}
             >
               {capability.value}
             </span>

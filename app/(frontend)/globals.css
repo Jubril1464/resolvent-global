@@ -191,3 +191,1313 @@
     transition: none;
   }
 }
+/**
+ * ---------------------------------------------------------------------------
+ * Animated project hero process diagrams
+ * ---------------------------------------------------------------------------
+ * Two variants, both pure CSS on a Server Component (no JS, no hydration):
+ *   .pdiagram-linear   — P-series: vertical flow with a travelling pulse
+ *   .pdiagram-cycle    — O-series: rotating cycle around a hub
+ *
+ * Everything is wrapped in `prefers-reduced-motion: no-preference` so the
+ * diagram renders fully static — and still perfectly legible — for users
+ * who ask for reduced motion.
+ */
+
+/* Hexagonal node — a clip-path shape rather than a border-radius circle,
+   to read as technical/industrial rather than decorative. */
+.pdiagram-hex {
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+/* Stage label plate with a cut corner. */
+.pdiagram-plate {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+}
+
+/* The panel itself gets an angled inner edge on wide screens, so it meets
+   the text column on a diagonal instead of a flat seam. */
+@media (min-width: 1024px) {
+  .pdiagram-panel {
+    clip-path: polygon(40px 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+@keyframes pdiagram-flow {
+  from { background-position-y: 0; }
+  to { background-position-y: 24px; }
+}
+
+@keyframes pdiagram-pulse-down {
+  0% { transform: translateY(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(var(--pdiagram-track, 320px)); opacity: 0; }
+}
+
+@keyframes pdiagram-node-in {
+  from { opacity: 0; transform: translateX(-10px) scale(0.9); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes pdiagram-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(217, 164, 65, 0); }
+  50% { box-shadow: 0 0 0 6px rgba(217, 164, 65, 0.18); }
+}
+
+@keyframes pdiagram-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pdiagram-fade-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Dashed spine that appears to flow downstream. */
+  .pdiagram-spine {
+    animation: pdiagram-flow 1.1s linear infinite;
+  }
+
+  /* Bright pulse travelling the length of the spine. */
+  .pdiagram-pulse {
+    animation: pdiagram-pulse-down 3.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  }
+
+  .pdiagram-stage {
+    opacity: 0;
+    animation: pdiagram-node-in 0.6s ease-out both;
+    animation-delay: calc(var(--pdiagram-i, 0) * 130ms);
+  }
+
+  .pdiagram-node {
+    animation: pdiagram-glow 2.6s ease-in-out infinite;
+    animation-delay: calc(var(--pdiagram-i, 0) * 260ms);
+  }
+
+  .pdiagram-ring {
+    animation: pdiagram-spin 26s linear infinite;
+  }
+
+  .pdiagram-ring-reverse {
+    animation: pdiagram-spin 34s linear infinite reverse;
+  }
+
+  .pdiagram-hub {
+    animation: pdiagram-fade-in 0.7s ease-out both;
+    animation-delay: 240ms;
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * About page "at a glance" overview graphic
+ * ---------------------------------------------------------------------------
+ * Domains → how we work → client outcomes, as one animated band. Pure CSS on
+ * a Server Component; all motion sits inside a no-preference guard so the
+ * graphic stays complete and readable under reduced motion.
+ */
+
+/* Hexagonal hub, matching the technical motif used on project diagrams. */
+.glance-hex {
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+/* Tile with a cut corner. */
+.glance-plate {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+}
+
+@keyframes glance-flow-x {
+  from { background-position-x: 0; }
+  to { background-position-x: 22px; }
+}
+
+@keyframes glance-flow-y {
+  from { background-position-y: 0; }
+  to { background-position-y: 22px; }
+}
+
+@keyframes glance-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes glance-hub-ring {
+  0%, 100% { transform: scale(1); opacity: 0.45; }
+  50% { transform: scale(1.08); opacity: 0.9; }
+}
+
+@keyframes glance-tick {
+  from { opacity: 0; transform: translateX(-6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .glance-conn-x {
+    animation: glance-flow-x 0.9s linear infinite;
+  }
+
+  .glance-conn-y {
+    animation: glance-flow-y 0.9s linear infinite;
+  }
+
+  .glance-item {
+    opacity: 0;
+    animation: glance-in 0.6s ease-out both;
+    animation-delay: calc(var(--glance-i, 0) * 90ms);
+  }
+
+  .glance-tick {
+    opacity: 0;
+    animation: glance-tick 0.5s ease-out both;
+    animation-delay: calc(320ms + var(--glance-i, 0) * 90ms);
+  }
+
+  .glance-hub-ring {
+    animation: glance-hub-ring 3s ease-in-out infinite;
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Shared video hero (About, Services)
+ * ---------------------------------------------------------------------------
+ * A clip-path wipe that settles into an angled bottom edge, plus a slow
+ * ken-burns drift on the video itself.
+ *
+ * The reveal interpolates polygon → polygon with a matching vertex count and
+ * percentage-only coordinates, so it animates smoothly rather than snapping
+ * (mismatched vertex counts or mixed units make clip-path non-interpolable).
+ *
+ * Under reduced motion the hero renders in its final shape immediately with
+ * no movement — the `.vhero-shape` fallback below is the static form.
+ */
+
+/* Static final shape: angled bottom edge. */
+.vhero-shape {
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+}
+
+@keyframes vhero-wipe {
+  from {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  }
+  to {
+    clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+  }
+}
+
+@keyframes vhero-drift {
+  from {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.14) translate3d(-1.5%, -1.5%, 0);
+  }
+}
+
+@keyframes vhero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes vhero-rule {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vhero-shape {
+    animation: vhero-wipe 1.1s cubic-bezier(0.65, 0, 0.35, 1) both;
+  }
+
+  /* Slow, continuous drift so the frame never feels static. */
+  .vhero-media {
+    animation: vhero-drift 24s ease-in-out infinite alternate;
+  }
+
+  .vhero-item {
+    opacity: 0;
+    animation: vhero-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    /* Starts after the wipe has mostly cleared the text area. */
+    animation-delay: calc(550ms + var(--vhero-i, 0) * 140ms);
+  }
+
+  .vhero-rule {
+    transform-origin: left;
+    animation: vhero-rule 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 900ms;
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Operating approach timeline (About page)
+ * ---------------------------------------------------------------------------
+ * The five-step sequence rendered as a connected timeline.
+ *
+ * Entrance animations are gated on `[data-revealed="true"]`, which the
+ * Reveal wrapper sets when the block scrolls into view — a plain CSS
+ * animation would have run and finished long before the user reached this
+ * section. The continuous motion (flowing connector, node rings) is not
+ * gated, so the band always looks alive whenever it is on screen.
+ */
+
+.oa-hex {
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+@keyframes oa-draw-x {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes oa-draw-y {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes oa-flow-x {
+  from { background-position-x: 0; }
+  to { background-position-x: 20px; }
+}
+
+@keyframes oa-pop {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes oa-ring {
+  0%, 100% { transform: scale(1); opacity: 0.35; }
+  50% { transform: scale(1.35); opacity: 0; }
+}
+
+@keyframes oa-travel {
+  0% { left: 0; opacity: 0; }
+  8% { opacity: 1; }
+  92% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Entrance — gated on the Reveal wrapper becoming visible. */
+  .oa-item {
+    opacity: 0;
+  }
+
+  [data-revealed="true"] .oa-item {
+    animation: oa-pop 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--oa-i, 0) * 120ms);
+  }
+
+  [data-revealed="true"] .oa-track-x {
+    transform-origin: left;
+    animation: oa-draw-x 1.1s cubic-bezier(0.65, 0, 0.35, 1) both;
+    animation-delay: 120ms;
+  }
+
+  [data-revealed="true"] .oa-track-y {
+    transform-origin: top;
+    animation: oa-draw-y 1.1s cubic-bezier(0.65, 0, 0.35, 1) both;
+    animation-delay: 120ms;
+  }
+
+  /* Continuous — always running, so the section never looks static. */
+  .oa-flow {
+    animation: oa-flow-x 0.85s linear infinite;
+  }
+
+  .oa-ring {
+    animation: oa-ring 2.8s ease-out infinite;
+    animation-delay: calc(var(--oa-i, 0) * 320ms);
+  }
+
+  [data-revealed="true"] .oa-travel {
+    animation: oa-travel 4.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation-delay: 1.1s;
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Values cards (About page)
+ * ---------------------------------------------------------------------------
+ * Entrance is gated on `[data-revealed="true"]` from the Reveal wrapper so it
+ * plays on scroll-in rather than finishing before the band is reached.
+ *
+ * The sheen keyframe is mostly idle (it only sweeps during the last third of
+ * its cycle) so the highlight reads as an occasional pass rather than
+ * constant motion across six cards at once.
+ */
+
+@keyframes val-in {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes val-sheen {
+  0%, 68% { transform: translateX(-130%) skewX(-18deg); }
+  100% { transform: translateX(340%) skewX(-18deg); }
+}
+
+@keyframes val-ring {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.4); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .val-card {
+    opacity: 0;
+  }
+
+  /* Diagonal stagger across the 3-column grid, so the cards arrive as a
+     wave rather than strictly row by row. */
+  [data-revealed="true"] .val-card {
+    animation: val-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--val-i, 0) * 100ms);
+  }
+
+  [data-revealed="true"] .val-sheen {
+    animation: val-sheen 7s ease-in-out infinite;
+    animation-delay: calc(1s + var(--val-i, 0) * 900ms);
+  }
+
+  .val-ring {
+    animation: val-ring 3.2s ease-out infinite;
+    animation-delay: calc(var(--val-i, 0) * 420ms);
+  }
+}
+
+/* Hero chips (e.g. the service platform names on /services). */
+@keyframes vhero-chip {
+  from { opacity: 0; transform: translateY(10px) scale(0.95); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vhero-chip {
+    opacity: 0;
+    animation: vhero-chip 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    /* Lands after the headline and description have settled. */
+    animation-delay: calc(1050ms + var(--vhero-i, 0) * 130ms);
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Training course cards
+ * ---------------------------------------------------------------------------
+ * Entrance is gated on `[data-revealed="true"]` from the RevealGroup wrapper.
+ * The SVG module ring draws itself from empty to its target arc; `--tc-dash`
+ * (full circumference) and `--tc-offset` (target) are set per card inline, so
+ * one keyframe serves every module count.
+ */
+
+@keyframes tc-card-in {
+  from { opacity: 0; transform: translateY(26px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes tc-draw {
+  from { stroke-dashoffset: var(--tc-dash, 126); }
+  to { stroke-dashoffset: var(--tc-offset, 126); }
+}
+
+@keyframes tc-chip-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes tc-orbit {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tc-card {
+    opacity: 0;
+  }
+
+  [data-revealed="true"] .tc-card {
+    animation: tc-card-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--tc-i, 0) * 130ms);
+  }
+
+  /* Ring starts empty and fills to its module count. */
+  .tc-ring {
+    stroke-dashoffset: var(--tc-dash, 126);
+  }
+
+  [data-revealed="true"] .tc-ring {
+    animation: tc-draw 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(320ms + var(--tc-i, 0) * 130ms);
+  }
+
+  [data-revealed="true"] .tc-chip {
+    opacity: 0;
+    animation: tc-chip-in 0.45s ease-out both;
+    animation-delay: calc(560ms + var(--tc-i, 0) * 130ms + var(--tc-j, 0) * 60ms);
+  }
+
+  /* Slow corner flourish; speeds up on hover. */
+  .tc-orbit {
+    animation: tc-orbit 40s linear infinite;
+  }
+
+  .group\/card:hover .tc-orbit {
+    animation-duration: 9s;
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Course hero module orbit (SVG ring around the hero video)
+ * ---------------------------------------------------------------------------
+ * One node per course module, arranged around the circular video. Node count
+ * varies per course (5–12), so positions are computed in the component and
+ * the stagger is driven by `--ch-i`.
+ *
+ * SVG elements need `transform-box: fill-box` for a scale transform to pivot
+ * on their own centre rather than the SVG origin.
+ */
+
+@keyframes ch-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes ch-node-in {
+  from { opacity: 0; transform: scale(0.2); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes ch-node-pulse {
+  0%, 100% { opacity: 0.25; transform: scale(1); }
+  50% { opacity: 0; transform: scale(2.1); }
+}
+
+@keyframes ch-arc-draw {
+  from { stroke-dashoffset: var(--ch-arc, 500); }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes ch-video-in {
+  from { opacity: 0; transform: scale(0.88); }
+  to { opacity: 1; transform: none; }
+}
+
+.ch-node,
+.ch-halo {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ch-ring-slow {
+    animation: ch-spin 44s linear infinite;
+    transform-origin: center;
+  }
+
+  .ch-ring-fast {
+    animation: ch-spin 28s linear infinite reverse;
+    transform-origin: center;
+  }
+
+  .ch-node {
+    opacity: 0;
+    animation: ch-node-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    animation-delay: calc(700ms + var(--ch-i, 0) * 90ms);
+  }
+
+  .ch-halo {
+    animation: ch-node-pulse 3s ease-out infinite;
+    animation-delay: calc(1.2s + var(--ch-i, 0) * 240ms);
+  }
+
+  .ch-arc {
+    stroke-dashoffset: var(--ch-arc, 500);
+    animation: ch-arc-draw 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 350ms;
+  }
+
+  .ch-video {
+    animation: ch-video-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Course hero copy + stat cards
+ * ---------------------------------------------------------------------------
+ * This hero is above the fold, so entrance animations run on load rather
+ * than being gated on scroll-in. Stagger vars are kept distinct from the
+ * orbit's `--ch-i` so the two sequences can be tuned independently.
+ */
+
+@keyframes ch-copy-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes ch-stat-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes ch-stat-glow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0; transform: scale(1.8); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ch-copy {
+    opacity: 0;
+    animation: ch-copy-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--ch-c, 0) * 110ms);
+  }
+
+  .ch-stat {
+    opacity: 0;
+    animation: ch-stat-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    /* Lands after the title and summary have settled. */
+    animation-delay: calc(420ms + var(--ch-s, 0) * 110ms);
+  }
+
+  .ch-stat-glow {
+    animation: ch-stat-glow 3.4s ease-out infinite;
+    animation-delay: calc(1.4s + var(--ch-s, 0) * 500ms);
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Course detail page sections
+ * ---------------------------------------------------------------------------
+ * A single staggered item class reused across the page's many lists
+ * (outcomes, exercises, workflow, resources, chips). Gated on
+ * `[data-revealed="true"]` from RevealGroup so each list animates as its
+ * own section scrolls into view rather than all firing on page load.
+ */
+
+@keyframes td-item-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes td-tick-in {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes td-step-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.94); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes td-arrow-in {
+  from { opacity: 0; transform: translateX(-6px); }
+  to { opacity: 0.6; transform: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .td-item,
+  .td-tick,
+  .td-step,
+  .td-arrow {
+    opacity: 0;
+  }
+
+  [data-revealed="true"] .td-item {
+    animation: td-item-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--td-i, 0) * 70ms);
+  }
+
+  [data-revealed="true"] .td-tick {
+    animation: td-tick-in 0.5s ease-out both;
+    animation-delay: calc(var(--td-i, 0) * 55ms);
+  }
+
+  /* Workflow chain — steps and their connecting arrows resolve in order. */
+  [data-revealed="true"] .td-step {
+    animation: td-step-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    animation-delay: calc(var(--td-i, 0) * 130ms);
+  }
+
+  [data-revealed="true"] .td-arrow {
+    animation: td-arrow-in 0.4s ease-out both;
+    animation-delay: calc(65ms + var(--td-i, 0) * 130ms);
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Industry sector cards (Sectors We Support)
+ * ---------------------------------------------------------------------------
+ * Gated on `[data-revealed="true"]` from the RevealGroup around the list, so
+ * each card animates as the reader reaches it.
+ */
+
+@keyframes sec-card-in {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes sec-chip-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sec-card,
+  .sec-chip {
+    opacity: 0;
+  }
+
+  [data-revealed="true"] .sec-card {
+    animation: sec-card-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--sec-i, 0) * 120ms);
+  }
+
+  [data-revealed="true"] .sec-chip {
+    animation: sec-chip-in 0.4s ease-out both;
+    animation-delay: calc(300ms + var(--sec-i, 0) * 120ms + var(--sec-j, 0) * 45ms);
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Project cards + detail hero image
+ * ---------------------------------------------------------------------------
+ * The card grid lives inside a client-side category filter, so the grid is
+ * keyed by the active filter — that remounts the cards and replays this
+ * entrance every time the reader switches category.
+ *
+ * The image reveal animates clip-path inset() (a single interpolable form,
+ * so it eases rather than snapping) behind a zoom, giving a "wipe + settle"
+ * on first paint.
+ */
+
+@keyframes pj-card-in {
+  from { opacity: 0; transform: translateY(26px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes pj-media-in {
+  from {
+    /* Collapsed to zero height at the top edge, then grows downward.
+       polygon() (not inset()) because minifiers rewrite inset shorthand to
+       differing argument counts, which makes clip-path non-interpolable. */
+    clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+    transform: scale(1.18);
+  }
+  to {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    transform: scale(1);
+  }
+}
+
+@keyframes pj-meta-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes pj-hero-media-in {
+  /* Wipes in from the right edge — same 4-vertex polygon reasoning. */
+  from {
+    opacity: 0;
+    clip-path: polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%);
+    transform: scale(1.12);
+  }
+  to {
+    opacity: 1;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    transform: scale(1);
+  }
+}
+
+@keyframes pj-hero-drift {
+  from { transform: scale(1.02) translate3d(0, 0, 0); }
+  to { transform: scale(1.1) translate3d(-1.2%, -1.2%, 0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pj-card {
+    opacity: 0;
+    animation: pj-card-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--pj-i, 0) * 90ms);
+  }
+
+  .pj-media {
+    animation: pj-media-in 0.9s cubic-bezier(0.65, 0, 0.35, 1) both;
+    animation-delay: calc(120ms + var(--pj-i, 0) * 90ms);
+  }
+
+  .pj-meta {
+    opacity: 0;
+    animation: pj-meta-in 0.5s ease-out both;
+    animation-delay: calc(380ms + var(--pj-i, 0) * 90ms + var(--pj-j, 0) * 60ms);
+  }
+
+  /* Detail hero — wipes in from the right edge, then drifts continuously. */
+  .pj-hero-media {
+    animation:
+      pj-hero-media-in 1s cubic-bezier(0.65, 0, 0.35, 1) both,
+      pj-hero-drift 26s ease-in-out 1s infinite alternate;
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Project detail — moving SVG accents
+ * ---------------------------------------------------------------------------
+ * Two pieces:
+ *   .psvg-stream  — dashes travelling along the footer CTA flow-field paths
+ *   .psvg-spine   — pulse running down the approach-pathway connector
+ *
+ * stroke-dashoffset is animated (not transform) so the dashes appear to move
+ * *along* each path rather than the whole path sliding.
+ */
+
+@keyframes psvg-stream {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -120; }
+}
+
+@keyframes psvg-node {
+  0%, 100% { opacity: 0.25; r: 2.5; }
+  50% { opacity: 0.9; r: 4; }
+}
+
+@keyframes psvg-drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .psvg-stream {
+    animation: psvg-stream 3.2s linear infinite;
+    animation-delay: calc(var(--psvg-i, 0) * -0.8s);
+  }
+
+  .psvg-node {
+    animation: psvg-node 2.8s ease-in-out infinite;
+    animation-delay: calc(var(--psvg-i, 0) * 0.35s);
+  }
+
+  .psvg-layer {
+    animation: psvg-drift 14s ease-in-out infinite;
+    animation-delay: calc(var(--psvg-i, 0) * -3s);
+  }
+
+  .psvg-spine-flow {
+    animation: psvg-stream 1.4s linear infinite;
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Training hero — moving SVG "learning path"
+ * ---------------------------------------------------------------------------
+ * An ascending connected path with travelling dashes, sequentially pulsing
+ * nodes and rings radiating from the summit. Decorative only, so nothing
+ * here hides content when motion is off.
+ */
+
+@keyframes thero-flow {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -160; }
+}
+
+@keyframes thero-draw {
+  from { stroke-dashoffset: var(--thero-len, 900); }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes thero-node {
+  0%, 100% { opacity: 0.35; r: 4; }
+  50% { opacity: 1; r: 6.5; }
+}
+
+@keyframes thero-ring {
+  0% { r: 8; opacity: 0.55; stroke-width: 2; }
+  100% { r: 46; opacity: 0; stroke-width: 0.4; }
+}
+
+@keyframes thero-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The route draws itself once, then dashes travel along it forever. */
+  .thero-route {
+    animation: thero-draw 2.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .thero-stream {
+    animation: thero-flow 3.6s linear infinite;
+  }
+
+  .thero-node {
+    animation: thero-node 3s ease-in-out infinite;
+    animation-delay: calc(var(--thero-i, 0) * 0.4s);
+  }
+
+  .thero-ring {
+    animation: thero-ring 3.4s ease-out infinite;
+    animation-delay: calc(var(--thero-i, 0) * 1.1s);
+  }
+
+  .thero-drift {
+    animation: thero-float 12s ease-in-out infinite;
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Curriculum accordion — module rows
+ * ---------------------------------------------------------------------------
+ * Layers on top of the `.accordion-item` height transition defined earlier.
+ * Topic entrance is scoped to `details[open]`, so it replays each time a
+ * module is expanded rather than only on first paint.
+ */
+
+@keyframes acc-topic-in {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes acc-sheen {
+  0%, 72% { transform: translateX(-120%) skewX(-16deg); }
+  100% { transform: translateX(520%) skewX(-16deg); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .acc-topic {
+    opacity: 0;
+  }
+
+  .accordion-item[open] .acc-topic {
+    animation: acc-topic-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--acc-j, 0) * 45ms);
+  }
+
+  /* Slow highlight passing across a closed row, drawing the eye to it. */
+  .acc-sheen {
+    animation: acc-sheen 9s ease-in-out infinite;
+    animation-delay: calc(var(--acc-i, 0) * 1.3s);
+  }
+
+  .accordion-item[open] .acc-sheen {
+    animation: none;
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Course detail — blueprint accent + self-drawing checkmarks
+ * ---------------------------------------------------------------------------
+ * Two distinct treatments rather than another dash-flow:
+ *   .bp-*  — a technical drawing that plots itself, with a scanning head
+ *   .ck-*  — checklist ticks whose ring and stroke literally draw themselves
+ *
+ * Both animate stroke-dashoffset from an explicit path length, so the line
+ * appears to be drawn rather than faded in.
+ */
+
+@keyframes bp-plot {
+  from { stroke-dashoffset: var(--bp-len, 600); }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes bp-scan {
+  0% { transform: translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateX(var(--bp-sweep, 320px)); opacity: 0; }
+}
+
+@keyframes bp-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes bp-tick {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.85; }
+}
+
+@keyframes ck-ring-draw {
+  from { stroke-dashoffset: 63; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes ck-tick-draw {
+  from { stroke-dashoffset: 16; }
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Blueprint plots itself once on scroll-in. */
+  [data-revealed="true"] .bp-line {
+    stroke-dashoffset: var(--bp-len, 600);
+    animation: bp-plot 1.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--bp-i, 0) * 220ms);
+  }
+
+  /* Plotter head sweeping across, on a long loop. */
+  [data-revealed="true"] .bp-scan {
+    animation: bp-scan 7s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation-delay: 1.4s;
+  }
+
+  .bp-compass {
+    animation: bp-spin 30s linear infinite;
+    transform-origin: center;
+  }
+
+  .bp-tick {
+    animation: bp-tick 3s ease-in-out infinite;
+    animation-delay: calc(var(--bp-i, 0) * 160ms);
+  }
+
+  /* Checkmarks: ring draws, then the tick strokes in behind it. */
+  [data-revealed="true"] .ck-ring {
+    stroke-dashoffset: 63;
+    animation: ck-ring-draw 0.55s ease-out both;
+    animation-delay: calc(var(--td-i, 0) * 55ms);
+  }
+
+  [data-revealed="true"] .ck-tick {
+    stroke-dashoffset: 16;
+    animation: ck-tick-draw 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(240ms + var(--td-i, 0) * 55ms);
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Practical Learning — dot-matrix wave backdrop
+ * ---------------------------------------------------------------------------
+ * A grid of dots whose delay is derived from (column + row), so the pulse
+ * travels diagonally across the field forever.
+ *
+ * Only `opacity` is animated — the cheapest property to composite. With ~84
+ * concurrently animating nodes, animating `r` or a filter here would be
+ * needlessly expensive for a background layer.
+ */
+
+@keyframes dm-pulse {
+  0%, 72% { opacity: 0.1; }
+  84% { opacity: 0.85; }
+  100% { opacity: 0.1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dm-dot {
+    animation: dm-pulse 4.6s ease-in-out infinite;
+    animation-delay: calc(var(--dm-i, 0) * 130ms);
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Home page service cards
+ * ---------------------------------------------------------------------------
+ * A honeycomb field whose cells light up in diagonal order, plus ripples
+ * radiating from the icon tile. Distinct from the dot-matrix, dash-flow and
+ * line-drawing motion used elsewhere so the sections stay recognisable.
+ */
+
+@keyframes sc-cell {
+  0%, 68% { opacity: 0.06; }
+  80% { opacity: 0.5; }
+  100% { opacity: 0.06; }
+}
+
+@keyframes sc-ripple {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+
+@keyframes sc-card-in {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes sc-bullet-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sc-card {
+    opacity: 0;
+  }
+
+  [data-revealed="true"] .sc-card {
+    animation: sc-card-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--sc-i, 0) * 140ms);
+  }
+
+  [data-revealed="true"] .sc-bullet {
+    opacity: 0;
+    animation: sc-bullet-in 0.45s ease-out both;
+    animation-delay: calc(420ms + var(--sc-i, 0) * 140ms + var(--sc-j, 0) * 55ms);
+  }
+
+  /* Honeycomb cells lighting up in diagonal order. */
+  .sc-cell {
+    animation: sc-cell 5.4s ease-in-out infinite;
+    animation-delay: calc(var(--sc-c, 0) * 150ms);
+  }
+
+  /* Ripples from the icon tile — only while the card is hovered, so at rest
+     the grid of three cards stays calm. */
+  .sc-ripple {
+    opacity: 0;
+  }
+
+  .group\/svc:hover .sc-ripple {
+    animation: sc-ripple 1.8s ease-out infinite;
+    animation-delay: calc(var(--sc-r, 0) * 600ms);
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Why Resolvent Global — radar sweep
+ * ---------------------------------------------------------------------------
+ * A radar grid with one axis per proof point: the capability polygon draws
+ * itself, a wedge beam sweeps continuously, and each axis blip pulses as the
+ * beam passes. Distinct from the honeycomb, dot-matrix and dash-flow motion
+ * used elsewhere. Purely decorative.
+ */
+
+@keyframes wu-sweep {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes wu-plot {
+  from { stroke-dashoffset: var(--wu-len, 900); }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes wu-fill {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes wu-blip {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.7); }
+}
+
+@keyframes wu-ring {
+  0%, 100% { opacity: 0.16; }
+  50% { opacity: 0.34; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Beam rotation is the eye-catch — one continuous 360° sweep. */
+  .wu-beam {
+    animation: wu-sweep 6.5s linear infinite;
+    transform-origin: center;
+  }
+
+  [data-revealed="true"] .wu-shape {
+    stroke-dashoffset: var(--wu-len, 900);
+    animation: wu-plot 2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 300ms;
+  }
+
+  [data-revealed="true"] .wu-fill {
+    opacity: 0;
+    animation: wu-fill 1.4s ease-out both;
+    animation-delay: 1.2s;
+  }
+
+  .wu-blip {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: wu-blip 6.5s ease-in-out infinite;
+    /* Offsets follow the beam around the dial. */
+    animation-delay: calc(var(--wu-i, 0) * 1.6s);
+  }
+
+  .wu-ring {
+    animation: wu-ring 5s ease-in-out infinite;
+    animation-delay: calc(var(--wu-i, 0) * 500ms);
+  }
+}
+
+/* Why-us proof cards — staggered entrance alongside the radar. */
+@keyframes wu-card-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wu-card {
+    opacity: 0;
+  }
+
+  [data-revealed="true"] .wu-card {
+    animation: wu-card-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--wu-ci, 0) * 110ms);
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Service detail page
+ * ---------------------------------------------------------------------------
+ * Hero video (reusing the vhero wipe/drift), plus two new card SVG families:
+ *   .sq-*  — scope cards: a quadrant arc that sweeps closed
+ *   .do-*  — deliverables: growing bars; outcomes: a rising trend line
+ *
+ * Bars and trend lines are shapes not used elsewhere on the site, and they
+ * map onto the meaning: tangible outputs vs. improvement over time.
+ */
+
+@keyframes sq-arc {
+  from { stroke-dashoffset: var(--sq-len, 100); }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes sq-card-in {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes do-bar {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes do-trend {
+  from { stroke-dashoffset: var(--do-len, 300); }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes do-blip {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sq-card {
+    opacity: 0;
+  }
+
+  [data-revealed="true"] .sq-card {
+    animation: sq-card-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--sq-i, 0) * 80ms);
+  }
+
+  [data-revealed="true"] .sq-arc {
+    stroke-dashoffset: var(--sq-len, 100);
+    animation: sq-arc 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(200ms + var(--sq-i, 0) * 80ms);
+  }
+
+  /* Bars grow from their base, so transform-origin must sit at the bottom. */
+  [data-revealed="true"] .do-bar {
+    transform-box: fill-box;
+    transform-origin: bottom;
+    animation: do-bar 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(300ms + var(--do-i, 0) * 110ms);
+  }
+
+  [data-revealed="true"] .do-trend {
+    stroke-dashoffset: var(--do-len, 300);
+    animation: do-trend 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 300ms;
+  }
+
+  .do-blip {
+    animation: do-blip 2.6s ease-in-out infinite;
+    animation-delay: calc(var(--do-i, 0) * 320ms);
+  }
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Service detail — engagement web + cross-link routes
+ * ---------------------------------------------------------------------------
+ *   .ww-* — "Who We Work With" card: peripheral client nodes wiring into a hub
+ *   .xs-* — cross-link cards: corner route lines that draw on hover
+ */
+
+@keyframes ww-link {
+  from { stroke-dashoffset: 60; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes ww-node-in {
+  from { opacity: 0; transform: scale(0); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes ww-hub-pulse {
+  0% { r: 9; opacity: 0.7; }
+  100% { r: 17; opacity: 0; }
+}
+
+@keyframes ww-card-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes xs-route {
+  from { stroke-dashoffset: 140; }
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ww-card {
+    opacity: 0;
+  }
+
+  [data-revealed="true"] .ww-card {
+    animation: ww-card-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 120ms;
+  }
+
+  [data-revealed="true"] .ww-link {
+    stroke-dashoffset: 60;
+    animation: ww-link 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(400ms + var(--ww-i, 0) * 120ms);
+  }
+
+  /* fill-box so each node scales about its own centre, not the viewBox origin. */
+  [data-revealed="true"] .ww-node {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: ww-node-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(300ms + var(--ww-i, 0) * 120ms);
+  }
+
+  .ww-hub-ring {
+    animation: ww-hub-pulse 2.8s ease-out infinite;
+  }
+
+  /* Routes stay retracted until the card is hovered, so the hover reads. */
+  .xs-route {
+    stroke-dashoffset: 140;
+  }
+
+  .group\/xs:hover .xs-route {
+    animation: xs-route 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: calc(var(--xs-i, 0) * 90ms);
+  }
+}

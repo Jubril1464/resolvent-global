@@ -1,4 +1,6 @@
 import { getWhyUsPoints } from "@/lib/get-why-us-points"
+import { WhyUsRadar } from "./why-us-radar"
+import { RevealGroup } from "@/components/ui/reveal-group"
 import { WhyUsCard } from "./why-us-card"
 
 /**
@@ -12,20 +14,22 @@ export async function WhyUs() {
   return (
     <section className="bg-[#0C203A] py-24 text-white">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 lg:grid-cols-[1fr_2fr] lg:gap-16 lg:px-8">
-        <div>
-          <p className="text-sm font-semibold tracking-wide text-[#D9A441] uppercase">
-            Why Choose Us
-          </p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+        <RevealGroup>
+          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
             Why Resolvent Global
           </h2>
-        </div>
+          {/* One radar axis per proof point, so the dial tracks the CMS. */}
+          <WhyUsRadar
+            axes={points.length}
+            className="mt-10 hidden w-full max-w-[300px] lg:block"
+          />
+        </RevealGroup>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {points.map((point) => (
-            <WhyUsCard key={point.title} point={point} />
+        <RevealGroup className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          {points.map((point, index) => (
+            <WhyUsCard key={point.title} point={point} index={index} />
           ))}
-        </div>
+        </RevealGroup>
       </div>
     </section>
   )

@@ -16,10 +16,7 @@ export async function Industries() {
     <section className="bg-background py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-semibold tracking-wide text-[#D9A441] uppercase">
-            Sectors We Serve
-          </p>
-          <h2 className="mt-3 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+          <h2 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
             Industries Served
           </h2>
         </div>

@@ -3,50 +3,54 @@ import { ArrowRight, CircleCheck, FileText, Sparkles } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { courseNoun, isProgram } from "@/lib/training"
 import type { TrainingCourse, TrainingPage } from "@/payload-types"
+import { RevealGroup } from "@/components/ui/reveal-group"
+import { CourseBlueprint } from "./course-blueprint"
+import { PracticalBackdrop } from "./practical-backdrop"
 import { CourseHero } from "./course-hero"
 import { CurriculumAccordion } from "./curriculum-accordion"
 
 function Section({
   id,
-  eyebrow,
   title,
   tone = "light",
   className,
+  backdrop,
   children,
 }: {
   id?: string
-  eyebrow?: string
   title: string
   /**
    * "dark" is for sections on the navy surface (the Integrated Program
-   * capstone). The heading and eyebrow need explicit light colours — a
-   * `text-white` on the <section> alone is overridden by the heading's own
-   * colour utility, which left the title black-on-navy.
+   * capstone). The heading needs an explicit light colour — a `text-white`
+   * on the <section> alone is overridden by the heading own colour utility.
    */
   tone?: "light" | "dark"
   className?: string
+  /** Full-bleed decorative layer painted behind the section content. */
+  backdrop?: React.ReactNode
   children: React.ReactNode
 }) {
   const dark = tone === "dark"
 
   return (
-    <section id={id} className={cn("scroll-mt-24 py-20", className)}>
+    <section
+      id={id}
+      className={cn(
+        "scroll-mt-24 py-20",
+        backdrop && "relative isolate overflow-hidden",
+        className
+      )}
+    >
+      {backdrop ? (
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+          {backdrop}
+        </div>
+      ) : null}
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        {eyebrow ? (
-          <p
-            className={cn(
-              "text-sm font-semibold tracking-wide uppercase",
-              dark ? "text-[#D9A441]" : "text-brand"
-            )}
-          >
-            {eyebrow}
-          </p>
-        ) : null}
         <h2
           className={cn(
             "text-3xl font-bold tracking-tight sm:text-4xl",
-            dark ? "text-white" : "text-foreground",
-            eyebrow && "mt-3"
+            dark ? "text-white" : "text-foreground"
           )}
         >
           {title}
@@ -59,14 +63,51 @@ function Section({
 
 function CheckList({ items }: { items: { id?: string | null; value: string }[] }) {
   return (
-    <ul className="mt-8 grid grid-cols-1 gap-x-10 gap-y-3 lg:grid-cols-2">
-      {items.map((item) => (
-        <li key={item.id ?? item.value} className="flex items-start gap-3">
-          <CircleCheck aria-hidden className="mt-0.5 size-5 shrink-0 text-brand" />
-          <span className="text-foreground/70">{item.value}</span>
-        </li>
-      ))}
-    </ul>
+    <RevealGroup>
+      <ul className="mt-8 grid grid-cols-1 gap-x-10 gap-y-3 lg:grid-cols-2">
+        {items.map((item, i) => (
+          <li
+            key={item.id ?? item.value}
+            className="td-tick flex items-start gap-3"
+            style={{ ["--td-i" as string]: i }}
+          >
+            {/* Ring and tick draw themselves in sequence rather than fading in.
+                Dash arrays are the paths own lengths (2πr ≈ 63, tick ≈ 16). */}
+            <svg
+              aria-hidden
+              viewBox="0 0 24 24"
+              className="mt-0.5 size-5 shrink-0 text-brand"
+              style={{ ["--td-i" as string]: i }}
+            >
+              <circle
+                className="ck-ring"
+                cx="12"
+                cy="12"
+                r="10"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeDasharray="63"
+                transform="rotate(-90 12 12)"
+                style={{ ["--td-i" as string]: i }}
+              />
+              <path
+                className="ck-tick"
+                d="M7.5 12.5 L10.5 15.5 L16.5 9"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeDasharray="16"
+                style={{ ["--td-i" as string]: i }}
+              />
+            </svg>
+            <span className="text-foreground/70">{item.value}</span>
+          </li>
+        ))}
+      </ul>
+    </RevealGroup>
   )
 }
 
@@ -86,8 +127,10 @@ export function TrainingCourseDetail({
     <main className="flex-1">
       <CourseHero course={course} totalCourses={totalCourses} />
 
-      <Section eyebrow="Overview" title={`About the ${noun}`} className="bg-background">
-        <div className="mt-8 max-w-4xl space-y-5">
+      <Section title={`About the ${noun}`} className="bg-background">
+        <RevealGroup className="relative">
+          <CourseBlueprint className="pointer-events-none absolute -top-6 right-0 hidden h-[280px] w-[340px] text-foreground/[0.13] lg:block" />
+        <div className="relative mt-8 max-w-4xl space-y-5 lg:max-w-[58%]">
           {course.about.map((paragraph) => (
             <p
               key={paragraph.id ?? paragraph.value}
@@ -97,10 +140,10 @@ export function TrainingCourseDetail({
             </p>
           ))}
         </div>
+        </RevealGroup>
       </Section>
 
       <Section
-        eyebrow="Learning Outcomes"
         title="What You Will Learn"
         className="bg-[#F4F6F9]"
       >
@@ -109,7 +152,6 @@ export function TrainingCourseDetail({
 
       <Section
         id="curriculum"
-        eyebrow="Curriculum"
         title={`${noun} Curriculum`}
         className="bg-background"
       >
@@ -119,17 +161,18 @@ export function TrainingCourseDetail({
         <CurriculumAccordion modules={course.curriculum} />
       </Section>
 
-      <Section eyebrow="Audience" title="Who Should Attend" className="bg-[#F4F6F9]">
-        <div className="mt-8 flex flex-wrap gap-2">
-          {course.audience.map((role) => (
+      <Section title="Who Should Attend" className="bg-[#F4F6F9]">
+        <RevealGroup className="mt-8 flex flex-wrap gap-2">
+          {course.audience.map((role, i) => (
             <span
               key={role.id ?? role.value}
-              className="border border-border bg-background px-4 py-2 text-sm text-foreground/70"
+              className="td-item border border-border bg-background px-4 py-2 text-sm text-foreground/70 transition-colors duration-300 hover:border-brand/40 hover:text-foreground"
+              style={{ ["--td-i" as string]: i }}
             >
               {role.value}
             </span>
           ))}
-        </div>
+        </RevealGroup>
 
         <div className="mt-12 border border-border bg-background p-8">
           <h3 className="text-xs font-bold tracking-wide text-foreground uppercase">
@@ -150,30 +193,32 @@ export function TrainingCourseDetail({
       </Section>
 
       <Section
-        eyebrow="Applied Learning"
         title="Practical Learning"
         className="bg-background"
+        backdrop={
+          <PracticalBackdrop className="size-full text-brand" />
+        }
       >
         <p className="mt-4 max-w-3xl text-foreground/70">{course.practicalIntro}</p>
-        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {course.practicalItems.map((item) => (
+        <RevealGroup className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {course.practicalItems.map((item, i) => (
             <article
               key={item.id ?? item.title}
-              className="border border-border bg-[#F4F6F9] p-6"
+              className="td-item group/ex border border-border bg-[#F4F6F9] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-brand/40 hover:bg-background hover:shadow-sm"
+              style={{ ["--td-i" as string]: i }}
             >
-              <span className="flex size-10 items-center justify-center bg-[#132438]">
+              <span className="flex size-10 items-center justify-center bg-[#132438] transition-transform duration-300 group-hover/ex:scale-110 group-hover/ex:rotate-6">
                 <Sparkles aria-hidden className="size-4 text-emerald-200" />
               </span>
               <h3 className="mt-5 font-semibold text-foreground">{item.title}</h3>
               <p className="mt-2 text-sm text-foreground/60">{item.description}</p>
             </article>
           ))}
-        </div>
+        </RevealGroup>
       </Section>
 
       {/* Integrated Programs get the heavier treatment their capstone warrants. */}
       <Section
-        eyebrow={program ? "Capstone" : "Case Study"}
         title={program ? "Integrated Capstone Project" : "Applied Case Study"}
         tone={program ? "dark" : "light"}
         className={program ? "bg-[#0C203A]" : "bg-[#F4F6F9]"}
@@ -207,12 +252,17 @@ export function TrainingCourseDetail({
           >
             Applied workflow
           </p>
+          <RevealGroup>
           <ol className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-3">
             {course.workflow.map((step, index) => (
-              <li key={step.id ?? step.value} className="flex items-center gap-3">
+              <li
+                key={step.id ?? step.value}
+                className="flex items-center gap-3"
+                style={{ ["--td-i" as string]: index }}
+              >
                 <span
                   className={cn(
-                    "border px-3 py-1.5 text-sm",
+                    "td-step border px-3 py-1.5 text-sm",
                     program
                       ? "border-white/15 bg-white/5 text-white/80"
                       : "border-border bg-background text-foreground/70"
@@ -224,7 +274,7 @@ export function TrainingCourseDetail({
                   <ArrowRight
                     aria-hidden
                     className={cn(
-                      "size-4 shrink-0",
+                      "td-arrow size-4 shrink-0",
                       program ? "text-white/30" : "text-foreground/30"
                     )}
                   />
@@ -232,6 +282,7 @@ export function TrainingCourseDetail({
               </li>
             ))}
           </ol>
+          </RevealGroup>
         </div>
 
         {course.finalDeliverables && course.finalDeliverables.length > 0 ? (
@@ -249,9 +300,13 @@ export function TrainingCourseDetail({
             >
               Final deliverable includes
             </h3>
-            <ul className="mt-5 grid grid-cols-1 gap-x-10 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
-              {course.finalDeliverables.map((item) => (
-                <li key={item.id ?? item.value} className="flex items-start gap-2">
+            <RevealGroup className="mt-5 grid grid-cols-1 gap-x-10 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
+              {course.finalDeliverables.map((item, i) => (
+                <li
+                  key={item.id ?? item.value}
+                  className="td-tick flex items-start gap-2"
+                  style={{ ["--td-i" as string]: i }}
+                >
                   <CircleCheck
                     aria-hidden
                     className={cn(
@@ -269,20 +324,21 @@ export function TrainingCourseDetail({
                   </span>
                 </li>
               ))}
-            </ul>
+            </RevealGroup>
           </div>
         ) : null}
       </Section>
 
-      <Section eyebrow="Toolkit" title="Resources Included" className="bg-background">
+      <Section title="Resources Included" className="bg-background">
         <p className="mt-4 max-w-3xl text-sm text-foreground/60">
           {course.resourcesNote}
         </p>
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {course.resources.map((resource) => (
+        <RevealGroup className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {course.resources.map((resource, i) => (
             <div
               key={resource.id ?? resource.value}
-              className="flex items-start gap-3 border border-border bg-[#F4F6F9] p-5"
+              className="td-item flex items-start gap-3 border border-border bg-[#F4F6F9] p-5 transition-colors duration-300 hover:border-brand/40 hover:bg-background"
+              style={{ ["--td-i" as string]: i }}
             >
               <FileText
                 aria-hidden
@@ -292,10 +348,10 @@ export function TrainingCourseDetail({
               <span className="text-sm text-foreground/70">{resource.value}</span>
             </div>
           ))}
-        </div>
+        </RevealGroup>
       </Section>
 
-      <Section eyebrow="Outcomes" title="What You Will Gain" className="bg-[#F4F6F9]">
+      <Section title="What You Will Gain" className="bg-[#F4F6F9]">
         <p className="mt-4 max-w-3xl text-lg leading-relaxed text-foreground/70">
           {course.gainIntro}
         </p>
@@ -303,34 +359,35 @@ export function TrainingCourseDetail({
       </Section>
 
       <Section
-        eyebrow="Areas of Application"
         title="Industry Applications"
         className="bg-background"
       >
-        <div className="mt-8 flex flex-wrap gap-2">
-          {course.industries.map((industry) => (
+        <RevealGroup className="mt-8 flex flex-wrap gap-2">
+          {course.industries.map((industry, i) => (
             <span
               key={industry.id ?? industry.value}
-              className="border border-border bg-[#F4F6F9] px-4 py-2 text-sm text-foreground/70"
+              className="td-item border border-border bg-[#F4F6F9] px-4 py-2 text-sm text-foreground/70 transition-colors duration-300 hover:border-brand/40 hover:text-foreground"
+              style={{ ["--td-i" as string]: i }}
             >
               {industry.value}
             </span>
           ))}
-        </div>
+        </RevealGroup>
       </Section>
 
-      <Section eyebrow="Delivery" title="Delivery Options" className="bg-[#F4F6F9]">
-        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {deliveryOptions.map((option) => (
+      <Section title="Delivery Options" className="bg-[#F4F6F9]">
+        <RevealGroup className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
+          {deliveryOptions.map((option, i) => (
             <article
               key={option.id ?? option.title}
-              className="border border-border bg-background p-6"
+              className="td-item border border-border bg-background p-6 transition-all duration-300 hover:-translate-y-1 hover:border-brand/40 hover:shadow-sm"
+              style={{ ["--td-i" as string]: i }}
             >
               <h3 className="font-semibold text-foreground">{option.title}</h3>
               <p className="mt-2 text-sm text-foreground/60">{option.description}</p>
             </article>
           ))}
-        </div>
+        </RevealGroup>
       </Section>
     </main>
   )

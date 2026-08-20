@@ -3,6 +3,7 @@ import Link from "next/link"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { getServices } from "@/lib/get-services"
+import { RevealGroup } from "@/components/ui/reveal-group"
 import { ServiceCard } from "./service-card"
 
 const SERVICES_CTA = { href: "/services", label: "View All Services" }
@@ -19,19 +20,16 @@ export async function Services() {
     <section className="bg-background py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-semibold tracking-wide text-amber-600 uppercase">
-            Service Portfolio
-          </p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+          <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             Core Service Areas
           </h2>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
-          {services.map((service) => (
-            <ServiceCard key={service.slug} service={service} />
+        <RevealGroup className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {services.map((service, index) => (
+            <ServiceCard key={service.slug} service={service} index={index} />
           ))}
-        </div>
+        </RevealGroup>
 
         <div className="mt-14 flex justify-center">
           <Link

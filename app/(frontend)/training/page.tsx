@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import { PageHeader } from "@/components/content/page-header";
+import { MediaHero } from "@/components/content/media-hero";
+import { TrainingHeroSvg } from "@/components/content/training/training-hero-svg";
 import { TrainingPortfolio } from "@/components/content/training";
 import { TrainingCtaBand } from "@/components/content/training/training-cta-band";
 import { Reveal } from "@/components/ui/reveal";
@@ -18,10 +19,14 @@ export default async function TrainingPage() {
 
   return (
     <main className="flex-1">
-      <PageHeader
-        eyebrow="Training"
+      <MediaHero
         title={page.heroTitle}
         description={page.heroDescription}
+        imageSrc="/images/training-hero-img.jpg"
+        imageAlt=""
+        decoration={
+          <TrainingHeroSvg className="absolute inset-y-0 right-0 hidden h-full w-[62%] opacity-90 lg:block" />
+        }
       />
       <TrainingPortfolio />
       <Reveal>

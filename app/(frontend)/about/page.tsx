@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import { PageHeader } from "@/components/content/page-header";
+import { MediaHero } from "@/components/content/media-hero";
+import { AtAGlance } from "@/components/content/at-a-glance";
 import { CompanyOverview } from "@/components/content/company-overview";
 import { TechnicalFoundation } from "@/components/content/technical-foundation";
 import { OperatingApproach } from "@/components/content/operating-approach";
@@ -18,10 +19,13 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main className="flex-1">
-      <PageHeader
+      <MediaHero
+        eyebrow="Who We Are"
         title="Who We Are"
         description="A technical advisory and engineering services company focused on process engineering, energy, carbon, water and environmental solutions."
+        videoSrc="/about-us-vid.mp4"
       />
+      <AtAGlance />
       <Reveal>
         <CompanyOverview />
       </Reveal>
