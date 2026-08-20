@@ -77,6 +77,7 @@ export interface Config {
     'operating-approach-steps': OperatingApproachStep;
     credentials: Credential;
     'training-courses': TrainingCourse;
+    projects: Project;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -94,6 +95,7 @@ export interface Config {
     'operating-approach-steps': OperatingApproachStepsSelect<false> | OperatingApproachStepsSelect<true>;
     credentials: CredentialsSelect<false> | CredentialsSelect<true>;
     'training-courses': TrainingCoursesSelect<false> | TrainingCoursesSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -648,6 +650,107 @@ export interface TrainingCourse {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: number;
+  /**
+   * Used to build the URL (/projects/{slug}).
+   */
+  slug: string;
+  /**
+   * Portfolio reference, e.g. "P04" or "O02".
+   */
+  projectId: string;
+  /**
+   * Display order in the portfolio — lower first.
+   */
+  order: number;
+  /**
+   * "Ongoing" switches the page to the confidential presentation (no approach pathway or deliverables).
+   */
+  category: 'Water & Effluent' | 'Energy & Process' | 'Clean-Tech' | 'Advisory' | 'Ongoing';
+  title: string;
+  /**
+   * Short one-line caption for the card and hero.
+   */
+  caption: string;
+  /**
+   * e.g. "Market-ready service".
+   */
+  statusBadge: string;
+  description: string;
+  /**
+   * Optional hero visual. A branded placeholder is shown while empty.
+   */
+  image?: (number | null) | Media;
+  /**
+   * Stage labels for the animated hero process diagram. P-series render as a linear flow; Ongoing projects render as a cycle.
+   */
+  diagramStages?:
+    | {
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Centre label for the circular (Ongoing) diagram. Ignored by the linear variant.
+   */
+  diagramCenterLabel?: string | null;
+  challenge: string;
+  approach?: string | null;
+  pathway?:
+    | {
+        stage: number;
+        step: string;
+        purpose: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * The "We deliver" outputs.
+   */
+  deliverables?:
+    | {
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  targetSectors?:
+    | {
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  disclosureNote?: string | null;
+  developmentFocus?: string | null;
+  applications?: string | null;
+  applicationsTags?:
+    | {
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  valuePillars: {
+    pillar: string;
+    meaning: string;
+    id?: string | null;
+  }[];
+  /**
+   * Card CTA label.
+   */
+  primaryCta: string;
+  /**
+   * Detail-page CTA label.
+   */
+  detailCta: string;
+  footerCtaHeading: string;
+  footerCtaSubtext: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -709,6 +812,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'training-courses';
         value: number | TrainingCourse;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: number | Project;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1016,6 +1123,72 @@ export interface TrainingCoursesSelect<T extends boolean = true> {
       };
   finalCtaTitle?: T;
   finalCtaDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  slug?: T;
+  projectId?: T;
+  order?: T;
+  category?: T;
+  title?: T;
+  caption?: T;
+  statusBadge?: T;
+  description?: T;
+  image?: T;
+  diagramStages?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  diagramCenterLabel?: T;
+  challenge?: T;
+  approach?: T;
+  pathway?:
+    | T
+    | {
+        stage?: T;
+        step?: T;
+        purpose?: T;
+        id?: T;
+      };
+  deliverables?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  targetSectors?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  disclosureNote?: T;
+  developmentFocus?: T;
+  applications?: T;
+  applicationsTags?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  valuePillars?:
+    | T
+    | {
+        pillar?: T;
+        meaning?: T;
+        id?: T;
+      };
+  primaryCta?: T;
+  detailCta?: T;
+  footerCtaHeading?: T;
+  footerCtaSubtext?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import { CATEGORY_ACCENT, CORPORATE_TRAINING_HREF } from "@/lib/training"
 import { getTrainingCourses } from "@/lib/get-training-courses"
 import { getTrainingPage } from "@/lib/get-training-page"
+import { RevealGroup } from "@/components/ui/reveal-group"
 import { TrainingCourseCard } from "./training-course-card"
 
 /**
@@ -54,11 +55,15 @@ export async function TrainingPortfolio() {
               </div>
               <p className="mt-3 text-foreground/60">{group.caption}</p>
 
-              <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
-                {groupCourses.map((course) => (
-                  <TrainingCourseCard key={course.slug} course={course} />
+              <RevealGroup className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
+                {groupCourses.map((course, cardIndex) => (
+                  <TrainingCourseCard
+                    key={course.slug}
+                    course={course}
+                    index={cardIndex}
+                  />
                 ))}
-              </div>
+              </RevealGroup>
             </div>
           </section>
         )

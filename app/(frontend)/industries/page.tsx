@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { PageHeader } from "@/components/content/page-header";
+import { MediaHero } from "@/components/content/media-hero";
 import { IndustrySectors } from "@/components/content/industry-sectors";
 import { Cta } from "@/components/content/cta";
 import { Reveal } from "@/components/ui/reveal";
@@ -15,13 +15,13 @@ export const metadata: Metadata = {
 export default function IndustriesPage() {
   return (
     <main className="flex-1">
-      <PageHeader
+      <MediaHero
+        eyebrow="Industries"
         title="Sectors We Support"
         description="Resolvent Global serves clients across energy, manufacturing, water, mining, public-sector, research and investor sectors — addressing technical and sustainability challenges."
+        videoSrc="/sectors-vid.mp4"
       />
-      <Reveal>
-        <IndustrySectors />
-      </Reveal>
+      <IndustrySectors />
       <Reveal>
         <Cta />
       </Reveal>

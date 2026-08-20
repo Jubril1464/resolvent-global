@@ -16,6 +16,7 @@ import { Values } from "./collections/Values"
 import { OperatingApproachSteps } from "./collections/OperatingApproachSteps"
 import { Credentials } from "./collections/Credentials"
 import { TrainingCourses } from "./collections/TrainingCourses"
+import { Projects } from "./collections/Projects"
 import { Navigation } from "./globals/Navigation"
 import { Footer } from "./globals/Footer"
 import { ContactPage } from "./globals/ContactPage"
@@ -42,6 +43,7 @@ export default buildConfig({
     OperatingApproachSteps,
     Credentials,
     TrainingCourses,
+    Projects,
   ],
   globals: [Navigation, Footer, ContactPage, TrainingPage],
   editor: lexicalEditor(),

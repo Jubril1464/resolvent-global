@@ -20,8 +20,8 @@ export async function Values() {
         </h2>
 
         <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
-          {values.map((value) => (
-            <ValueCard key={value.title} value={value} />
+          {values.map((value, index) => (
+            <ValueCard key={value.title} value={value} index={index} />
           ))}
         </div>
       </div>
