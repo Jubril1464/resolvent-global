@@ -16,7 +16,6 @@ export default function IndustriesPage() {
   return (
     <main className="flex-1">
       <MediaHero
-        eyebrow="Industries"
         title="Sectors We Support"
         description="Resolvent Global serves clients across energy, manufacturing, water, mining, public-sector, research and investor sectors — addressing technical and sustainability challenges."
         videoSrc="/sectors-vid.mp4"

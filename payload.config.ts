@@ -16,10 +16,12 @@ import { OperatingApproachSteps } from "./collections/OperatingApproachSteps"
 import { Credentials } from "./collections/Credentials"
 import { TrainingCourses } from "./collections/TrainingCourses"
 import { Projects } from "./collections/Projects"
+import { ProprietaryTechnologies } from "./collections/ProprietaryTechnologies"
 import { Navigation } from "./globals/Navigation"
 import { Footer } from "./globals/Footer"
 import { ContactPage } from "./globals/ContactPage"
 import { TrainingPage } from "./globals/TrainingPage"
+import { ProprietaryTechnologiesPage } from "./globals/ProprietaryTechnologiesPage"
 
 /**
  * sharp is optional: Payload uses it for upload resizing and the admin crop
@@ -66,8 +68,15 @@ export default buildConfig({
     Credentials,
     TrainingCourses,
     Projects,
+    ProprietaryTechnologies,
   ],
-  globals: [Navigation, Footer, ContactPage, TrainingPage],
+  globals: [
+    Navigation,
+    Footer,
+    ContactPage,
+    TrainingPage,
+    ProprietaryTechnologiesPage,
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {

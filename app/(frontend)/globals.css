@@ -1608,3 +1608,234 @@
     animation: pring-spin-reverse 36s linear infinite;
   }
 }
+
+/**
+ * ---------------------------------------------------------------------------
+ * Proprietary Technologies page
+ * ---------------------------------------------------------------------------
+ *   .ptech-* — hero molecular network, confidentiality panel, CTA accents
+ *   .mot-*   — abstract card motifs (field energy / ion transport / lattice)
+ *   .tech-*  — IP portfolio cards
+ *   .pw-*    — engagement pathway columns
+ */
+
+@keyframes ptech-hex {
+  from { stroke-dashoffset: 260; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes ptech-link {
+  from { stroke-dashoffset: 300; }
+  to { stroke-dashoffset: 0; }
+}
+
+/* Travels one network edge, using the per-edge delta passed in as a var. */
+@keyframes ptech-charge {
+  0% { transform: translate(0, 0); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% {
+    transform: translate(var(--ptech-dx, 0px), var(--ptech-dy, 0px));
+    opacity: 0;
+  }
+}
+
+@keyframes ptech-node {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+
+@keyframes ptech-glyph-in {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes ptech-sheen {
+  from { transform: translateX(-120%); }
+  to { transform: translateX(220%); }
+}
+
+@keyframes ptech-lock {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(11, 122, 83, 0.28); }
+  50% { box-shadow: 0 0 0 8px rgba(11, 122, 83, 0); }
+}
+
+@keyframes ptech-glow {
+  0%, 100% { opacity: 0.75; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+@keyframes tech-card-in {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes pw-item-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes pw-ring {
+  from { stroke-dashoffset: 163.36; }
+  to { stroke-dashoffset: 0; }
+}
+
+/* Card motifs. */
+@keyframes mot-ring {
+  0% { transform: scale(0.45); opacity: 0; }
+  25% { opacity: 0.5; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+@keyframes mot-core {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.18); }
+}
+
+@keyframes mot-wave {
+  from { transform: translateX(-14px); }
+  to { transform: translateX(14px); }
+}
+
+@keyframes mot-plate {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+@keyframes mot-ion {
+  0% { transform: translateX(0); opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { transform: translateX(96px); opacity: 0; }
+}
+
+@keyframes mot-cell {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes mot-fall {
+  0% { transform: translateY(0); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateY(104px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* --- Hero network --- */
+  .ptech-hex {
+    stroke-dashoffset: 260;
+    animation: ptech-hex 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(300ms + var(--ptech-i, 0) * 160ms);
+  }
+
+  .ptech-link {
+    stroke-dashoffset: 300;
+    animation: ptech-link 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(700ms + var(--ptech-i, 0) * 140ms);
+  }
+
+  .ptech-charge {
+    opacity: 0;
+    animation: ptech-charge 3.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation-delay: calc(1.8s + var(--ptech-i, 0) * 620ms);
+  }
+
+  .ptech-node {
+    animation: ptech-node 3s ease-in-out infinite;
+    animation-delay: calc(var(--ptech-i, 0) * 380ms);
+  }
+
+  .ptech-glyph {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: ptech-glyph-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 1.1s;
+  }
+
+  /* --- Confidentiality panel --- */
+  .ptech-sheen {
+    background: linear-gradient(
+      100deg,
+      transparent 0%,
+      rgba(11, 122, 83, 0.07) 45%,
+      transparent 90%
+    );
+    animation: ptech-sheen 6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  }
+
+  .ptech-lock {
+    animation: ptech-lock 2.8s ease-out infinite;
+  }
+
+  .ptech-glow {
+    animation: ptech-glow 9s ease-in-out infinite;
+  }
+
+  /* --- IP portfolio cards --- */
+  .tech-card {
+    opacity: 0;
+  }
+
+  [data-revealed="true"] .tech-card {
+    animation: tech-card-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--tech-i, 0) * 110ms);
+  }
+
+  /* --- Engagement pathways --- */
+  .pw-item {
+    opacity: 0;
+  }
+
+  [data-revealed="true"] .pw-item {
+    animation: pw-item-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--pw-i, 0) * 130ms);
+  }
+
+  [data-revealed="true"] .pw-ring {
+    stroke-dashoffset: 163.36;
+    animation: pw-ring 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(300ms + var(--pw-i, 0) * 130ms);
+  }
+
+  /* --- Card motifs --- */
+  .mot-ring {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: mot-ring 3.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation-delay: calc(var(--mot-i, 0) * 620ms);
+  }
+
+  .mot-core {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: mot-core 2.4s ease-in-out infinite;
+  }
+
+  .mot-wave {
+    animation: mot-wave 4s ease-in-out infinite alternate;
+    animation-delay: calc(var(--mot-i, 0) * 400ms);
+  }
+
+  .mot-plate {
+    animation: mot-plate 3s ease-in-out infinite;
+    animation-delay: calc(var(--mot-i, 0) * 260ms);
+  }
+
+  .mot-ion {
+    opacity: 0;
+    animation: mot-ion 3.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation-delay: calc(var(--mot-i, 0) * 480ms);
+  }
+
+  .mot-cell {
+    animation: mot-cell 4.5s ease-in-out infinite;
+    animation-delay: calc(var(--mot-i, 0) * 180ms);
+  }
+
+  .mot-fall {
+    opacity: 0;
+    animation: mot-fall 4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation-delay: calc(var(--mot-i, 0) * 900ms);
+  }
+}

@@ -78,6 +78,7 @@ export interface Config {
     credentials: Credential;
     'training-courses': TrainingCourse;
     projects: Project;
+    'proprietary-technologies': ProprietaryTechnology;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -96,6 +97,7 @@ export interface Config {
     credentials: CredentialsSelect<false> | CredentialsSelect<true>;
     'training-courses': TrainingCoursesSelect<false> | TrainingCoursesSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    'proprietary-technologies': ProprietaryTechnologiesSelect<false> | ProprietaryTechnologiesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -110,12 +112,14 @@ export interface Config {
     footer: Footer;
     'contact-page': ContactPage;
     'training-page': TrainingPage;
+    'proprietary-technologies-page': ProprietaryTechnologiesPage;
   };
   globalsSelect: {
     navigation: NavigationSelect<false> | NavigationSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
     'training-page': TrainingPageSelect<false> | TrainingPageSelect<true>;
+    'proprietary-technologies-page': ProprietaryTechnologiesPageSelect<false> | ProprietaryTechnologiesPageSelect<true>;
   };
   locale: null;
   widgets: {
@@ -750,6 +754,41 @@ export interface Project {
   createdAt: string;
 }
 /**
+ * Public-facing IP portfolio entries. Keep wording high-level — no process routes, conditions, designs or performance data.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "proprietary-technologies".
+ */
+export interface ProprietaryTechnology {
+  id: number;
+  /**
+   * Display order in the portfolio — lower first.
+   */
+  order: number;
+  /**
+   * Technology area, e.g. "Microwave System".
+   */
+  title: string;
+  /**
+   * Shown as the status badge. Consistent wording is a handover requirement — use only these two values.
+   */
+  ipStatus: 'Patent Pending' | 'Proprietary Process';
+  /**
+   * Approved public positioning only — one short line, e.g. "High-temperature industrial heating".
+   */
+  positioning: string;
+  /**
+   * Abstract visual used on the card. Intentionally non-technical: it illustrates a theme, never a process route.
+   */
+  motif: 'waveform' | 'membrane-stack' | 'lattice';
+  /**
+   * Optional. Premium industrial or science photography for the card. Leave empty to use the abstract motif above. Do not upload drawings, schematics or annotated equipment images.
+   */
+  image?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -816,6 +855,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'projects';
         value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'proprietary-technologies';
+        value: number | ProprietaryTechnology;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1194,6 +1237,20 @@ export interface ProjectsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "proprietary-technologies_select".
+ */
+export interface ProprietaryTechnologiesSelect<T extends boolean = true> {
+  order?: T;
+  title?: T;
+  ipStatus?: T;
+  positioning?: T;
+  motif?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -1238,9 +1295,29 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Navigation {
   id: number;
+  /**
+   * Top-level items, in order. Give an item either an href (plain link) or children (dropdown) — not both.
+   */
   navLinks: {
-    href: string;
     label: string;
+    /**
+     * Leave empty when this item is a dropdown. A group heading is not itself a page — add its landing page as the first child instead.
+     */
+    href?: string | null;
+    /**
+     * Fill this in to turn the item into a dropdown. Leave empty for a plain link.
+     */
+    children?:
+      | {
+          href: string;
+          label: string;
+          /**
+           * Optional one-line hint shown under the label.
+           */
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
     id?: string | null;
   }[];
   ctaHref: string;
@@ -1364,14 +1441,101 @@ export interface TrainingPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "proprietary-technologies-page".
+ */
+export interface ProprietaryTechnologiesPage {
+  id: number;
+  heroTitle: string;
+  /**
+   * Sits directly under the page title.
+   */
+  heroCaption: string;
+  /**
+   * Optional short line set beside the hero visual, e.g. "Cleaner resources, a stronger tomorrow".
+   */
+  heroTagline?: string | null;
+  primaryCtaLabel: string;
+  primaryCtaHref: string;
+  secondaryCtaLabel: string;
+  secondaryCtaHref: string;
+  portfolioHeading: string;
+  portfolioParagraphs: {
+    value: string;
+    id?: string | null;
+  }[];
+  collaborationHeading: string;
+  collaborationParagraph: string;
+  /**
+   * The handover requires the NDA requirement to be visible next to the portfolio and again next to the contact CTA — this panel is the first of those two placements.
+   */
+  confidentialityTitle: string;
+  confidentialityNote: string;
+  portfolioSectionHeading: string;
+  /**
+   * Short NDA reminder shown with the portfolio cards. Leave empty to hide it.
+   */
+  portfolioSectionNote?: string | null;
+  pathwaysHeading: string;
+  engagementPathways: {
+    icon:
+      | 'Activity'
+      | 'ChartColumn'
+      | 'ClipboardCheck'
+      | 'Cpu'
+      | 'Dna'
+      | 'Droplet'
+      | 'Droplets'
+      | 'Factory'
+      | 'FileText'
+      | 'Flame'
+      | 'FlaskConical'
+      | 'Gauge'
+      | 'Globe'
+      | 'Handshake'
+      | 'HardHat'
+      | 'Landmark'
+      | 'Leaf'
+      | 'Link2'
+      | 'Mail'
+      | 'MapPin'
+      | 'Microscope'
+      | 'Mountain'
+      | 'Phone'
+      | 'Settings2'
+      | 'Shield'
+      | 'ShieldCheck'
+      | 'Wrench'
+      | 'Zap';
+    title: string;
+    description: string;
+    id?: string | null;
+  }[];
+  ctaTitle: string;
+  ctaDescription: string;
+  contactEmail: string;
+  ctaButtonLabel: string;
+  ctaButtonHref: string;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "navigation_select".
  */
 export interface NavigationSelect<T extends boolean = true> {
   navLinks?:
     | T
     | {
-        href?: T;
         label?: T;
+        href?: T;
+        children?:
+          | T
+          | {
+              href?: T;
+              label?: T;
+              description?: T;
+              id?: T;
+            };
         id?: T;
       };
   ctaHref?: T;
@@ -1469,6 +1633,49 @@ export interface TrainingPageSelect<T extends boolean = true> {
   corporateDescription?: T;
   finalCtaTitle?: T;
   finalCtaDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "proprietary-technologies-page_select".
+ */
+export interface ProprietaryTechnologiesPageSelect<T extends boolean = true> {
+  heroTitle?: T;
+  heroCaption?: T;
+  heroTagline?: T;
+  primaryCtaLabel?: T;
+  primaryCtaHref?: T;
+  secondaryCtaLabel?: T;
+  secondaryCtaHref?: T;
+  portfolioHeading?: T;
+  portfolioParagraphs?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  collaborationHeading?: T;
+  collaborationParagraph?: T;
+  confidentialityTitle?: T;
+  confidentialityNote?: T;
+  portfolioSectionHeading?: T;
+  portfolioSectionNote?: T;
+  pathwaysHeading?: T;
+  engagementPathways?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  ctaTitle?: T;
+  ctaDescription?: T;
+  contactEmail?: T;
+  ctaButtonLabel?: T;
+  ctaButtonHref?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
