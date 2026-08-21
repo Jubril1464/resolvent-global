@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 
-import { PageHeader } from "@/components/content/page-header";
+import { MediaHero } from "@/components/content/media-hero";
 import { ProjectsExplorer } from "@/components/content/projects/projects-explorer";
+import { ProjectsHeroDecoration } from "@/components/content/projects/projects-hero-decoration";
 import { Cta } from "@/components/content/cta";
 import { Reveal } from "@/components/ui/reveal";
 import { getProjects } from "@/lib/get-projects";
+import { PROJECT_CATEGORIES } from "@/lib/projects";
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -16,12 +18,22 @@ export const metadata: Metadata = {
 export default async function ProjectsPage() {
   const projects = await getProjects();
 
+  // Only categories with work behind them, matching the explorer's own filter
+  // list — an empty track in the hero would advertise a gap in the portfolio.
+  const counts = PROJECT_CATEGORIES.map((category) => ({
+    label: category,
+    value: projects.filter((project) => project.category === category).length,
+  })).filter((entry) => entry.value > 0);
+
   return (
     <main className="flex-1">
-      <PageHeader
-        eyebrow="Our Projects"
+      <MediaHero
         title="Project Portfolio"
         description="Selected work across water and effluent treatment, energy and process performance, clean-technology assessment and technical advisory — from validated research capability through to market-ready services."
+        videoSrc="/engineering-operations.mp4"
+        chips={counts.map((entry) => entry.label)}
+        chipsLabel={`${projects.length} Projects Across ${counts.length} Areas`}
+        decoration={<ProjectsHeroDecoration categories={counts.map((entry) => entry.label)} />}
       />
 
       <section className="bg-background py-20">

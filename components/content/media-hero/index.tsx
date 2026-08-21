@@ -3,13 +3,13 @@ import Image from "next/image"
 const GRID_SIZE = 80
 
 /**
- * Shared media hero for inner pages (About, Services, Training). Accepts
- * either a looping video or a still image as its backdrop; both get the
- * same clip-path wipe, ken-burns drift and staggered copy.
+ * Shared media hero for inner pages (About, Services, Training, Industries,
+ * Projects). Accepts either a looping video or a still image as its backdrop;
+ * both get the same clip-path wipe, ken-burns drift and staggered copy.
  *
- * Kept separate from the `PageHeader` used by Industries, Projects and the
- * coming-soon pages — folding media into that shared component would
- * surface it on all of them.
+ * Kept separate from the plain `PageHeader`, which the coming-soon pages
+ * still use — folding media into that shared component would force a video
+ * onto placeholder pages that have no business carrying one.
  *
  * Motion lives in globals.css (`.vhero-*`) and is disabled under
  * prefers-reduced-motion, where the hero renders in its final shape with no
