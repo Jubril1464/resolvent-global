@@ -1501,3 +1501,110 @@
     animation-delay: calc(var(--xs-i, 0) * 90ms);
   }
 }
+
+/**
+ * ---------------------------------------------------------------------------
+ * Projects hero connector ring
+ * ---------------------------------------------------------------------------
+ * .pring-* — every project category sits on one closed ring. The track draws
+ * itself on load, then a pulse runs the ring forever and each node's halo
+ * fires as the pulse reaches it (--pring-offset is the node's fraction of the
+ * way round, so the halos stay in step with the pulse instead of guessing).
+ *
+ * A ring is deliberately a different shape family from the project detail
+ * flow field (.psvg-*) and the course hero orbit (.ch-*), which spins its
+ * satellites rather than sending a signal round a closed loop.
+ */
+
+@keyframes pring-track {
+  from { stroke-dashoffset: var(--pring-circ, 600); }
+  to { stroke-dashoffset: 0; }
+}
+
+/* Negative offset sends the dash forwards round the ring. */
+@keyframes pring-pulse {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: calc(var(--pring-circ, 600) * -1); }
+}
+
+@keyframes pring-node-in {
+  from { opacity: 0; transform: scale(0.55); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes pring-halo {
+  0%, 70%, 100% { opacity: 0; transform: scale(1); }
+  8% { opacity: 0.85; transform: scale(1); }
+  40% { opacity: 0; transform: scale(1.55); }
+}
+
+@keyframes pring-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pring-spin-reverse {
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes pring-hub {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.35); }
+}
+
+/* Opacity only: the top node sits directly above the hub, so its spoke has
+   a zero-width bounding box and any scale transform on it degenerates. */
+@keyframes pring-spoke-in {
+  from { opacity: 0; }
+  to { opacity: 0.14; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pring-track {
+    animation: pring-track 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 250ms;
+  }
+
+  /* One lap every 9s; the halos below divide the same 9s. */
+  .pring-pulse {
+    animation: pring-pulse 9s linear infinite;
+    animation-delay: 1.2s;
+  }
+
+  .pring-node {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pring-node-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(600ms + var(--pring-i, 0) * 130ms);
+  }
+
+  .pring-halo {
+    transform-box: fill-box;
+    transform-origin: center;
+    opacity: 0;
+    animation: pring-halo 9s ease-out infinite;
+    animation-delay: calc(1.2s + var(--pring-offset, 0) * 9s);
+  }
+
+  .pring-spoke {
+    animation: pring-spoke-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(500ms + var(--pring-i, 0) * 90ms);
+  }
+
+  .pring-hub {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pring-hub 3.4s ease-in-out infinite;
+  }
+
+  .pring-spin {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pring-spin 48s linear infinite;
+  }
+
+  .pring-spin-reverse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pring-spin-reverse 36s linear infinite;
+  }
+}
