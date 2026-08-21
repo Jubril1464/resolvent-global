@@ -13,6 +13,12 @@ import { courseNoun, enquiryHref } from "@/lib/training";
 
 type RouteParams = { params: Promise<{ slug: string }> };
 
+/** Prerendered at build time, like every other page on the site. */
+export async function generateStaticParams() {
+  const courses = await getTrainingCourses();
+  return courses.map((course) => ({ slug: course.slug }));
+}
+
 export async function generateMetadata({
   params,
 }: RouteParams): Promise<Metadata> {

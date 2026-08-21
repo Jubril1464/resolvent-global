@@ -2,9 +2,15 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ProjectDetail } from "@/components/content/project-detail";
-import { getProjectBySlug } from "@/lib/get-projects";
+import { getProjectBySlug, getProjects } from "@/lib/get-projects";
 
 type RouteParams = { params: Promise<{ slug: string }> };
+
+/** Prerendered at build time, like every other page on the site. */
+export async function generateStaticParams() {
+  const projects = await getProjects();
+  return projects.map((project) => ({ slug: project.slug }));
+}
 
 export async function generateMetadata({
   params,

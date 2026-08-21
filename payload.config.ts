@@ -4,7 +4,6 @@ import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob"
 import path from "path"
 import { buildConfig } from "payload"
 import { fileURLToPath } from "url"
-import sharp from "sharp"
 
 import { Users } from "./collections/Users"
 import { Media } from "./collections/Media"
@@ -22,6 +21,29 @@ import { Footer } from "./globals/Footer"
 import { ContactPage } from "./globals/ContactPage"
 import { TrainingPage } from "./globals/TrainingPage"
 
+/**
+ * sharp is optional: Payload uses it for upload resizing and the admin crop
+ * tool, neither of which the Media collection currently configures. Importing
+ * it at module scope made a failed native binding fatal for every server
+ * route on the site — which is exactly what happened when Vercel's file
+ * tracer dropped libvips from the function bundle (ERR_DLOPEN_FAILED on
+ * /admin, all of /api/*, and every on-demand page). Loading it defensively
+ * degrades that to "no image resizing" instead of a sitewide 500.
+ *
+ * The tracer cannot follow a dynamic import, so next.config.ts pins sharp and
+ * the @img native packages into the trace explicitly — that include is what
+ * keeps this working, not static analysis.
+ */
+let sharp: typeof import("sharp").default | undefined
+
+try {
+  sharp = (await import("sharp")).default
+} catch (error) {
+  console.warn(
+    "[payload] sharp could not be loaded — image resizing and cropping are disabled:",
+    error
+  )
+}
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
