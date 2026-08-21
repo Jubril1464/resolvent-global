@@ -15,7 +15,9 @@
     "seed:content": "payload run scripts/seed-content.ts",
     "seed:globals": "payload run scripts/seed-globals.ts",
     "seed:training": "payload run scripts/seed-training.ts",
-    "seed:projects": "payload run scripts/seed-projects.ts"
+    "seed:projects": "payload run scripts/seed-projects.ts",
+    "seed:proprietary-technologies": "payload run scripts/seed-proprietary-technologies.ts",
+    "nav:restructure": "payload run scripts/restructure-navigation.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",

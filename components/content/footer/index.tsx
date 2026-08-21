@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import { getNavigation } from "@/lib/get-navigation"
 import { getFooter } from "@/lib/get-footer"
 import { FooterLinkColumn } from "./footer-link-column"
+import { flattenNavLinks } from "@/components/content/nav/nav-config"
 
 export async function SiteFooter() {
   const [navigation, footer] = await Promise.all([getNavigation(), getFooter()])
@@ -38,7 +39,12 @@ export async function SiteFooter() {
     
           </div>
 
-          <FooterLinkColumn title="Quick Links" links={navigation.navLinks} />
+          {/* Flattened: the footer column is a flat list, so dropdown groups are
+              unwrapped into their child links rather than nested. */}
+          <FooterLinkColumn
+            title="Quick Links"
+            links={flattenNavLinks(navigation.navLinks)}
+          />
           <FooterLinkColumn title="Services" links={footer.servicesLinks} />
 
           <div>
