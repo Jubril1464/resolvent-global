@@ -5,8 +5,6 @@ import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { MolecularNetwork } from "./molecular-network"
 
-const GRID_SIZE = 80
-
 /**
  * Hero for the Proprietary Technologies page.
  *
@@ -15,10 +13,11 @@ const GRID_SIZE = 80
  * system with gold accents", and it usefully sets this page apart as its own
  * major section rather than a Projects or Services sub-page.
  *
- * The visual reference pairs the copy with laboratory photography. There is no
- * approved image for this page yet, so the right-hand side carries the
- * hexagonal network motif from the same reference instead — which also avoids
- * any imagery that could imply a specific process or installation.
+ * The visual reference pairs the copy with laboratory footage, which now backs
+ * the whole band. The hexagonal network motif from the same reference stays on
+ * top of it at reduced strength — it was originally a stand-in for the missing
+ * imagery, but it also carries the page's identity, so it layers over the video
+ * the way the course hero's orbit does rather than being dropped.
  */
 export function TechnologiesHero({
   title,
@@ -38,35 +37,52 @@ export function TechnologiesHero({
   secondaryHref: string
 }) {
   return (
-    <section className="vhero-shape relative isolate overflow-hidden py-20 text-white lg:py-28">
+    <section className="vhero-shape relative isolate flex min-h-[600px] w-full items-center overflow-hidden bg-[#06231C] py-20 text-white lg:min-h-[700px] lg:py-28">
+      {/* The min-height is taller than the copy needs, so `object-cover` crops
+          less of the video frame; `flex items-center` centres the copy in the
+          extra space rather than leaving a gap beneath it, the same
+          arrangement MediaHero uses for the other video heroes.
+
+          The section's deep-green base doubles as the video's fallback: an
+          unloaded video element is transparent, so the green shows through
+          instead of black — no poster needed, and none of the site's stills
+          suit a green hero. */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-hidden
+        className="vhero-media absolute inset-0 -z-30 size-full object-cover"
+      >
+        <source src="/proprietary.mp4" type="video/mp4" />
+      </video>
+
+      {/* Same green identity as before, now translucent so the footage reads
+          through it. Near-opaque on the left where the copy sits, thinning to
+          72% on the right — the copy has to stay legible over moving video. */}
       <div
         aria-hidden
         className="absolute inset-0 -z-20"
         style={{
           background:
-            "linear-gradient(115deg, #06231C 0%, #0A4030 45%, #0B7A53 100%)",
+            "linear-gradient(115deg, #06231CF7 0%, #0A4030EB 45%, #0B7A53B8 100%)",
         }}
       />
 
+      {/* Network motif, right-aligned and out of the copy's way. Softened now
+          that it sits over footage rather than a flat gradient. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px)",
-          backgroundSize: `${GRID_SIZE}px ${GRID_SIZE}px`,
-        }}
-      />
-
-      {/* Network motif, right-aligned and out of the copy's way. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute top-1/2 right-0 -z-10 hidden h-[min(70vh,440px)] w-[46%] -translate-y-1/2 lg:block"
+        className="pointer-events-none absolute top-1/2 right-0 -z-10 hidden h-[min(70vh,440px)] w-[46%] -translate-y-1/2 opacity-60 lg:block"
       >
         <MolecularNetwork />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+      {/* w-full because this is now a flex item — without it the container
+          shrinks to its content and the max-w-7xl centring stops working. */}
+      <div className="relative mx-auto w-full max-w-7xl px-6 lg:px-8">
         <div className="max-w-2xl">
           <h1
             className="vhero-item text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl"

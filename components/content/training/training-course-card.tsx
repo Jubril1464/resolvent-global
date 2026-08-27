@@ -64,14 +64,14 @@ export function TrainingCourseCard({
       </svg>
 
       <div className="relative flex items-start justify-between gap-4">
-        <span
+        {/* <span
           className={cn(
             "inline-flex items-center px-3 py-1 text-xs font-semibold tracking-wide uppercase",
             accent.badge
           )}
         >
           {course.category}
-        </span>
+        </span> */}
 
         {/* Module ring — arc length encodes module count. */}
         <span className="relative shrink-0">

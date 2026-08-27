@@ -1,7 +1,5 @@
 import Image from "next/image"
 
-const GRID_SIZE = 80
-
 /**
  * Shared media hero for inner pages (About, Services, Training, Industries,
  * Projects). Accepts either a looping video or a still image as its backdrop;
@@ -88,16 +86,6 @@ export function MediaHero({
         style={{
           background:
             "linear-gradient(90deg, rgba(12,32,58,0.94) 0%, rgba(12,32,58,0.86) 45%, rgba(12,32,58,0.55) 100%)",
-        }}
-      />
-
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(255,255,255,0.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.07) 1px, transparent 1px)",
-          backgroundSize: `${GRID_SIZE}px ${GRID_SIZE}px`,
         }}
       />
 

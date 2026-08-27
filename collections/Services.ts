@@ -71,6 +71,15 @@ export const Services: CollectionConfig = {
               required: true,
               fields: [{ name: "value", type: "text", required: true }],
             },
+            {
+              name: "image",
+              type: "upload",
+              relationTo: "media",
+              admin: {
+                description:
+                  "Card visual for the homepage. The card falls back to its gradient panel while empty.",
+              },
+            },
           ],
         },
         {
@@ -113,6 +122,14 @@ export const Services: CollectionConfig = {
         {
           label: "Detail Page",
           fields: [
+            {
+              name: "heroVideo",
+              type: "text",
+              admin: {
+                description:
+                  "Path to the hero background video under public/, e.g. /images/services/carbon.mp4. Falls back to the shared engineering video while empty. A plain path rather than an upload because the media collection accepts images only, and every site video ships as a static asset.",
+              },
+            },
             {
               name: "scope",
               type: "array",

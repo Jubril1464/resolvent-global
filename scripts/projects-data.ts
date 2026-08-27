@@ -6,6 +6,12 @@
  * GENERATED from that document — if the .docx is revised, re-derive this
  * file rather than hand-editing, so the two can't silently drift.
  *
+ * Deviations from the source document, applied deliberately (keep these when
+ * re-deriving):
+ *   - catalyst-lifecycle-advisory (P09): category changed Clean-Tech ->
+ *     Advisory. The document files it under Clean-Tech, but it is advisory
+ *     work and is now presented as such on the site.
+ *
  * Note on Ongoing projects (O01-O03): per the document's confidentiality
  * rule they deliberately carry NO approach / pathway / deliverables /
  * target-sector content, and use "Development focus" + "Applications"
@@ -747,7 +753,8 @@ export const PROJECTS_DATA: ProjectSeed[] =
     "slug": "catalyst-lifecycle-advisory",
     "projectId": "P09",
     "order": 9,
-    "category": "Clean-Tech",
+    // Deliberate override of the source document — see the header note.
+    "category": "Advisory",
     "title": "Catalyst Lifecycle Advisory",
     "caption": "Advisory support for catalyst selection, performance, degradation, regeneration and lifecycle-cost decisions.",
     "statusBadge": "Research-derived capability",

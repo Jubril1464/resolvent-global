@@ -19,7 +19,7 @@ type CtaProps = {
  */
 export async function Cta({
   title = "Ready to Discuss a Technical Challenge?",
-  description = "Request a proposal or send us your project details. We aim to respond within 24–48 business hours.",
+  description = "Request a proposal or send us your project details. We aim to respond in less than 48 business hours.",
   primaryLabel = "Request a Proposal",
   secondaryLabel = "Send Project Details",
   secondaryHref = "/contact",

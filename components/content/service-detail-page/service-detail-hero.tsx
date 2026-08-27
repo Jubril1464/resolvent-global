@@ -5,58 +5,61 @@ import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { getNavigation } from "@/lib/get-navigation"
 
-const GRID_SIZE = 80
+/** Used when a service has no `heroVideo` of its own. */
+const FALLBACK_VIDEO = "/engineering-operations.mp4"
 
 export async function ServiceDetailHero({
   icon: Icon,
   title,
   intro,
   accentColor,
+  videoSrc,
+  poster,
 }: {
   icon: LucideIcon
   title: string
   intro: string
   accentColor: string
+  /** Per-service hero footage; falls back to the shared engineering video. */
+  videoSrc?: string | null
+  /** Per-service still shown before the video paints. */
+  poster?: string | null
 }) {
   const navigation = await getNavigation()
+  const video = videoSrc || FALLBACK_VIDEO
 
   return (
     <section className="vhero-shape relative isolate overflow-hidden py-20 text-white">
       {/* Video sits behind the accent wash. `poster` gives an instant first
-          paint so the hero is never an empty box while it loads. */}
+          paint so the hero is never an empty box while it loads.
+
+          Keyed by src: without this React reuses the same <video> element
+          across service routes and keeps playing the previous file, because
+          swapping a <source> child does not reload the media. */}
       <video
+        key={video}
         autoPlay
         muted
         loop
         playsInline
         preload="metadata"
-        poster="/images/hero-image.png"
+        poster={poster ?? "/images/hero-image.png"}
         aria-hidden
         className="vhero-media absolute inset-0 -z-20 size-full object-cover"
       >
-        <source src="/engineering-operations.mp4" type="video/mp4" />
+        <source src={video} type="video/mp4" />
       </video>
 
-      {/* Per-service accent wash, so each service keeps its own identity
-          while sharing one video. The gradient stays near-opaque on the left,
-          where the copy sits, and thins out to the right so the footage is
-          actually visible — one flat 95% wash hid it entirely on the service
-          whose accent is the same navy as the base colour. */}
+      {/* Per-service accent wash, so each service keeps its own identity. The
+          gradient stays near-opaque on the left, where the copy sits, and
+          thins out to the right so the footage is actually visible — one flat
+          95% wash hid it entirely on the service whose accent is the same
+          navy as the base colour. */}
       <div
         aria-hidden
         className="absolute inset-0 -z-10"
         style={{
           background: `linear-gradient(115deg, ${accentColor}F0 0%, ${accentColor}D9 38%, rgba(12,32,58,0.60) 100%)`,
-        }}
-      />
-
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px)",
-          backgroundSize: `${GRID_SIZE}px ${GRID_SIZE}px`,
         }}
       />
 

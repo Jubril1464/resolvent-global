@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import { getNavigation } from "@/lib/get-navigation"
 import { getFooter } from "@/lib/get-footer"
 import { FooterLinkColumn } from "./footer-link-column"
+import { SocialLinks } from "./social-links"
 import { flattenNavLinks } from "@/components/content/nav/nav-config"
 
 export async function SiteFooter() {
@@ -36,7 +37,7 @@ export async function SiteFooter() {
               energy, carbon, water and environmental challenges.
             </p>
 
-    
+            <SocialLinks links={footer.socialLinks} />
           </div>
 
           {/* Flattened: the footer column is a flat list, so dropdown groups are

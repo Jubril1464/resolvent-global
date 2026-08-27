@@ -18,8 +18,8 @@ export default async function ServicesPage() {
   return (
     <main className="flex-1">
       <MediaHero
-        eyebrow="Our Services"
-        title="Our Service Portfolio"
+     
+        title="Services"
         description="Three integrated service platforms designed to help industrial, public-sector, investment and innovation clients operate better, invest smarter and build lasting technical capability."
         videoSrc="/our-services-vid.mp4"
         chipsLabel="Service platforms"

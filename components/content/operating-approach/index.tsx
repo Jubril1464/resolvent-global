@@ -22,10 +22,7 @@ export async function OperatingApproach() {
           <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             Our Operating Approach
           </h2>
-          <p className="mt-4 text-foreground/60">
-            How an engagement moves from first conversation to sustained
-            improvement.
-          </p>
+          
         </div>
 
         <div className="relative mt-16">

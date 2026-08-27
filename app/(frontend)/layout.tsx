@@ -89,6 +89,12 @@ export default async function RootLayout({
     ...(isPlaceholder(footer.contactPhone)
       ? {}
       : { telephone: footer.contactPhone.split(",")[0].trim() }),
+    // Social profiles, read from the same footer field the icons render from
+    // so the two can't drift. `sameAs` is what lets search engines tie the
+    // profiles to this business rather than treating them as unrelated pages.
+    ...(footer.socialLinks && footer.socialLinks.length > 0
+      ? { sameAs: footer.socialLinks.map((link) => link.url) }
+      : {}),
     // The headquarters address is the canonical one for structured data;
     // other office locations still show in the footer itself.
     ...(footer.addresses[0] && !isPlaceholder(footer.addresses[0].value)
