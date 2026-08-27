@@ -94,22 +94,17 @@ export function AtAGlance() {
     <section className="border-b border-border bg-background py-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="max-w-2xl">
-          <p className="text-sm font-semibold tracking-wide text-[#D9A441] uppercase">
-            At a Glance
-          </p>
+          
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            What Resolvent Global Does
+            What We Do
           </h2>
-          <p className="mt-4 text-foreground/60">
-            Technical advisory and engineering services — from the disciplines we
-            work across, through how we work, to the outcomes clients take away.
-          </p>
+          
         </div>
 
         <div className="mt-14 grid grid-cols-1 items-center gap-6 lg:grid-cols-[1fr_auto_0.9fr_auto_1fr]">
           {/* 1 — Disciplines */}
           <div>
-            <ColumnLabel>What we work across</ColumnLabel>
+            <ColumnLabel>We work across</ColumnLabel>
             <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
               {DOMAINS.map(({ icon: Icon, label }, i) => (
                 <li
@@ -146,7 +141,7 @@ export function AtAGlance() {
             </div>
 
             <ColumnLabel>
-              <span className="mt-6 block">How we work</span>
+              <span className="mt-6 block">Our Approach</span>
             </ColumnLabel>
             <ul className="mt-4 space-y-2">
               {HOW_WE_WORK.map((item, i) => (
@@ -179,11 +174,6 @@ export function AtAGlance() {
                 </li>
               ))}
             </ul>
-
-            <p className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand">
-              Across industrial and energy-sector operations
-              <ArrowRight aria-hidden className="size-4" />
-            </p>
           </div>
         </div>
       </div>

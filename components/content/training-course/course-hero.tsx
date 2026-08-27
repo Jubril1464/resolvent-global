@@ -7,8 +7,6 @@ import { courseNoun, enquiryHref } from "@/lib/training"
 import type { TrainingCourse } from "@/payload-types"
 import { ModuleOrbit } from "./module-orbit"
 
-const GRID_SIZE = 80
-
 function Stat({
   icon: Icon,
   label,
@@ -67,16 +65,6 @@ export function CourseHero({
 
   return (
     <section className="relative overflow-hidden bg-[#0C203A] py-16 text-white">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(255,255,255,0.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.07) 1px, transparent 1px)",
-          backgroundSize: `${GRID_SIZE}px ${GRID_SIZE}px`,
-        }}
-      />
-
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         <Link
           href="/training"

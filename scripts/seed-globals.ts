@@ -32,7 +32,6 @@ if (navigation.navLinks && navigation.navLinks.length > 0) {
         { href: "/training", label: "Training" },
         { href: "/industries", label: "Industries" },
         { href: "/projects", label: "Projects" },
-        { href: "/certifications", label: "Certifications" },
         { href: "/contact", label: "Contact" },
       ],
       ctaHref: "/request-proposal",

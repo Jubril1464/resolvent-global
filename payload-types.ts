@@ -248,6 +248,10 @@ export interface Service {
     id?: string | null;
   }[];
   /**
+   * Card visual for the homepage. The card falls back to its gradient panel while empty.
+   */
+  image?: (number | null) | Media;
+  /**
    * Hex color, e.g. #0B7A53
    */
   accentColor: string;
@@ -264,6 +268,10 @@ export interface Service {
     value: string;
     id?: string | null;
   }[];
+  /**
+   * Path to the hero background video under public/, e.g. /images/services/carbon.mp4. Falls back to the shared engineering video while empty. A plain path rather than an upload because the media collection accepts images only, and every site video ships as a static asset.
+   */
+  heroVideo?: string | null;
   scope: {
     title: string;
     description: string;
@@ -957,6 +965,7 @@ export interface ServicesSelect<T extends boolean = true> {
         value?: T;
         id?: T;
       };
+  image?: T;
   accentColor?: T;
   tagline?: T;
   fullTitle?: T;
@@ -967,6 +976,7 @@ export interface ServicesSelect<T extends boolean = true> {
         value?: T;
         id?: T;
       };
+  heroVideo?: T;
   scope?:
     | T
     | {
@@ -1341,6 +1351,19 @@ export interface Footer {
     label: string;
     id?: string | null;
   }[];
+  /**
+   * Shown as icons in the footer, and published as schema.org sameAs so search engines can tie the profiles to the business. Order here is the display order.
+   */
+  socialLinks?:
+    | {
+        platform: 'LinkedIn' | 'Facebook' | 'Instagram' | 'X';
+        /**
+         * Full profile URL, including https://
+         */
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
   contactEmail: string;
   contactPhone: string;
   addresses: {
@@ -1561,6 +1584,13 @@ export interface FooterSelect<T extends boolean = true> {
     | {
         href?: T;
         label?: T;
+        id?: T;
+      };
+  socialLinks?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
         id?: T;
       };
   contactEmail?: T;

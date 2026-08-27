@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { CircleCheck } from "lucide-react"
 
@@ -6,28 +7,64 @@ import type { Service } from "@/payload-types"
 
 export function ServiceDetailBand({ service }: { service: Service }) {
   const Icon = resolveIcon(service.icon)
+  const image = typeof service.image === "object" ? service.image : null
 
   return (
     <article>
       <Link
         href={`/services/${service.slug}`}
-        className="block transition-opacity hover:opacity-95"
+        className="group/band block transition-opacity hover:opacity-95"
       >
         <header
-          className="py-12"
+          className="relative overflow-hidden"
           style={{ backgroundColor: service.accentColor }}
         >
-          <div className="mx-auto flex max-w-7xl items-center gap-6 px-6 lg:px-8">
-            <div className="flex size-14 shrink-0 items-center justify-center rounded-md border border-white/10 bg-[#0C203A] md:size-18">
-              <Icon
-                aria-hidden
-                className="size-8 text-emerald-200"
-                strokeWidth={1.5}
-              />
+          <div className="mx-auto grid max-w-7xl grid-cols-1 items-stretch px-6 lg:grid-cols-[1.3fr_1fr] lg:px-8">
+            <div className="flex items-center gap-6 py-12">
+              <div className="flex size-14 shrink-0 items-center justify-center rounded-md border border-white/10 bg-[#0C203A] md:size-18">
+                <Icon
+                  aria-hidden
+                  className="size-8 text-emerald-200"
+                  strokeWidth={1.5}
+                />
+              </div>
+              <h2 className="text-3xl leading-tight font-semibold text-white md:text-4xl">
+                {service.fullTitle}
+              </h2>
             </div>
-            <h2 className="text-3xl font-semibold leading-tight text-white md:text-4xl">
-              {service.fullTitle}
-            </h2>
+
+            {image?.url ? (
+              /* Bleeds the full width of the band on mobile, then becomes the
+                 right half of the band from lg up, where it can run the band's
+                 full height. */
+              <div className="relative -mx-6 h-44 lg:mx-0 lg:h-auto">
+                <Image
+                  src={image.url}
+                  alt={image.alt}
+                  fill
+                  sizes="(min-width: 1024px) 45vw, 100vw"
+                  className="object-cover transition-transform duration-[900ms] ease-out group-hover/band:scale-[1.05]"
+                />
+                {/* Fades the photo into the accent colour so the two halves of
+                    the band read as one surface rather than a pasted-in image.
+                    Vertical on mobile (image sits below the title), horizontal
+                    from lg up (image sits beside it). */}
+                <div
+                  aria-hidden
+                  className="absolute inset-0"
+                  style={{
+                    background: `linear-gradient(to bottom, ${service.accentColor} 0%, ${service.accentColor}00 60%)`,
+                  }}
+                />
+                <div
+                  aria-hidden
+                  className="absolute inset-0 hidden lg:block"
+                  style={{
+                    background: `linear-gradient(to right, ${service.accentColor} 0%, ${service.accentColor}00 65%)`,
+                  }}
+                />
+              </div>
+            ) : null}
           </div>
         </header>
 

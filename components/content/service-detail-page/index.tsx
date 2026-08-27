@@ -26,6 +26,10 @@ export function ServiceDetailPage({
         title={service.fullTitle}
         intro={service.intro}
         accentColor={service.accentColor}
+        videoSrc={service.heroVideo}
+        // The card image doubles as the video poster, so the first paint is
+        // already this service's own visual rather than a generic still.
+        poster={typeof service.image === "object" ? service.image?.url : null}
       />
       <ServiceScopeGrid scope={service.scope} />
       <DeliverablesOutcomes

@@ -10,8 +10,6 @@ const SCHEDULE_CTA = {
   label: "Schedule Technical Consultation",
 };
 
-const GRID_SIZE = 80;
-
 export async function Hero() {
   const navigation = await getNavigation();
 
@@ -33,16 +31,6 @@ export async function Hero() {
         className="pointer-events-none absolute inset-0"
         style={{
           background: "linear-gradient(90deg, #0C203AE6 0%, #0C203AE6 100%)",
-        }}
-      />
-
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(255,255,255,0.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.07) 1px, transparent 1px)",
-          backgroundSize: `${GRID_SIZE}px ${GRID_SIZE}px`,
         }}
       />
 

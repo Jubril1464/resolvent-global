@@ -115,24 +115,13 @@ export function ProjectHero({ project }: { project: Project }) {
               priority
             />
           ) : (
-            <>
-              <div
-                aria-hidden
-                className="absolute inset-0 opacity-25"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(to right, rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.12) 1px, transparent 1px)",
-                  backgroundSize: "48px 48px",
-                }}
+            <div className="absolute inset-0">
+              <ProcessDiagram
+                stages={stages}
+                variant={ongoing ? "cycle" : "linear"}
+                centerLabel={project.diagramCenterLabel ?? undefined}
               />
-              <div className="absolute inset-0">
-                <ProcessDiagram
-                  stages={stages}
-                  variant={ongoing ? "cycle" : "linear"}
-                  centerLabel={project.diagramCenterLabel ?? undefined}
-                />
-              </div>
-            </>
+            </div>
           )}
         </div>
       </div>

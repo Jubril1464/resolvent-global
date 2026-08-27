@@ -28,11 +28,11 @@ export default async function ProjectsPage() {
   return (
     <main className="flex-1">
       <MediaHero
-        title="Project Portfolio"
-        description="Selected work across water and effluent treatment, energy and process performance, clean-technology assessment and technical advisory — from validated research capability through to market-ready services."
+        title="Projects"
+        description="A focused portfolio of water, energy, clean-tech and advisory projects translating technical capability into practical industrial outcomes."
         videoSrc="/engineering-operations.mp4"
-        chips={counts.map((entry) => entry.label)}
-        chipsLabel={`${projects.length} Projects Across ${counts.length} Areas`}
+        // chips={counts.map((entry) => entry.label)}
+        // chipsLabel={`${projects.length} Projects Across ${counts.length} Areas`}
         decoration={<ProjectsHeroDecoration categories={counts.map((entry) => entry.label)} />}
       />
 

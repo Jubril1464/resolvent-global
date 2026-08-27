@@ -20,15 +20,14 @@ export default function AboutPage() {
   return (
     <main className="flex-1">
       <MediaHero
-        eyebrow="Who We Are"
         title="Who We Are"
         description="A technical advisory and engineering services company focused on process engineering, energy, carbon, water and environmental solutions."
         videoSrc="/about-us-vid.mp4"
       />
-      <AtAGlance />
       <Reveal>
         <CompanyOverview />
       </Reveal>
+      <AtAGlance />
       <Reveal>
         <TechnicalFoundation />
       </Reveal>
