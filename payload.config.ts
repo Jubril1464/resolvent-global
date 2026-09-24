@@ -17,6 +17,7 @@ import { Credentials } from "./collections/Credentials"
 import { TrainingCourses } from "./collections/TrainingCourses"
 import { Projects } from "./collections/Projects"
 import { ProprietaryTechnologies } from "./collections/ProprietaryTechnologies"
+import { LegalDocuments } from "./collections/LegalDocuments"
 import { Navigation } from "./globals/Navigation"
 import { Footer } from "./globals/Footer"
 import { ContactPage } from "./globals/ContactPage"
@@ -69,6 +70,7 @@ export default buildConfig({
     TrainingCourses,
     Projects,
     ProprietaryTechnologies,
+    LegalDocuments,
   ],
   globals: [
     Navigation,

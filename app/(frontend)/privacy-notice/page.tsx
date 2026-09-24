@@ -1,17 +1,32 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
-import { ComingSoon } from "@/components/content/coming-soon";
+import { LegalPage } from "@/components/content/legal/legal-page";
+import { getLegalDocument } from "@/lib/get-legal-document";
+import { SITE_NAME } from "@/lib/site-config";
 
-export const metadata: Metadata = {
-  title: "Privacy Notice",
-  robots: { index: false, follow: true },
-};
+const SLUG = "privacy-notice";
 
-export default function PrivacyNoticePage() {
-  return (
-    <ComingSoon
-      title="Privacy Notice"
-      description="Our privacy notice is being finalised and will be published here shortly."
-    />
-  );
+export async function generateMetadata(): Promise<Metadata> {
+  const doc = await getLegalDocument(SLUG);
+  if (!doc) return { title: "Privacy Notice" };
+
+  return {
+    title: doc.title,
+    description: doc.metaDescription,
+    alternates: { canonical: `/${doc.slug}` },
+    openGraph: {
+      title: `${doc.title} | ${SITE_NAME}`,
+      description: doc.metaDescription,
+    },
+  };
+}
+
+export default async function PrivacyNoticePage() {
+  const doc = await getLegalDocument(SLUG);
+  // The route only exists to render this document — with nothing in the CMS
+  // there is no page, rather than an empty shell.
+  if (!doc) notFound();
+
+  return <LegalPage doc={doc} />;
 }

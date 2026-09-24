@@ -21,7 +21,8 @@
     "seed:service-hero-videos": "payload run scripts/seed-service-hero-videos.ts",
     "seed:service-images": "payload run scripts/seed-service-images.ts",
     "sync:project-categories": "payload run scripts/sync-project-categories.ts",
-    "nav:set": "payload run scripts/set-navigation.ts"
+    "nav:set": "payload run scripts/set-navigation.ts",
+    "seed:legal": "payload run scripts/seed-legal.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",

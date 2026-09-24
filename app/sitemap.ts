@@ -3,13 +3,15 @@ import type { MetadataRoute } from "next"
 import { getServices } from "@/lib/get-services"
 import { getTrainingCourses } from "@/lib/get-training-courses"
 import { getProjects } from "@/lib/get-projects"
+import { getLegalDocuments } from "@/lib/get-legal-document"
 import { SITE_URL } from "@/lib/site-config"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [services, trainingCourses, projects] = await Promise.all([
+  const [services, trainingCourses, projects, legalDocuments] = await Promise.all([
     getServices(),
     getTrainingCourses(),
     getProjects(),
+    getLegalDocuments(),
   ])
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -25,6 +27,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     { url: `${SITE_URL}/contact`, changeFrequency: "yearly", priority: 0.6 },
+    // The legal documents each publish their own revision date.
+    ...legalDocuments.map((doc) => ({
+      url: `${SITE_URL}/${doc.slug}`,
+      lastModified: doc.lastUpdatedIso,
+      changeFrequency: "yearly" as const,
+      priority: 0.4,
+    })),
   ]
 
   const serviceRoutes: MetadataRoute.Sitemap = services.map((service) => ({
