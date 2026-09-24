@@ -1839,3 +1839,147 @@
     animation-delay: calc(var(--mot-i, 0) * 900ms);
   }
 }
+
+/**
+ * ---------------------------------------------------------------------------
+ * Legal pages (Privacy Notice, Terms of Use)
+ * ---------------------------------------------------------------------------
+ * Four groups of motion, all namespaced `lgl-` and shared by both legal
+ * pages:
+ *   .lgl-globe-* — the drawn globe used as a hero backdrop
+ *   .lgl-glance  — the summary tiles, staggered off `RevealGroup`
+ *   .lgl-row     — the section rows, staggered off `RevealGroup`
+ *   .lgl-block   — a section's body, easing in behind the height animation
+ *
+ * As elsewhere in this file, every rule sits inside
+ * `prefers-reduced-motion: no-preference`; with reduced motion the page
+ * renders in its final state — globe drawn, tiles and rows visible — and
+ * nothing moves. The one base rule below is the globe orbit's resting tilt,
+ * which is geometry rather than motion.
+ */
+
+.lgl-globe-orbit {
+  transform-box: view-box;
+  transform-origin: 200px 200px;
+  transform: rotate(-24deg);
+}
+
+/* Narrowing and widening the meridians reads as rotation. `rx` is animatable
+   as a CSS geometry property, so no path is redrawn per frame. */
+@keyframes lgl-globe-meridian {
+  0%, 100% { rx: 150px; }
+  50% { rx: 0px; }
+}
+
+@keyframes lgl-globe-orbit {
+  from { transform: rotate(-24deg); }
+  to { transform: rotate(336deg); }
+}
+
+@keyframes lgl-globe-node {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.5); }
+}
+
+@keyframes lgl-glance-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes lgl-halo {
+  from { opacity: 0.8; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.8); }
+}
+
+@keyframes lgl-row-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes lgl-block-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes lgl-nav-in {
+  from { opacity: 0; transform: translateX(-14px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* One pass across the band, then a long pause before the next. */
+@keyframes lgl-sheen {
+  0% { transform: translateX(0); }
+  35%, 100% { transform: translateX(420%); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* --- Hero globe --- */
+  .lgl-globe-meridian {
+    animation: lgl-globe-meridian 18s ease-in-out infinite;
+    animation-delay: calc(var(--lgl-i, 0) * -4.5s);
+  }
+
+  .lgl-globe-orbit {
+    animation: lgl-globe-orbit 40s linear infinite;
+  }
+
+  .lgl-globe-node {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: lgl-globe-node 3.6s ease-in-out infinite;
+    animation-delay: calc(var(--lgl-i, 0) * 700ms);
+  }
+
+  /* --- Section index --- */
+  .lgl-nav {
+    animation: lgl-nav-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 250ms;
+  }
+
+  /* --- Summary tiles --- */
+  .lgl-glance {
+    opacity: 0;
+  }
+
+  [data-revealed="true"] .lgl-glance {
+    animation: lgl-glance-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--lgl-i, 0) * 90ms);
+  }
+
+  .lgl-glance:hover .lgl-halo {
+    animation: lgl-halo 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* --- Section rows --- */
+  .lgl-row {
+    opacity: 0;
+  }
+
+  [data-revealed="true"] .lgl-row {
+    animation: lgl-row-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    /* Capped so the last of nineteen rows isn't still waiting to appear
+       when the reader has already scrolled past it. */
+    animation-delay: calc(min(var(--lgl-i, 0), 12) * 45ms);
+  }
+
+  /* --- Section body --- */
+  /* Trails the `.accordion-item` height animation rather than racing it. */
+  .lgl-row[open] > div > .lgl-block {
+    animation: lgl-block-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(120ms + var(--lgl-j, 0) * 70ms);
+  }
+
+  /* --- Commitment band --- */
+  .lgl-callout {
+    opacity: 0;
+  }
+
+  [data-revealed="true"] .lgl-callout {
+    animation: lgl-row-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .lgl-sheen {
+    animation: lgl-sheen 9s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation-delay: 1.4s;
+  }
+}

@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Resolvent Global — Website Content Guide</title>
+<style>
+  @page { size: A4; margin: 17mm 16mm 16mm 16mm; }
+
+  :root {
+    --brand: #0b7a53;
+    --brand-dark: #075939;
+    --ink: #16181a;
+    --muted: #5c6570;
+    --rule: #dfe3e6;
+    --tint: #f4f7f5;
+    --warn-bg: #fdf6ec;
+    --warn-line: #d99a2b;
+    --stop-bg: #fdf1f1;
+    --stop-line: #c0392b;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  body {
+    margin: 0;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-size: 10.2pt;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  /* ---------- Cover ---------- */
+  .cover {
+    height: 250mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    page-break-after: always;
+  }
+  .cover-logo { display: block; width: 62mm; height: auto; }
+  .cover-rule { height: 5px; background: var(--brand); width: 64mm; margin: 8mm 0 0; }
+  .cover-title {
+    font-size: 33pt;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    margin: 10mm 0 0;
+    max-width: 150mm;
+  }
+  .cover-sub {
+    font-size: 13pt;
+    color: var(--muted);
+    margin: 7mm 0 0;
+    max-width: 140mm;
+    line-height: 1.45;
+  }
+  .cover-meta {
+    border-top: 1px solid var(--rule);
+    padding-top: 5mm;
+    display: flex;
+    gap: 16mm;
+    font-size: 9pt;
+    color: var(--muted);
+  }
+  .cover-meta strong { display: block; color: var(--ink); font-size: 9.5pt; margin-bottom: 1mm; }
+
+  .cover-panel {
+    background: var(--tint);
+    border-left: 4px solid var(--brand);
+    padding: 7mm 8mm;
+    margin: 12mm 0 0;
+  }
+  .cover-panel h3 { margin: 0 0 3mm; font-size: 11pt; }
+  .cover-panel ol { margin: 0; padding-left: 6mm; }
+  .cover-panel li { margin-bottom: 2mm; }
+
+  /* ---------- Structure ---------- */
+  h1 {
+    position: relative;
+    font-size: 19pt;
+    letter-spacing: -.01em;
+    margin: 0 0 1mm;
+    padding-bottom: 3mm;
+    padding-right: 16mm;
+    border-bottom: 2.5px solid var(--brand);
+    page-break-after: avoid;
+  }
+  h1 .num { color: var(--brand); margin-right: 3mm; }
+  /* The roundel alone on every chapter opener — Chrome supports no @page
+     margin boxes, so a true running header is unavailable, and anchoring the
+     mark to each h1 is what carries the branding through the document. The
+     roundel rather than the full logo because the lock-up's tagline is
+     illegible at this size. Height is kept inside the h1 padding box so it
+     can never overflow into the page margin and be clipped. */
+  h1 .pagemark {
+    position: absolute;
+    right: 0;
+    bottom: 2mm;
+    width: 10.5mm;
+    height: auto;
+  }
+  h2 {
+    font-size: 12.5pt;
+    margin: 8mm 0 2.5mm;
+    color: var(--brand-dark);
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 10.6pt;
+    margin: 6mm 0 1.5mm;
+    page-break-after: avoid;
+  }
+  section.chapter { page-break-before: always; }
+  p { margin: 0 0 3mm; }
+  ul, ol { margin: 0 0 3.5mm; padding-left: 6mm; }
+  li { margin-bottom: 1.6mm; }
+  .lead { font-size: 10.8pt; color: var(--muted); margin-bottom: 5mm; }
+
+  code, .ui {
+    font-family: Consolas, "SF Mono", Menlo, monospace;
+    font-size: 9.2pt;
+    background: #eef2ef;
+    padding: .4mm 1.4mm;
+    border-radius: 2px;
+  }
+  .ui { background: #e8efeb; color: var(--brand-dark); font-weight: 600; }
+  .path { color: var(--muted); font-size: 9pt; }
+
+  /* Drawn arrow rather than the character "→" (U+2192). Every other
+     non-ASCII character in this document — em dash, en dash, curly quotes,
+     ellipsis, section sign, multiplication sign — lives in cp1252 and so
+     survives any font substitution a reader's PDF viewer might apply. The
+     arrow does not: it is the one glyph that can vanish on a device whose
+     viewer declines the embedded Segoe UI subset. As an SVG it becomes a
+     vector path in the PDF and cannot be substituted away. */
+  .arr {
+    display: inline-block;
+    width: 1.15em;
+    height: .6em;
+    vertical-align: -.01em;
+    margin: 0 .1em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    overflow: visible;
+  }
+
+  /* ---------- Steps ---------- */
+  .steps { counter-reset: s; list-style: none; padding-left: 0; }
+  .steps > li {
+    counter-increment: s;
+    position: relative;
+    padding-left: 9mm;
+    margin-bottom: 2.6mm;
+  }
+  .steps > li::before {
+    content: counter(s);
+    position: absolute; left: 0; top: .2mm;
+    width: 6mm; height: 6mm;
+    background: var(--brand); color: #fff;
+    border-radius: 50%;
+    font-size: 8pt; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ---------- Callouts ---------- */
+  .note, .warn, .stop {
+    padding: 4mm 5mm;
+    margin: 4mm 0;
+    font-size: 9.6pt;
+    page-break-inside: avoid;
+  }
+  .note { background: var(--tint); border-left: 3px solid var(--brand); }
+  .warn { background: var(--warn-bg); border-left: 3px solid var(--warn-line); }
+  .stop { background: var(--stop-bg); border-left: 3px solid var(--stop-line); }
+  .note p:last-child, .warn p:last-child, .stop p:last-child { margin-bottom: 0; }
+  .note ul:last-child, .warn ul:last-child, .stop ul:last-child { margin-bottom: 0; }
+  .note .tag, .warn .tag, .stop .tag {
+    display: block;
+    font-size: 8pt; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5mm;
+  }
+  .note .tag { color: var(--brand); }
+  .warn .tag { color: #a9761c; }
+  .stop .tag { color: var(--stop-line); }
+
+  /* ---------- Tables ---------- */
+  table { width: 100%; border-collapse: collapse; margin: 3mm 0 5mm; font-size: 9.3pt; }
+  th {
+    text-align: left;
+    background: var(--brand);
+    color: #fff;
+    padding: 2.4mm 2.6mm;
+    font-size: 8.6pt;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  td { padding: 2.4mm 2.6mm; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  tr { page-break-inside: avoid; }
+  tbody tr:nth-child(even) td { background: #fafbfa; }
+  td.f { font-weight: 600; }
+  td.grp {
+    background: var(--tint) !important;
+    font-weight: 700;
+    color: var(--brand-dark);
+    font-size: 9pt;
+    letter-spacing: .02em;
+  }
+  table.narrow td:first-child, table.narrow th:first-child { width: 36%; }
+  table.fields td:first-child { width: 30%; }
+  caption {
+    caption-side: top;
+    text-align: left;
+    font-size: 9.4pt;
+    color: var(--muted);
+    padding-bottom: 1.5mm;
+  }
+
+  /* ---------- Contents ---------- */
+  .toc { list-style: none; padding: 0; margin-top: 4mm; }
+  .toc > li {
+    display: flex;
+    gap: 4mm;
+    padding: 2.4mm 0;
+    border-bottom: 1px dotted var(--rule);
+  }
+  .toc .n { color: var(--brand); font-weight: 700; width: 8mm; flex: none; }
+  .toc .t { font-weight: 600; }
+  .toc .d { color: var(--muted); font-weight: 400; display: block; font-size: 9.2pt; }
+
+  .card-grid { display: flex; gap: 4mm; margin: 4mm 0; page-break-inside: avoid; }
+  .card {
+    flex: 1;
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--brand);
+    padding: 4mm;
+    font-size: 9.4pt;
+  }
+  .card h4 { margin: 0 0 2mm; font-size: 10pt; }
+  .card p:last-child { margin-bottom: 0; }
+
+  .footer-note {
+    margin-top: 10mm;
+    padding-top: 5mm;
+    border-top: 1px solid var(--rule);
+    font-size: 9pt;
+    color: var(--muted);
+    page-break-inside: avoid;
+  }
+  .footer-note img { display: block; width: 42mm; height: auto; margin-bottom: 4mm; }
+</style>
+</head>
+<body>
+
+<!-- =============== COVER =============== -->
+<div class="cover">
+  <div>
+    <img class="cover-logo" src="logo.png" alt="Resolvent Global — Energy, Process, Carbon">
+    <div class="cover-rule"></div>
+    <div class="cover-title">Website Content Guide</div>
+    <div class="cover-sub">How to update the text, images, menus and contact details on your website &mdash; written for people who don&rsquo;t work in software.</div>
+
+    <div class="cover-panel">
+      <h3>The four things to remember</h3>
+      <ol>
+        <li><strong>You edit the website through a private admin area</strong> &mdash; your normal website address followed by <span class="ui">/admin</span>.</li>
+        <li><strong>Every change goes live the moment you click Save.</strong> There is no separate &ldquo;publish&rdquo; step and no draft mode.</li>
+        <li><strong>You change words, pictures, lists and links.</strong> Layout, colours and page design are fixed by your developer.</li>
+        <li><strong>Some content is legally sensitive</strong> &mdash; read Section 8 before touching Proprietary Technologies or Ongoing projects.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="cover-meta">
+    <div><strong>Audience</strong>Website content owner / administrator</div>
+    <div><strong>System</strong>Payload CMS admin panel</div>
+    <div><strong>Version</strong>Handover edition</div>
+  </div>
+</div>
+
+<!-- =============== CONTENTS =============== -->
+<section>
+  <h1>Contents<img class="pagemark" src="logo-mark.png" alt=""></h1>
+  <ol class="toc">
+    <li><span class="n">1</span><span class="t">Getting into the admin area<span class="d">Signing in, forgotten passwords, and what you see first.</span></span></li>
+    <li><span class="n">2</span><span class="t">How the system is organised<span class="d">Collections, Globals and the Media library, explained in plain English.</span></span></li>
+    <li><span class="n">3</span><span class="t">The six everyday tasks<span class="d">Edit text, add an item, reorder, add a picture, add a list row, remove an item.</span></span></li>
+    <li><span class="n">4</span><span class="t">&ldquo;I want to change X&rdquo; &mdash; the lookup table<span class="d">Find any part of any page and the exact place to edit it.</span></span></li>
+    <li><span class="n">5</span><span class="t">Page-by-page reference<span class="d">Every section of the site, what it feeds, and what each field means.</span></span></li>
+    <li><span class="n">6</span><span class="t">Menus, footer and contact details<span class="d">Navigation, Footer and Contact Page settings.</span></span></li>
+    <li><span class="n">7</span><span class="t">Images and the Media library<span class="d">Sizes, alt text, replacing and reusing pictures.</span></span></li>
+    <li><span class="n">8</span><span class="t">Rules you must not break<span class="d">Confidentiality and IP wording for technologies and ongoing projects.</span></span></li>
+    <li><span class="n">9</span><span class="t">What the CMS cannot change<span class="d">The parts that need your developer &mdash; so you don&rsquo;t hunt for them.</span></span></li>
+    <li><span class="n">10</span><span class="t">Troubleshooting and glossary<span class="d">Common problems, plain-English answers, and a word list.</span></span></li>
+  </ol>
+
+  <div class="note">
+    <span class="tag">How to use this guide</span>
+    <p>You do not need to read it cover to cover. Read Sections 1&ndash;3 once, then use Section 4 as your day-to-day map: look up the thing you want to change, and it tells you exactly where to go.</p>
+  </div>
+</section>
+
+<!-- =============== 1 =============== -->
+<section class="chapter">
+  <h1><span class="num">1</span>Getting into the admin area<img class="pagemark" src="logo-mark.png" alt=""></h1>
+  <p class="lead">The admin area is a private part of your own website. Nobody can see it without a login, and it is not linked from any public page.</p>
+
+  <h2>1.1 Signing in</h2>
+  <ol class="steps">
+    <li>Open a web browser (Chrome, Edge or Safari all work).</li>
+    <li>Type your website address followed by <span class="ui">/admin</span> &mdash; for example <span class="ui">www.yourdomain.com/admin</span> &mdash; and press Enter.</li>
+    <li>Enter the <strong>email address</strong> and <strong>password</strong> you were given at handover.</li>
+    <li>Click <span class="ui">Login</span>. You land on the dashboard.</li>
+  </ol>
+  <p>Bookmark this page. You will use it every time.</p>
+
+  <h2>1.2 If you forget your password</h2>
+  <ol class="steps">
+    <li>On the login screen, click <span class="ui">Forgot your password?</span></li>
+    <li>Enter your email address and submit.</li>
+    <li>Open the email that arrives and click the reset link.</li>
+    <li>Choose a new password and sign in again.</li>
+  </ol>
+  <div class="warn">
+    <span class="tag">If no email arrives</span>
+    <p>Check your spam folder first. If it is still missing, contact your developer &mdash; password emails are sent by a third-party mail service and occasionally need re-checking.</p>
+  </div>
+
+  <h2>1.3 Adding or removing people</h2>
+  <p>Logins live under <span class="ui">Users</span> in the sidebar. To give a colleague access, open <span class="ui">Users</span> <svg class="arr" viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5h17m-4.6-4.3L18.5 5l-4.9 4.3"/></svg> <span class="ui">Create New</span>, enter their email address and a password, and save. To remove access, open that person&rsquo;s user record and delete it.</p>
+  <div class="note">
+    <span class="tag">Good practice</span>
+    <p>Give each person their own login rather than sharing one. If someone leaves, you then only have to delete their account. Everyone with a login can edit everything, so only add people who should be able to change the live website.</p>
+  </div>
+
+  <h2>1.4 What you see when you sign in</h2>
+  <p>The screen has two parts:</p>
+  <div class="card-grid">
+    <div class="card">
+      <h4>The sidebar (left)</h4>
+      <p>Your table of contents. It has two headed groups: <strong>Collections</strong> (lists of things) and <strong>Globals</strong> (single settings pages). Clicking any name opens it.</p>
+    </div>
+    <div class="card">
+      <h4>The main panel (right)</h4>
+      <p>Either a list of existing items, or the edit form for one item. Edit forms always have a <span class="ui">Save</span> button at the top right.</p>
+    </div>
+  </div>
+
+  <h2>1.5 The single most important rule</h2>
+  <div class="stop">
+    <span class="tag">Saving publishes immediately</span>
+    <p>This website has no draft or preview mode. The instant you click <span class="ui">Save</span>, the change is live for the public. Reload the public page in another browser tab to check your work &mdash; it will already show the new version.</p>
+    <p><strong>Because of that:</strong> write and check your wording <em>before</em> you save, and if you are making a large change, copy the old text into a document first so you can put it back.</p>
+  </div>
+</section>
+
+<!-- =============== 2 =============== -->
+<section class="chapter">
+  <h1><span class="num">2</span>How the system is organised<img class="pagemark" src="logo-mark.png" alt=""></h1>
+  <p class="lead">There are only three kinds of thing in the whole system. Once these click, the rest of the admin area is just detail.</p>
+
+  <h2>2.1 Collections &mdash; lists of things</h2>
+  <p>A collection is a list where every entry has the same shape. <span class="ui">Training Courses</span> is a collection: there are eight courses, and each one has a title, a duration, modules and so on. Adding a ninth course means adding a new entry to the list, and the website builds its card and its page automatically.</p>
+  <p>When you click a collection you get a table of the existing entries. Click any row to edit it, or click <span class="ui">Create New</span> at the top right to add one.</p>
+
+  <h2>2.2 Globals &mdash; one-off settings pages</h2>
+  <p>A global is a single set of fields that exists exactly once. <span class="ui">Footer</span> is a global: there is only one footer on the website, so there is nothing to list &mdash; clicking it takes you straight to the edit form.</p>
+
+  <h2>2.3 The Media library &mdash; your pictures</h2>
+  <p><span class="ui">Media</span> is where every image on the site is stored. You upload a picture once and can then attach it wherever you like. Section 7 covers this in detail.</p>
+
+  <h2>2.4 Field types you will meet</h2>
+  <table class="narrow">
+    <thead><tr><th>What you see</th><th>What it is and how to use it</th></tr></thead>
+    <tbody>
+      <tr><td class="f">Single-line box</td><td>Short text: a title, a label, a link. Keep it to the length of the surrounding examples &mdash; very long titles can wrap awkwardly on cards.</td></tr>
+      <tr><td class="f">Large box</td><td>A paragraph. Plain text only &mdash; no bold or bullets.</td></tr>
+      <tr><td class="f">Dropdown</td><td>A fixed set of choices. You cannot type your own value; the list is deliberately limited so the design stays consistent.</td></tr>
+      <tr><td class="f">Number box</td><td>Usually an ordering number or a count. See &sect;3.3 on ordering.</td></tr>
+      <tr><td class="f">Repeating list<br><span class="path">shown with an &ldquo;Add row&rdquo; button</span></td><td>A list you build up yourself &mdash; bullet points, menu links, course modules. Each row can be dragged by the handle on its left to reorder, and removed with its own menu.</td></tr>
+      <tr><td class="f">Upload box</td><td>An image slot. Either choose an existing picture from the Media library or upload a new one.</td></tr>
+      <tr><td class="f">Tabs across the top</td><td>Long forms are split into tabs &mdash; for example a course has <span class="ui">Card</span>, <span class="ui">Overview</span>, <span class="ui">Curriculum</span> and more. The tabs are all one single item; move between them freely, and one <span class="ui">Save</span> saves them all.</td></tr>
+      <tr><td class="f">A red asterisk *</td><td>Required. The form will refuse to save until it has a value. If Save seems to do nothing, look for a red message &mdash; possibly on another tab.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>2.5 Two field names worth understanding</h2>
+  <h3>Slug</h3>
+  <p>A slug is the readable part of a web address. A course with the slug <code>process-safety</code> lives at <span class="ui">/training/process-safety</span>. Slugs must be lowercase with hyphens instead of spaces, and no two items in the same collection may share one.</p>
+  <div class="warn">
+    <span class="tag">Changing a slug changes the page&rsquo;s address</span>
+    <p>Anyone who bookmarked or linked to the old address will get a &ldquo;page not found&rdquo;, and the page&rsquo;s search-engine history starts again. Fix a typo in a slug soon after publishing if you must, but avoid changing established ones.</p>
+  </div>
+  <h3>Order</h3>
+  <p>Most collections have an <span class="ui">Order</span> number that controls the sequence items appear in on the public site. <strong>Lower numbers come first.</strong></p>
+</section>
+
+<!-- =============== 3 =============== -->
+<section class="chapter">
+  <h1><span class="num">3</span>The six everyday tasks<img class="pagemark" src="logo-mark.png" alt=""></h1>
+  <p class="lead">Almost everything you will ever do is one of these six. Learn them, and the rest is simply knowing which collection to open &mdash; which Section 4 answers.</p>
+
+  <h2>3.1 Change some wording</h2>
+  <ol class="steps">
+    <li>Use the table in Section 4 to find which collection or global holds the text.</li>
+    <li>Click it in the sidebar. For a collection, click the row you want.</li>
+    <li>Click into the field, edit the text, and check your spelling.</li>
+    <li>Click <span class="ui">Save</span>.</li>
+    <li>Open the public page in another tab and refresh to confirm.</li>
+  </ol>
+
+  <h2>3.2 Add a new item to a list</h2>
+  <ol class="steps">
+    <li>Open the collection in the sidebar &mdash; for example <span class="ui">Projects</span>.</li>
+    <li>Before you start, open an existing entry and note how its fields are filled in. Copying the house style of an existing item is the fastest way to get a good result.</li>
+    <li>Click <span class="ui">Create New</span> (top right).</li>
+    <li>Fill in every field marked with an asterisk, working through each tab in turn.</li>
+    <li>Set the <span class="ui">Order</span> number to place it where you want it (&sect;3.3).</li>
+    <li>Click <span class="ui">Save</span>. The new card, and its own page where the section has one, appear immediately.</li>
+  </ol>
+  <div class="note">
+    <span class="tag">A blank field is not always a problem</span>
+    <p>Optional fields are genuinely optional and the design handles them. Leaving a service&rsquo;s image empty, for instance, shows a branded gradient panel &mdash; not a broken picture.</p>
+  </div>
+
+  <h2>3.3 Change the order things appear in</h2>
+  <p>Ordering is controlled by the <span class="ui">Order</span> number on each item, lowest first. To move an item, give it a number lower than the item you want it to sit above.</p>
+  <p>The tidiest habit is to number in tens &mdash; 10, 20, 30, 40 &mdash; because you can then insert something between two items by giving it 15 or 25, without renumbering everything else.</p>
+  <div class="warn">
+    <span class="tag">Two exceptions</span>
+    <p><span class="ui">Training Courses</span> is ordered by <span class="ui">Course Number</span>, and <span class="ui">Operating Approach Steps</span> by <span class="ui">Step</span>. In both, that same number is also <em>displayed</em> on the website (&ldquo;Course 3 of 8&rdquo;, step &ldquo;02&rdquo;), and each value must be unique. So changing the order there also changes what visitors read &mdash; plan the whole sequence before you edit.</p>
+  </div>
+
+  <h2>3.4 Add or replace a picture</h2>
+  <ol class="steps">
+    <li>Open the item you want to illustrate and find its image field.</li>
+    <li>To reuse a picture already on the site, click <span class="ui">Choose from existing</span> and pick it.</li>
+    <li>To use a new picture, click <span class="ui">Upload</span> and select the file from your computer.</li>
+    <li>Fill in the <span class="ui">Alt</span> text &mdash; a short factual description of what the picture shows. This is required, and it is what visually impaired visitors hear.</li>
+    <li>Click <span class="ui">Save</span>.</li>
+  </ol>
+  <p>To swap a picture out, remove the current one with the <span class="ui">&times;</span> on the thumbnail, then choose or upload the replacement.</p>
+
+  <h2>3.5 Add a row to a repeating list</h2>
+  <p>Bullet points, menu links, course modules and process stages are all repeating lists.</p>
+  <ol class="steps">
+    <li>Scroll to the list and click <span class="ui">Add row</span> at the bottom of it.</li>
+    <li>Fill in the fields that appear.</li>
+    <li>Drag the handle at the left of any row to move it up or down.</li>
+    <li>To delete a row, open the small menu at its right and choose <span class="ui">Remove</span>.</li>
+    <li>Click <span class="ui">Save</span>.</li>
+  </ol>
+  <div class="note">
+    <span class="tag">Some lists show only the first few entries</span>
+    <p>A course&rsquo;s <span class="ui">Key Areas</span> list, for example, shows only its first five entries on the landing-page card, though the full list is used on the course page. Put the strongest points at the top.</p>
+  </div>
+
+  <h2>3.6 Remove an item</h2>
+  <ol class="steps">
+    <li>Open the item.</li>
+    <li>Choose <span class="ui">Delete</span> from the controls at the top of the form and confirm.</li>
+  </ol>
+  <div class="stop">
+    <span class="tag">Deleting cannot be undone</span>
+    <p>There is no recycle bin and no version history. Once an item is deleted, its content and its page are gone, and anyone holding a link to that page will see &ldquo;page not found&rdquo;.</p>
+    <p><strong>Safer alternative:</strong> if you only want something out of sight for a while, copy its text into a document first, or move it to the bottom of the order &mdash; then you can restore it later. If you are unsure, ask your developer before deleting.</p>
+  </div>
+</section>
+
+<!-- =============== 4 =============== -->
+<section class="chapter">
+  <h1><span class="num">4</span>&ldquo;I want to change X&rdquo; &mdash; the lookup table<img class="pagemark" src="logo-mark.png" alt=""></h1>
+  <p class="lead">Find the page and the part of it you want to change; the right-hand column names the exact place in the sidebar. This is the section to keep to hand.</p>
+
+  <table class="narrow">
+    <caption><strong>Home page</strong> &nbsp;<span class="path">/</span></caption>
+    <thead><tr><th>The part of the page</th><th>Where to edit it</th></tr></thead>
+    <tbody>
+      <tr><td>Main headline and opening statement</td><td>Fixed in the design &mdash; ask your developer</td></tr>
+      <tr><td>The &ldquo;Request Proposal&rdquo; button (label and destination)</td><td><span class="ui">Navigation</span> global <svg class="arr" viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5h17m-4.6-4.3L18.5 5l-4.9 4.3"/></svg> CTA Label / CTA Href</td></tr>
+      <tr><td>Discover <svg class="arr" viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5h17m-4.6-4.3L18.5 5l-4.9 4.3"/></svg> Deliver approach sequence</td><td><span class="ui">Operating Approach Steps</span></td></tr>
+      <tr><td>The three service cards</td><td><span class="ui">Services</span> <svg class="arr" viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5h17m-4.6-4.3L18.5 5l-4.9 4.3"/></svg> <span class="ui">Card</span> tab</td></tr>
+      <tr><td>&ldquo;Why Resolvent Global&rdquo; cards</td><td><span class="ui">Why Us Points</span></td></tr>
+      <tr><td>Industries explorer (the tabbed list)</td><td><span class="ui">Industries</span></td></tr>
+      <tr><td>The credibility strip near the bottom</td><td><span class="ui">Credentials</span></td></tr>
+    </tbody>
+  </table>
+
+  <table class="narrow">
+    <caption><strong>About page</strong> &nbsp;<span class="path">/about</span></caption>
+    <thead><tr><th>The part of the page</th><th>Where to edit it</th></tr></thead>
+    <tbody>
+      <tr><td>Hero title, description and background video</td><td>Fixed in the design &mdash; ask your developer</td></tr>
+      <tr><td>Company overview and technical foundation prose</td><td>Fixed in the design &mdash; ask your developer</td></tr>
+      <tr><td>&ldquo;At a glance&rdquo; figures</td><td>Fixed in the design &mdash; ask your developer</td></tr>
+      <tr><td>The numbered operating approach</td><td><span class="ui">Operating Approach Steps</span></td></tr>
+      <tr><td>&ldquo;Principles Behind Our Practice&rdquo; cards</td><td><span class="ui">Values</span></td></tr>
+    </tbody>
+  </table>
+
+  <table class="narrow">
+    <caption><strong>Services</strong> &nbsp;<span class="path">/services and /services/&hellip;</span></caption>
+    <thead><tr><th>The part of the page</th><th>Where to edit it</th></tr></thead>
+    <tbody>
+      <tr><td>Home-page card: icon, short title, bullets, image</td><td><span class="ui">Services</span> <svg class="arr" viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5h17m-4.6-4.3L18.5 5l-4.9 4.3"/></svg> <span class="ui">Card</span> tab</td></tr>
+      <tr><td>Listing band: accent colour, tagline, long title, intro, checklist</td><td><span class="ui">Services</span> <svg class="arr" viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5h17m-4.6-4.3L18.5 5l-4.9 4.3"/></svg> <span class="ui">Listing Band</span> tab</td></tr>
+      <tr><td>Detail page: scope items, deliverables, outcomes, who we work with</td><td><span class="ui">Services</span> <svg class="arr" viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5h17m-4.6-4.3L18.5 5l-4.9 4.3"/></svg> <span class="ui">Detail Page</span> tab</td></tr>
+      <tr><td>Order of the three services across the whole site</td><td><span class="ui">Services</span> <svg class="arr" viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5h17m-4.6-4.3L18.5 5l-4.9 4.3"/></svg> Order</td></tr>
+    </tbody>
+  </table>
+
+  <table class="narrow">
+    <caption><strong>Industries</strong> &nbsp;<span class="path">/industries</span></caption>
+    <thead><tr><th>The part of the page</th><th>Where to edit it</th></tr></thead>
+    <tbody>
+      <tr><td>The sector panels and their capability lists</td><td><span class="ui">Industry Sectors</span></td></tr>
+      <tr><td>The tabbed explorer on the <em>home</em> page</td><td><span class="ui">Industries</span> &mdash; a separate list, see &sect;5.3</td></tr>
+    </tbody>
+  </table>
+
+  <table class="narrow">
+    <caption><strong>Training</strong> &nbsp;<span class="path">/training and /training/&hellip;</span></caption>
+    <thead><tr><th>The part of the page</th><th>Where to edit it</th></tr></thead>
+    <tbody>
+      <tr><td>Landing page hero and positioning paragraphs</td><td><span class="ui">Training Page</span> global <svg class="arr" viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5h17m-4.6-4.3L18.5 5l-4.9 4.3"/></svg> <span class="ui">Hero</span> tab</td></tr>
+      <tr><td>Category headings that group the portfolio</td><td><span class="ui">Training Page</span> global <svg class="arr" viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5h17m-4.6-4.3L18.5 5l-4.9 4.3"/></svg> <span class="ui">Categories</span> tab</td></tr>
+      <tr><td>Delivery options (shared by every course)</td><td><span class="ui">Training Page</span> global <svg class="arr" viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5h17m-4.6-4.3L18.5 5l-4.9 4.3"/></svg> <span class="ui">Delivery Options</span> tab</td></tr>
+      <tr><td>Corporate section and closing call to action</td><td><span class="ui">Training Page</span> global <svg class="arr" viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5h17m-4.6-4.3L18.5 5l-4.9 4.3"/></svg> <span class="ui">Corporate &amp; CTA</span> tab</td></tr>
+      <tr><td>Anything about one specific course</td><td><span class="ui">Training Courses</span> <svg class="arr" viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5h17m-4.6-4.3L18.5 5l-4.9 4.3"/></svg> that course</td></tr>
+    </tbody>
+  </table>
+
+  <table class="narrow">
+    <caption><strong>Projects</strong> &nbsp;<span class="path">/projects and /projects/&hellip;</span></caption>
+    <thead><tr><th>The part of the page</th><th>Where to edit it</th></tr></thead>
+    <tbody>
+      <tr><td>Any project card or project page</td><td><span class="ui">Projects</span> <svg class="arr" viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5h17m-4.6-4.3L18.5 5l-4.9 4.3"/></svg> that project</td></tr>
+      <tr><td>Which filter group a project sits in</td><td><span class="ui">Projects</span> <svg class="arr" viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5h17m-4.6-4.3L18.5 5l-4.9 4.3"/></svg> <span class="ui">Card</span> tab <svg class="arr" viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5h17m-4.6-4.3L18.5 5l-4.9 4.3"/></svg> Category</td></tr>
+      <tr><td>The closing call to action on a project page</td><td><span class="ui">Projects</span> <svg class="arr" viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5h17m-4.6-4.3L18.5 5l-4.9 4.3"/></svg> <span class="ui">Value &amp; CTAs</span> tab</td></tr>
+    </tbody>
+  </table>
+
+  <table class="narrow">
+    <caption><strong>Proprietary Technologies</strong> &nbsp;<span class="path">/proprietary-technologies</span></caption>
+    <thead><tr><th>The part of the page</th><th>Where to edit it</th></tr></thead>
+    <tbody>
+      <tr><td>The technology cards themselves</td><td><span class="ui">Proprietary Technologies</span></td></tr>
+      <tr><td>Hero, positioning, NDA wording, engagement pathways, CTA</td><td><span class="ui">Proprietary Technologies Page</span> global</td></tr>
+    </tbody>
+  </table>
+
+  <table class="narrow">
+    <caption><strong>Contact, menus and footer</strong> &nbsp;<span class="path">every page</span></caption>
+    <thead><tr><th>The part of the page</th><th>Where to edit it</th></tr></thead>
+    <tbody>
+      <tr><td>Contact details card and &ldquo;what to expect&rdquo; steps</td><td><span class="ui">Contact Page</span> global</td></tr>
+      <tr><td>Top menu items and dropdowns</td><td><span class="ui">Navigation</span> global</td></tr>
+      <tr><td>Footer links, email, phone, addresses, social profiles</td><td><span class="ui">Footer</span> global</td></tr>
+      <tr><td>The contact form fields and where enquiries are emailed</td><td>Fixed in the design &mdash; ask your developer</td></tr>
+      <tr><td>Privacy Notice and Terms of Use wording</td><td>Fixed in the design &mdash; ask your developer</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- =============== 5 =============== -->
+<section class="chapter">
+  <h1><span class="num">5</span>Page-by-page reference<img class="pagemark" src="logo-mark.png" alt=""></h1>
+  <p class="lead">What each collection controls, and what every field is for. Use this when you are filling in a field and want to be sure what it does.</p>
+
+  <h2>5.1 Services</h2>
+  <p>Three entries, one per service platform. Each entry feeds <em>three</em> different places on the website, which is why the form is split into tabs. Editing <span class="ui">Title</span> on the <span class="ui">Card</span> tab changes the home-page card; editing <span class="ui">Full Title</span> on the <span class="ui">Listing Band</span> tab changes the services page and the detail-page hero.</p>
+  <table class="fields">
+    <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td class="f">Slug</td><td>Builds the web address <span class="ui">/services/{slug}</span>, and ties the three tabs together internally. Do not change it casually.</td></tr>
+      <tr><td class="f">Order</td><td>Position of this service everywhere on the site. Lower first.</td></tr>
+      <tr><td class="grp" colspan="2">Card tab &mdash; the home-page card</td></tr>
+      <tr><td class="f">Icon</td><td>Chosen from a fixed list of approved icons.</td></tr>
+      <tr><td class="f">Title</td><td>Short card title, e.g. &ldquo;Operations&rdquo;. Keep it to one or two words.</td></tr>
+      <tr><td class="f">Bullets</td><td>The short points listed on the card.</td></tr>
+      <tr><td class="f">Image</td><td>Optional card visual. Left empty, the card shows its branded gradient panel.</td></tr>
+      <tr><td class="grp" colspan="2">Listing Band tab &mdash; the /services page</td></tr>
+      <tr><td class="f">Accent Color</td><td>A hex colour code such as <code>#0B7A53</code> &mdash; a hash then six characters. An invalid code breaks the band&rsquo;s colouring, so copy the format from an existing service.</td></tr>
+      <tr><td class="f">Tagline</td><td>A short phrase, e.g. &ldquo;Operate better&rdquo;.</td></tr>
+      <tr><td class="f">Full Title</td><td>The long title used on the services page and the detail-page hero.</td></tr>
+      <tr><td class="f">Intro</td><td>The introductory paragraph for the band.</td></tr>
+      <tr><td class="f">Checklist</td><td>The ticked points shown in the band.</td></tr>
+      <tr><td class="grp" colspan="2">Detail Page tab &mdash; /services/&hellip;</td></tr>
+      <tr><td class="f">Hero Video</td><td>The file path of the background video. Videos are not uploaded through the CMS &mdash; leave this alone unless your developer gives you a path. Empty means the shared engineering video is used.</td></tr>
+      <tr><td class="f">Scope Items</td><td>A repeating list; each row is a title plus a description.</td></tr>
+      <tr><td class="f">Deliverables</td><td>What the service produces for a client.</td></tr>
+      <tr><td class="f">Outcomes</td><td>The results a client can expect.</td></tr>
+      <tr><td class="f">Who We Work With</td><td>The typical client profile.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5.2 Training Courses and Training Page</h2>
+  <p>Each course is one entry with seven tabs. Wording on the public site follows the <span class="ui">Category</span> you choose: <em>Short Course</em> and <em>Applied Course</em> are presented as &ldquo;Courses&rdquo;, while <em>Integrated Program</em> entries are presented as &ldquo;Programs&rdquo; and given heavier visual weight. You never type the word &ldquo;Course&rdquo; or &ldquo;Program&rdquo; yourself &mdash; set the category and the site does it.</p>
+  <table class="fields">
+    <thead><tr><th>Tab</th><th>What lives there</th></tr></thead>
+    <tbody>
+      <tr><td class="f">Card</td><td>Title, category, duration (e.g. &ldquo;~15 h&rdquo;), number of modules, a one-sentence summary, and Key Areas. Only the first five key areas show on the landing-page card.</td></tr>
+      <tr><td class="f">Overview</td><td><span class="ui">About</span> &mdash; one row per paragraph. <span class="ui">Learn</span> &mdash; the &ldquo;What You Will Learn&rdquo; outcomes.</td></tr>
+      <tr><td class="f">Curriculum</td><td>The modules. Each has a number, a title, an indicative duration and its own list of topics.</td></tr>
+      <tr><td class="f">Audience</td><td>Who should attend, prerequisites, and the prerequisite note (e.g. &ldquo;No prior formal training is required&rdquo;).</td></tr>
+      <tr><td class="f">Applied Learning</td><td>The practical introduction, the exercises, the case-study paragraphs and the workflow steps. <span class="ui">Capstone Title</span> and <span class="ui">Final Deliverables</span> apply to Integrated Programs only &mdash; leave them blank for Courses.</td></tr>
+      <tr><td class="f">Outcomes</td><td>Resources provided, what participants gain, and areas of application.</td></tr>
+      <tr><td class="f">Final CTA</td><td>The heading and text of the closing call to action on that course&rsquo;s page.</td></tr>
+    </tbody>
+  </table>
+  <p>Outside the individual courses, the <span class="ui">Training Page</span> global holds everything shared: the hero, the category headings, the corporate section, the closing CTA, and the delivery options.</p>
+  <div class="warn">
+    <span class="tag">Two things to keep in step</span>
+    <p><strong>Delivery options</strong> are stored once on the Training Page global because they are identical for all eight offerings &mdash; edit them there and every course updates.</p>
+    <p><strong>Category names must match.</strong> The category on a course and the category on the Training Page grouping must be the same value, or the course will not appear under its heading. Both use the same dropdown, so just make sure you pick the same option in both places.</p>
+  </div>
+
+  <h2>5.3 Industries and Industry Sectors</h2>
+  <p>These are two separate lists that are easy to confuse:</p>
+  <div class="card-grid">
+    <div class="card">
+      <h4><span class="ui">Industries</span></h4>
+      <p>The tabbed explorer on the <strong>home</strong> page &mdash; an icon and label on the left, a description and image on the right.</p>
+      <p><span class="path">Tab Id is an internal identifier, not a web address. Leave it alone unless you are creating a new entry, and then use short lowercase text with no spaces.</span></p>
+    </div>
+    <div class="card">
+      <h4><span class="ui">Industry Sectors</span></h4>
+      <p>The sector panels on the <strong>/industries</strong> page &mdash; each with an icon, title, description, a capability list and a required image.</p>
+      <p><span class="path">Both lists require an image, so have a picture ready before you create an entry.</span></p>
+    </div>
+  </div>
+
+  <h2>5.4 The short card lists</h2>
+  <p>Four collections share the same simple shape &mdash; an order number, an icon, and a little text. They are quick to edit and hard to get wrong.</p>
+  <table class="narrow">
+    <thead><tr><th>Collection</th><th>Where it appears, and its fields</th></tr></thead>
+    <tbody>
+      <tr><td class="f">Why Us Points</td><td>Home page, &ldquo;Why Resolvent Global&rdquo; cards. Icon, title, description.</td></tr>
+      <tr><td class="f">Values</td><td>About page, &ldquo;Principles Behind Our Practice&rdquo;. Icon, title, description.</td></tr>
+      <tr><td class="f">Credentials</td><td>Home page credibility strip. Icon, title, subtitle. Keep both lines short &mdash; this strip is compact.</td></tr>
+      <tr><td class="f">Operating Approach Steps</td><td>Home and About pages. Step number, title, description. The step number is both the order and the number shown on screen, and must be unique.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5.5 Projects</h2>
+  <p>The portfolio. Each project has a reference such as <span class="ui">P04</span> or <span class="ui">O02</span>, and the <span class="ui">Category</span> you choose determines how the page is presented.</p>
+  <table class="fields">
+    <thead><tr><th>Tab</th><th>What lives there</th></tr></thead>
+    <tbody>
+      <tr><td class="f">Card</td><td>Category, title, one-line caption, status badge (e.g. &ldquo;Market-ready service&rdquo;), description, optional image, and the labels for the animated process diagram on the hero.</td></tr>
+      <tr><td class="f">Delivered Capability</td><td>For the delivered <strong>P-series</strong> projects: the challenge, the approach, the numbered approach pathway, the deliverables and the target sectors.</td></tr>
+      <tr><td class="f">Ongoing (Confidential)</td><td>For the <strong>O-series</strong> projects only: a disclosure note, the development focus, applications and application tags.</td></tr>
+      <tr><td class="f">Value &amp; CTAs</td><td>Value pillars (each a pillar name and what it means), the card and detail-page button labels, and the closing call to action.</td></tr>
+    </tbody>
+  </table>
+  <div class="stop">
+    <span class="tag">The Ongoing rule</span>
+    <p>Setting <span class="ui">Category</span> to <strong>Ongoing</strong> switches the project page to its confidential presentation, which deliberately shows no approach pathway and no deliverables. <strong>Leave the entire Delivered Capability tab blank for an Ongoing project</strong> &mdash; filling it in would publish exactly the information that presentation exists to protect. Section 8 sets out the wording rules.</p>
+  </div>
+
+  <h2>5.6 Proprietary Technologies</h2>
+  <p>The public IP portfolio, and by design the shallowest part of the whole CMS. Each entry carries only four things: a name, an IP status, a single line of positioning, and a visual. There is no detail page and no long-description field, because the purpose of this page is to attract qualified enquiries under NDA &mdash; not to explain the technology.</p>
+  <table class="fields">
+    <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td class="f">Order</td><td>Position in the portfolio. Lower first.</td></tr>
+      <tr><td class="f">Title</td><td>The technology area, e.g. &ldquo;Microwave System&rdquo;.</td></tr>
+      <tr><td class="f">IP Status</td><td>Only two values are allowed &mdash; <strong>Patent Pending</strong> or <strong>Proprietary Process</strong>. Consistent wording here is a handover requirement.</td></tr>
+      <tr><td class="f">Positioning</td><td>One short approved line, e.g. &ldquo;High-temperature industrial heating&rdquo;. Nothing more.</td></tr>
+      <tr><td class="f">Motif</td><td>An abstract graphic &mdash; waveform, membrane stack or lattice. It illustrates a theme only and never depicts a real process route.</td></tr>
+      <tr><td class="f">Image</td><td>Optional. Industrial or science photography only. Leave empty to use the motif.</td></tr>
+    </tbody>
+  </table>
+  <p>The surrounding page copy &mdash; hero, positioning paragraphs, the confidentiality panel, engagement pathways and the closing CTA &mdash; is in the <span class="ui">Proprietary Technologies Page</span> global, split across its five tabs. The NDA wording sits in the CMS specifically so that legal or IP review can change it without a software release.</p>
+</section>
+
+<!-- =============== 6 =============== -->
+<section class="chapter">
+  <h1><span class="num">6</span>Menus, footer and contact details<img class="pagemark" src="logo-mark.png" alt=""></h1>
+
+  <h2>6.1 Navigation &mdash; the top menu</h2>
+  <p>Open the <span class="ui">Navigation</span> global. <span class="ui">Nav Links</span> is a list of top-level menu items in the order they appear.</p>
+  <p>Each top-level item is one of two things, and never both:</p>
+  <ul>
+    <li><strong>A plain link.</strong> Give it a <span class="ui">Label</span> and an <span class="ui">Href</span>, and leave <span class="ui">Children</span> empty.</li>
+    <li><strong>A dropdown.</strong> Give it a <span class="ui">Label</span>, leave <span class="ui">Href</span> empty, and add rows under <span class="ui">Children</span> &mdash; each with a label, a destination and an optional one-line hint.</li>
+  </ul>
+  <div class="warn">
+    <span class="tag">Two rules</span>
+    <p><strong>A dropdown heading is not itself a clickable page.</strong> If the group has a landing page, add it as the first child &mdash; for example a &ldquo;Services&rdquo; dropdown whose first child is &ldquo;All Services&rdquo;.</p>
+    <p><strong>Only one level of nesting is supported.</strong> There is no way to put a dropdown inside a dropdown, and that is deliberate: deeper menus are hard to use on phones.</p>
+  </div>
+  <p>Addresses in <span class="ui">Href</span> should start with a slash for pages on your own site &mdash; <code>/training</code>, <code>/projects</code> &mdash; and with <code>https://</code> for anywhere else. Always click the link on the live site afterwards; a typo here produces a &ldquo;page not found&rdquo; on every page of the website at once.</p>
+  <p>The two <span class="ui">CTA</span> fields at the bottom control the &ldquo;Request Proposal&rdquo; button. That same label and link are reused by the home-page hero and the call-to-action band, so changing them here changes all three places.</p>
+
+  <h2>6.2 Footer</h2>
+  <table class="fields">
+    <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td class="f">Services Links<br>Legal Links</td><td>The two link columns. Each row is a destination and a label.</td></tr>
+      <tr><td class="f">Social Links</td><td>Your profiles, shown as icons in the order listed. Choose the platform from the dropdown &mdash; LinkedIn, Facebook, Instagram or X &mdash; and paste the full URL including <code>https://</code>. Only those four are available, because each needs a hand-drawn brand icon in the design.</td></tr>
+      <tr><td class="f">Contact Email<br>Contact Phone</td><td>The footer contact details.</td></tr>
+      <tr><td class="f">Addresses</td><td>One row per office: a label and the address itself.</td></tr>
+    </tbody>
+  </table>
+  <div class="note">
+    <span class="tag">Why the social links matter more than they look</span>
+    <p>They are also published in the page&rsquo;s machine-readable data, which is how search engines connect those profiles to your business. Keep them accurate, and remove any profile you no longer use.</p>
+  </div>
+
+  <h2>6.3 Contact Page</h2>
+  <p>The <span class="ui">Contact Page</span> global holds two lists:</p>
+  <ul>
+    <li><span class="ui">Contact Info Items</span> &mdash; the details card in the hero. Each row is an icon, a label (&ldquo;Email&rdquo;, &ldquo;Phone&rdquo;) and the value.</li>
+    <li><span class="ui">Expect Steps</span> &mdash; the &ldquo;what happens next&rdquo; sequence. Each row has a step, a title and a description. The step is typed as text rather than a number so that a leading zero is preserved: enter <code>01</code>, not <code>1</code>.</li>
+  </ul>
+  <p>The enquiry form itself &mdash; its fields, its enquiry types, and the address enquiries are sent to &mdash; is built into the site and is not editable here.</p>
+</section>
+
+<!-- =============== 7 =============== -->
+<section class="chapter">
+  <h1><span class="num">7</span>Images and the Media library<img class="pagemark" src="logo-mark.png" alt=""></h1>
+
+  <h2>7.1 How it works</h2>
+  <p>Every picture lives in <span class="ui">Media</span>. Upload it once and attach it to as many items as you like. Uploading the same photo twice creates two copies, so check whether it is already there before adding a new one.</p>
+
+  <h2>7.2 Alt text is required</h2>
+  <p>Every upload needs <span class="ui">Alt</span> text: a short, factual description of what the picture shows, for visitors using a screen reader and for search engines. Write &ldquo;Wastewater treatment plant aeration basin&rdquo;, not &ldquo;image1&rdquo; or &ldquo;photo&rdquo;. It is also what identifies the picture in the Media list, so good alt text makes pictures easy to find again later.</p>
+
+  <h2>7.3 Practical advice</h2>
+  <ul>
+    <li><strong>Images only.</strong> The library accepts image files. Videos are handled separately by your developer as fixed site files.</li>
+    <li><strong>Use landscape photographs.</strong> Every image slot on the site is a wide card or panel; portrait photos will be cropped.</li>
+    <li><strong>Aim for roughly 1600&ndash;2000 pixels wide</strong> and keep files under about 500&nbsp;KB where you can. Very large files slow the page down for visitors.</li>
+    <li><strong>Only upload pictures you have the right to use.</strong> Stock photography usually comes with licence conditions.</li>
+  </ul>
+
+  <h2>7.4 Where images are required, and where they are optional</h2>
+  <table class="narrow">
+    <thead><tr><th>Image slot</th><th>Required?</th></tr></thead>
+    <tbody>
+      <tr><td>Industries &mdash; home-page explorer</td><td><strong>Required.</strong> You cannot save an entry without one.</td></tr>
+      <tr><td>Industry Sectors &mdash; /industries panels</td><td><strong>Required.</strong></td></tr>
+      <tr><td>Services &mdash; home-page card</td><td>Optional. Empty shows the branded gradient panel.</td></tr>
+      <tr><td>Projects &mdash; hero visual</td><td>Optional. Empty shows a branded placeholder.</td></tr>
+      <tr><td>Proprietary Technologies &mdash; card</td><td>Optional. Empty shows the abstract motif.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>7.5 Deleting pictures</h2>
+  <div class="warn">
+    <span class="tag">Check before you delete</span>
+    <p>A picture can be used in more than one place. Deleting it from the Media library removes it everywhere it appears, and the CMS will not necessarily warn you. If you no longer want a picture on a particular item, remove it from that item instead of deleting the file.</p>
+  </div>
+</section>
+
+<!-- =============== 8 =============== -->
+<section class="chapter">
+  <h1><span class="num">8</span>Rules you must not break<img class="pagemark" src="logo-mark.png" alt=""></h1>
+  <p class="lead">Most of this CMS is safe to experiment with. Two parts are not, because what is published there affects your intellectual property and your confidentiality obligations. Read this section before editing either.</p>
+
+  <div class="stop">
+    <span class="tag">Never publish, anywhere on the site</span>
+    <ul>
+      <li>Process routes, process flows or reaction pathways</li>
+      <li>Operating conditions or operating windows &mdash; temperatures, pressures, residence times, concentrations</li>
+      <li>Recipes, formulations or material specifications</li>
+      <li>Equipment design details, drawings, schematics or annotated equipment photographs</li>
+      <li>Laboratory or pilot results, yields or performance data</li>
+      <li>Commercial strategy, pricing structures, or named client information given in confidence</li>
+    </ul>
+  </div>
+
+  <h2>8.1 Proprietary Technologies</h2>
+  <p>The page exists to generate qualified enquiries under NDA. That is why an entry has room for a name, a status and a single line of positioning, and nothing else &mdash; there is no long-description field to fill because there is not meant to be one.</p>
+  <ul>
+    <li><strong>Positioning must be pre-approved wording</strong> and stay at the level of &ldquo;High-temperature industrial heating&rdquo;.</li>
+    <li><strong>IP Status uses only the two values in the dropdown.</strong> Do not seek other wording; consistency across the portfolio is a handover requirement.</li>
+    <li><strong>Motifs are decorative.</strong> They illustrate a theme and must never be read, or described, as a real process.</li>
+    <li><strong>Card images must be general industrial or science photography.</strong> No drawings, no schematics, no annotated equipment.</li>
+    <li><strong>Do not remove the NDA wording.</strong> The confidentiality requirement is meant to appear twice &mdash; beside the portfolio and again beside the contact CTA. Both placements are in the Proprietary Technologies Page global, and both should stay filled in.</li>
+  </ul>
+  <div class="note">
+    <span class="tag">Changes to NDA and confidentiality wording</span>
+    <p>This wording sits in the CMS so that legal or IP review can update it without a software release. That is also why it should only be changed <em>through</em> that review: final wording is to be signed off by Resolvent Global and, where appropriate, an IP advisor.</p>
+  </div>
+
+  <h2>8.2 Ongoing projects (the O-series)</h2>
+  <p>Ongoing projects describe development work that is still confidential. They must not carry a Resolvent Global approach, an approach pathway, deliverables or target sectors, because any of those can disclose the IP pathway. They use the disclosure note, development focus and applications fields instead.</p>
+  <ul>
+    <li>Set <span class="ui">Category</span> to <strong>Ongoing</strong>, which switches the page to its confidential presentation.</li>
+    <li>Fill in the <span class="ui">Ongoing (Confidential)</span> tab only.</li>
+    <li>Leave the whole <span class="ui">Delivered Capability</span> tab blank.</li>
+    <li>Keep the language high-level throughout &mdash; describe the problem being addressed and the areas of application, never how the work is done.</li>
+  </ul>
+
+  <h2>8.3 When in doubt</h2>
+  <p>If you are not certain whether a sentence is safe to publish, do not publish it. Send it to whoever owns technical and IP sign-off at Resolvent Global first. Remember that saving is immediate: there is no window in which a mistake is invisible to the public.</p>
+</section>
+
+<!-- =============== 9 =============== -->
+<section class="chapter">
+  <h1><span class="num">9</span>What the CMS cannot change<img class="pagemark" src="logo-mark.png" alt=""></h1>
+  <p class="lead">These parts are built into the website rather than the CMS. They are listed here so you don&rsquo;t spend time hunting for a setting that does not exist. Any of them can be changed &mdash; it just needs your developer.</p>
+
+  <table class="narrow">
+    <thead><tr><th>Area</th><th>Why it needs a developer</th></tr></thead>
+    <tbody>
+      <tr><td class="f">Page layout, fonts, colours</td><td>Part of the design system, applied consistently across every page.</td></tr>
+      <tr><td class="f">Home-page headline and opening statement</td><td>Written into the hero section of the page.</td></tr>
+      <tr><td class="f">About-page prose and &ldquo;at a glance&rdquo; figures</td><td>Written into those page sections.</td></tr>
+      <tr><td class="f">Background videos</td><td>Shipped as fixed site files, not uploads. A service&rsquo;s Hero Video field takes a path your developer provides.</td></tr>
+      <tr><td class="f">Privacy Notice and Terms of Use</td><td>Standalone legal pages held in the site itself. Send revised wording to your developer.</td></tr>
+      <tr><td class="f">The contact form</td><td>Its fields, its enquiry types, and the address enquiries are emailed to.</td></tr>
+      <tr><td class="f">The icon lists</td><td>A fixed approved set. New icons have to be added to the design first, after which they appear in every icon dropdown.</td></tr>
+      <tr><td class="f">Adding a whole new page or section</td><td>A new page needs both a design and the code to render it.</td></tr>
+      <tr><td class="f">Menu depth</td><td>One level of dropdown is supported, by design.</td></tr>
+      <tr><td class="f">Social platforms beyond the four listed</td><td>Each needs a brand icon drawn into the design.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <span class="tag">A useful way to think about the split</span>
+    <p>The CMS owns anything that is <strong>a list of similar things</strong> or <strong>a piece of copy that changes over time</strong>. The website owns anything that is <strong>a one-off piece of design</strong>. If what you want to change would look different from everything around it, it is probably a developer job.</p>
+  </div>
+</section>
+
+<!-- =============== 10 =============== -->
+<section class="chapter">
+  <h1><span class="num">10</span>Troubleshooting and glossary<img class="pagemark" src="logo-mark.png" alt=""></h1>
+
+  <h2>10.1 Common problems</h2>
+  <table class="narrow">
+    <thead><tr><th>What you see</th><th>What to do</th></tr></thead>
+    <tbody>
+      <tr><td>Save does nothing, or an error appears</td><td>A required field is empty. Look for red text &mdash; and check the <em>other tabs</em>, since the problem is often on a tab you are not currently looking at.</td></tr>
+      <tr><td>&ldquo;Value must be unique&rdquo;</td><td>Another item already uses that slug, project reference, course number or step number. Choose a different one.</td></tr>
+      <tr><td>My change isn&rsquo;t showing on the site</td><td>Hard-refresh the public page: <code>Ctrl</code>+<code>F5</code> on Windows, <code>Cmd</code>+<code>Shift</code>+<code>R</code> on a Mac. If it still looks old, confirm you actually clicked Save, and that you edited the right item &mdash; remember Services text lives on three different tabs.</td></tr>
+      <tr><td>A new course isn&rsquo;t under its heading</td><td>Its Category does not match a category on the Training Page global. Make both the same option.</td></tr>
+      <tr><td>Items are in the wrong order</td><td>Check the Order numbers &mdash; lowest appears first. For courses use Course Number; for approach steps use Step.</td></tr>
+      <tr><td>A menu link gives &ldquo;page not found&rdquo;</td><td>Check the Href in the Navigation global. Internal pages start with <code>/</code>; external links need the full <code>https://</code> address.</td></tr>
+      <tr><td>A colour looks wrong on a service band</td><td>The Accent Color must be a valid hex code &mdash; a hash plus six characters. Copy the format from another service.</td></tr>
+      <tr><td>A picture looks stretched or badly cropped</td><td>Use a landscape image around 1600&ndash;2000 pixels wide. Portrait photos get cropped to fit wide cards.</td></tr>
+      <tr><td>I deleted something by mistake</td><td>Contact your developer straight away &mdash; there is no undo in the CMS, and the sooner it is raised the better the chance of recovering it from a backup.</td></tr>
+      <tr><td>I can&rsquo;t log in</td><td>Use &ldquo;Forgot your password?&rdquo;. If the reset email never arrives, contact your developer.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>10.2 Before you click Save &mdash; a quick checklist</h2>
+  <ul>
+    <li>Have I read the text back for spelling and tone?</li>
+    <li>Are all required fields filled in, on every tab?</li>
+    <li>If I added a picture, does it have proper alt text?</li>
+    <li>Is the Order number where I want this item to sit?</li>
+    <li>If this touches Proprietary Technologies or an Ongoing project &mdash; does it stay within Section 8?</li>
+    <li>Am I ready for this to be public in the next second? Because it will be.</li>
+  </ul>
+
+  <h2>10.3 Glossary</h2>
+  <table class="narrow">
+    <thead><tr><th>Term</th><th>Plain English</th></tr></thead>
+    <tbody>
+      <tr><td class="f">CMS</td><td>Content Management System &mdash; the admin area where you edit the website without touching code.</td></tr>
+      <tr><td class="f">Collection</td><td>A list of similar items, such as Projects or Training Courses.</td></tr>
+      <tr><td class="f">Global</td><td>A single settings page that exists once, such as the Footer.</td></tr>
+      <tr><td class="f">Field</td><td>One box you type in or choose from.</td></tr>
+      <tr><td class="f">Slug</td><td>The readable end of a web address, e.g. <code>process-safety</code> in <span class="ui">/training/process-safety</span>.</td></tr>
+      <tr><td class="f">Href</td><td>The destination of a link. Internal pages start with <code>/</code>; external links need <code>https://</code>.</td></tr>
+      <tr><td class="f">CTA</td><td>Call to action &mdash; a prompt and button asking the visitor to do something.</td></tr>
+      <tr><td class="f">Hero</td><td>The large banner area at the top of a page.</td></tr>
+      <tr><td class="f">Alt text</td><td>A short description of a picture, read aloud by screen readers.</td></tr>
+      <tr><td class="f">Hex code</td><td>A colour written as a hash plus six characters, e.g. <code>#0B7A53</code>.</td></tr>
+      <tr><td class="f">Media library</td><td>Where all uploaded pictures are stored.</td></tr>
+      <tr><td class="f">P-series / O-series</td><td>Delivered projects (P) and ongoing confidential development (O).</td></tr>
+      <tr><td class="f">NDA</td><td>Non-disclosure agreement &mdash; the confidentiality agreement required before technical detail is shared.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="footer-note">
+    <img src="logo.png" alt="Resolvent Global">
+    <strong>Resolvent Global &mdash; Website Content Guide.</strong> Prepared for handover. Keep this document with your login details, and pass both on to whoever takes over the website.
+  </div>
+</section>
+
+</body>
+</html>

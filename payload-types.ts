@@ -79,6 +79,7 @@ export interface Config {
     'training-courses': TrainingCourse;
     projects: Project;
     'proprietary-technologies': ProprietaryTechnology;
+    'legal-documents': LegalDocument;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -98,6 +99,7 @@ export interface Config {
     'training-courses': TrainingCoursesSelect<false> | TrainingCoursesSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     'proprietary-technologies': ProprietaryTechnologiesSelect<false> | ProprietaryTechnologiesSelect<true>;
+    'legal-documents': LegalDocumentsSelect<false> | LegalDocumentsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -212,6 +214,7 @@ export interface Service {
   order: number;
   icon:
     | 'Activity'
+    | 'BadgeCheck'
     | 'ChartColumn'
     | 'ClipboardCheck'
     | 'Cpu'
@@ -226,17 +229,22 @@ export interface Service {
     | 'Globe'
     | 'Handshake'
     | 'HardHat'
+    | 'Info'
     | 'Landmark'
     | 'Leaf'
     | 'Link2'
+    | 'Lock'
     | 'Mail'
     | 'MapPin'
+    | 'MessageSquare'
     | 'Microscope'
     | 'Mountain'
     | 'Phone'
+    | 'Server'
     | 'Settings2'
     | 'Shield'
     | 'ShieldCheck'
+    | 'UsersRound'
     | 'Wrench'
     | 'Zap';
   /**
@@ -299,6 +307,7 @@ export interface Industry {
   order: number;
   icon:
     | 'Activity'
+    | 'BadgeCheck'
     | 'ChartColumn'
     | 'ClipboardCheck'
     | 'Cpu'
@@ -313,17 +322,22 @@ export interface Industry {
     | 'Globe'
     | 'Handshake'
     | 'HardHat'
+    | 'Info'
     | 'Landmark'
     | 'Leaf'
     | 'Link2'
+    | 'Lock'
     | 'Mail'
     | 'MapPin'
+    | 'MessageSquare'
     | 'Microscope'
     | 'Mountain'
     | 'Phone'
+    | 'Server'
     | 'Settings2'
     | 'Shield'
     | 'ShieldCheck'
+    | 'UsersRound'
     | 'Wrench'
     | 'Zap';
   label: string;
@@ -344,6 +358,7 @@ export interface IndustrySector {
   order: number;
   icon:
     | 'Activity'
+    | 'BadgeCheck'
     | 'ChartColumn'
     | 'ClipboardCheck'
     | 'Cpu'
@@ -358,17 +373,22 @@ export interface IndustrySector {
     | 'Globe'
     | 'Handshake'
     | 'HardHat'
+    | 'Info'
     | 'Landmark'
     | 'Leaf'
     | 'Link2'
+    | 'Lock'
     | 'Mail'
     | 'MapPin'
+    | 'MessageSquare'
     | 'Microscope'
     | 'Mountain'
     | 'Phone'
+    | 'Server'
     | 'Settings2'
     | 'Shield'
     | 'ShieldCheck'
+    | 'UsersRound'
     | 'Wrench'
     | 'Zap';
   title: string;
@@ -393,6 +413,7 @@ export interface WhyUsPoint {
   order: number;
   icon:
     | 'Activity'
+    | 'BadgeCheck'
     | 'ChartColumn'
     | 'ClipboardCheck'
     | 'Cpu'
@@ -407,17 +428,22 @@ export interface WhyUsPoint {
     | 'Globe'
     | 'Handshake'
     | 'HardHat'
+    | 'Info'
     | 'Landmark'
     | 'Leaf'
     | 'Link2'
+    | 'Lock'
     | 'Mail'
     | 'MapPin'
+    | 'MessageSquare'
     | 'Microscope'
     | 'Mountain'
     | 'Phone'
+    | 'Server'
     | 'Settings2'
     | 'Shield'
     | 'ShieldCheck'
+    | 'UsersRound'
     | 'Wrench'
     | 'Zap';
   title: string;
@@ -437,6 +463,7 @@ export interface Value {
   order: number;
   icon:
     | 'Activity'
+    | 'BadgeCheck'
     | 'ChartColumn'
     | 'ClipboardCheck'
     | 'Cpu'
@@ -451,17 +478,22 @@ export interface Value {
     | 'Globe'
     | 'Handshake'
     | 'HardHat'
+    | 'Info'
     | 'Landmark'
     | 'Leaf'
     | 'Link2'
+    | 'Lock'
     | 'Mail'
     | 'MapPin'
+    | 'MessageSquare'
     | 'Microscope'
     | 'Mountain'
     | 'Phone'
+    | 'Server'
     | 'Settings2'
     | 'Shield'
     | 'ShieldCheck'
+    | 'UsersRound'
     | 'Wrench'
     | 'Zap';
   title: string;
@@ -496,6 +528,7 @@ export interface Credential {
   order: number;
   icon:
     | 'Activity'
+    | 'BadgeCheck'
     | 'ChartColumn'
     | 'ClipboardCheck'
     | 'Cpu'
@@ -510,17 +543,22 @@ export interface Credential {
     | 'Globe'
     | 'Handshake'
     | 'HardHat'
+    | 'Info'
     | 'Landmark'
     | 'Leaf'
     | 'Link2'
+    | 'Lock'
     | 'Mail'
     | 'MapPin'
+    | 'MessageSquare'
     | 'Microscope'
     | 'Mountain'
     | 'Phone'
+    | 'Server'
     | 'Settings2'
     | 'Shield'
     | 'ShieldCheck'
+    | 'UsersRound'
     | 'Wrench'
     | 'Zap';
   title: string;
@@ -797,6 +835,243 @@ export interface ProprietaryTechnology {
   createdAt: string;
 }
 /**
+ * Privacy Notice and Terms of Use. These are legal documents — change section wording only on legal advice, and move the 'Last updated' date on in the same edit.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-documents".
+ */
+export interface LegalDocument {
+  id: number;
+  /**
+   * Which route this document renders on. Each route can only have one document.
+   */
+  slug: 'privacy-notice' | 'terms-of-use';
+  /**
+   * Page heading and breadcrumb label, e.g. "Privacy Notice".
+   */
+  title: string;
+  /**
+   * One line directly under the heading.
+   */
+  subtitle: string;
+  /**
+   * Short summary paragraph in the hero. Introductory copy, not operative terms — the document itself starts below.
+   */
+  heroLead: string;
+  /**
+   * Search-result and social-share description. Aim for roughly 150-160 characters.
+   */
+  metaDescription: string;
+  /**
+   * Brand line-up set to the right of the hero, one row per line. Hidden on small screens. Leave empty for none.
+   */
+  heroTagline?:
+    | {
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * The hero backdrop. The drawn globe is generated in code and needs no upload.
+   */
+  heroMedia: 'globe' | 'image';
+  /**
+   * Wide landscape image. A dark overlay sits over it, so choose something that reads well behind white text.
+   */
+  heroImage?: (number | null) | Media;
+  /**
+   * Shown at the end of the introduction.
+   */
+  effectiveDate: string;
+  /**
+   * Shown above the introduction and published to search engines as the revision date. Move this on whenever the wording changes — both documents promise a current date.
+   */
+  lastUpdated: string;
+  introHeading: string;
+  introParagraphs: {
+    value: string;
+    id?: string | null;
+  }[];
+  glanceHeading: string;
+  /**
+   * The plain-language summary row. Six points fill the row exactly. Each is a link into the section that says the same thing in full — nothing here is the operative wording.
+   */
+  glanceItems: {
+    icon:
+      | 'Activity'
+      | 'BadgeCheck'
+      | 'ChartColumn'
+      | 'ClipboardCheck'
+      | 'Cpu'
+      | 'Dna'
+      | 'Droplet'
+      | 'Droplets'
+      | 'Factory'
+      | 'FileText'
+      | 'Flame'
+      | 'FlaskConical'
+      | 'Gauge'
+      | 'Globe'
+      | 'Handshake'
+      | 'HardHat'
+      | 'Info'
+      | 'Landmark'
+      | 'Leaf'
+      | 'Link2'
+      | 'Lock'
+      | 'Mail'
+      | 'MapPin'
+      | 'MessageSquare'
+      | 'Microscope'
+      | 'Mountain'
+      | 'Phone'
+      | 'Server'
+      | 'Settings2'
+      | 'Shield'
+      | 'ShieldCheck'
+      | 'UsersRound'
+      | 'Wrench'
+      | 'Zap';
+    /**
+     * Keep to one short sentence.
+     */
+    text: string;
+    /**
+     * Which numbered section this links to. Sections are numbered by their order on the Sections tab, so this follows any reordering there.
+     */
+    sectionNumber: number;
+    id?: string | null;
+  }[];
+  detailHeading: string;
+  /**
+   * One line above the list of sections.
+   */
+  detailLead: string;
+  /**
+   * The document itself. Sections are numbered automatically by their order here, so reordering renumbers them — check the Key Points tab still points at the right sections afterwards.
+   */
+  sections: {
+    title: string;
+    /**
+     * Shorter label for the sidebar index, which has far less room. Two or three words.
+     */
+    navLabel: string;
+    /**
+     * The section body, in order. Write [Privacy Notice](/privacy-notice) to link to another page.
+     */
+    blocks: (
+      | {
+          text: string;
+          id?: string | null;
+          blockName?: string | null;
+          blockType: 'paragraph';
+        }
+      | {
+          /**
+           * Optional lead-in sentence above the bullets.
+           */
+          intro?: string | null;
+          items: {
+            value: string;
+            id?: string | null;
+          }[];
+          id?: string | null;
+          blockName?: string | null;
+          blockType: 'list';
+        }
+      | {
+          id?: string | null;
+          blockName?: string | null;
+          blockType: 'contact';
+        }
+    )[];
+    id?: string | null;
+  }[];
+  sideCardIcon:
+    | 'Activity'
+    | 'BadgeCheck'
+    | 'ChartColumn'
+    | 'ClipboardCheck'
+    | 'Cpu'
+    | 'Dna'
+    | 'Droplet'
+    | 'Droplets'
+    | 'Factory'
+    | 'FileText'
+    | 'Flame'
+    | 'FlaskConical'
+    | 'Gauge'
+    | 'Globe'
+    | 'Handshake'
+    | 'HardHat'
+    | 'Info'
+    | 'Landmark'
+    | 'Leaf'
+    | 'Link2'
+    | 'Lock'
+    | 'Mail'
+    | 'MapPin'
+    | 'MessageSquare'
+    | 'Microscope'
+    | 'Mountain'
+    | 'Phone'
+    | 'Server'
+    | 'Settings2'
+    | 'Shield'
+    | 'ShieldCheck'
+    | 'UsersRound'
+    | 'Wrench'
+    | 'Zap';
+  sideCardTitle: string;
+  sideCardBody: string;
+  /**
+   * Button label. The button links to /contact.
+   */
+  sideCardCtaLabel: string;
+  calloutIcon:
+    | 'Activity'
+    | 'BadgeCheck'
+    | 'ChartColumn'
+    | 'ClipboardCheck'
+    | 'Cpu'
+    | 'Dna'
+    | 'Droplet'
+    | 'Droplets'
+    | 'Factory'
+    | 'FileText'
+    | 'Flame'
+    | 'FlaskConical'
+    | 'Gauge'
+    | 'Globe'
+    | 'Handshake'
+    | 'HardHat'
+    | 'Info'
+    | 'Landmark'
+    | 'Leaf'
+    | 'Link2'
+    | 'Lock'
+    | 'Mail'
+    | 'MapPin'
+    | 'MessageSquare'
+    | 'Microscope'
+    | 'Mountain'
+    | 'Phone'
+    | 'Server'
+    | 'Settings2'
+    | 'Shield'
+    | 'ShieldCheck'
+    | 'UsersRound'
+    | 'Wrench'
+    | 'Zap';
+  calloutTitle: string;
+  /**
+   * Closing band under the sections. Write [contact us](/contact) to link to another page.
+   */
+  calloutBody: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -867,6 +1142,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'proprietary-technologies';
         value: number | ProprietaryTechnology;
+      } | null)
+    | ({
+        relationTo: 'legal-documents';
+        value: number | LegalDocument;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1261,6 +1540,91 @@ export interface ProprietaryTechnologiesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-documents_select".
+ */
+export interface LegalDocumentsSelect<T extends boolean = true> {
+  slug?: T;
+  title?: T;
+  subtitle?: T;
+  heroLead?: T;
+  metaDescription?: T;
+  heroTagline?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  heroMedia?: T;
+  heroImage?: T;
+  effectiveDate?: T;
+  lastUpdated?: T;
+  introHeading?: T;
+  introParagraphs?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  glanceHeading?: T;
+  glanceItems?:
+    | T
+    | {
+        icon?: T;
+        text?: T;
+        sectionNumber?: T;
+        id?: T;
+      };
+  detailHeading?: T;
+  detailLead?: T;
+  sections?:
+    | T
+    | {
+        title?: T;
+        navLabel?: T;
+        blocks?:
+          | T
+          | {
+              paragraph?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              list?:
+                | T
+                | {
+                    intro?: T;
+                    items?:
+                      | T
+                      | {
+                          value?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                    blockName?: T;
+                  };
+              contact?:
+                | T
+                | {
+                    id?: T;
+                    blockName?: T;
+                  };
+            };
+        id?: T;
+      };
+  sideCardIcon?: T;
+  sideCardTitle?: T;
+  sideCardBody?: T;
+  sideCardCtaLabel?: T;
+  calloutIcon?: T;
+  calloutTitle?: T;
+  calloutBody?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -1383,6 +1747,7 @@ export interface ContactPage {
   contactInfoItems: {
     icon:
       | 'Activity'
+      | 'BadgeCheck'
       | 'ChartColumn'
       | 'ClipboardCheck'
       | 'Cpu'
@@ -1397,17 +1762,22 @@ export interface ContactPage {
       | 'Globe'
       | 'Handshake'
       | 'HardHat'
+      | 'Info'
       | 'Landmark'
       | 'Leaf'
       | 'Link2'
+      | 'Lock'
       | 'Mail'
       | 'MapPin'
+      | 'MessageSquare'
       | 'Microscope'
       | 'Mountain'
       | 'Phone'
+      | 'Server'
       | 'Settings2'
       | 'Shield'
       | 'ShieldCheck'
+      | 'UsersRound'
       | 'Wrench'
       | 'Zap';
     label: string;
@@ -1502,6 +1872,7 @@ export interface ProprietaryTechnologiesPage {
   engagementPathways: {
     icon:
       | 'Activity'
+      | 'BadgeCheck'
       | 'ChartColumn'
       | 'ClipboardCheck'
       | 'Cpu'
@@ -1516,17 +1887,22 @@ export interface ProprietaryTechnologiesPage {
       | 'Globe'
       | 'Handshake'
       | 'HardHat'
+      | 'Info'
       | 'Landmark'
       | 'Leaf'
       | 'Link2'
+      | 'Lock'
       | 'Mail'
       | 'MapPin'
+      | 'MessageSquare'
       | 'Microscope'
       | 'Mountain'
       | 'Phone'
+      | 'Server'
       | 'Settings2'
       | 'Shield'
       | 'ShieldCheck'
+      | 'UsersRound'
       | 'Wrench'
       | 'Zap';
     title: string;
